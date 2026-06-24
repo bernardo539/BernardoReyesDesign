@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "xbuj2ux4g9");
+</script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:#FFFFFF;color:#1A1A1A;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;text-decoration:none;}
+  ::selection{background:rgba(100,90,255,0.18);}
+</style>
+</helmet>
+
+<nav style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:0.5px solid #E5E5E2;">
+  <div style="width:100%;max-width:960px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:56px;">
+    <a href="index.html" style="font-size:15px;font-weight:700;letter-spacing:-0.02em;color:#1A1A1A;">BR</a>
+    <a href="index.html" style="font-size:14px;color:#666666;transition:color .15s;" style-hover="font-size:14px;color:#1A1A1A;">← Back to Home</a>
+  </div>
+</nav>
+
+<!-- GATE -->
+<sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
+<div style="max-width:440px;margin:128px auto;text-align:center;padding:24px;">
+  <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:10px;">Protected content</p>
+  <h2 style="font-size:22px;font-weight:600;letter-spacing:-0.02em;line-height:1.2;margin-bottom:8px;">This case study is password protected</h2>
+  <p style="font-size:15px;color:#666666;margin-bottom:24px;">Request access via <a href="mailto:bernardo.reyes.design@gmail.com" style="color:#645AFF;">email</a> or enter the password below.</p>
+  <div style="display:flex;gap:8px;">
+    <input id="pw-input" type="password" placeholder="Enter password" onKeyDown="{{ onKey }}" style="flex:1;padding:10px 14px;border:0.5px solid #D0D0CC;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#FFFFFF;color:#1A1A1A;outline:none;transition:border-color .15s;" style-focus="flex:1;padding:10px 14px;border:0.5px solid #645AFF;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;background:#FFFFFF;color:#1A1A1A;outline:none;">
+    <button onClick="{{ tryUnlock }}" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:500;white-space:nowrap;background:#645AFF;color:#fff;border:0.5px solid #645AFF;cursor:pointer;">Unlock →</button>
+  </div>
+  <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+    <p style="font-size:13px;color:#E24B4A;margin-top:8px;text-align:left;">Incorrect password. Try again.</p>
+  </sc-if>
+</div>
+</sc-if>
+
+<!-- CONTENT -->
+<sc-if value="{{ unlocked }}" hint-placeholder-val="{{ true }}">
+<main>
+  <img src="https://bernardoreyesdesign.com/assets/images/covers/Guros.svg" alt="" style="width:100%;max-height:480px;object-fit:cover;object-position:center;display:block;border-bottom:0.5px solid #E5E5E2;">
+
+  <!-- HERO -->
+  <section style="max-width:720px;margin:0 auto;padding:80px 24px 56px;">
+    <div data-reveal="" style="display:flex;align-items:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;">
+      <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:rgba(100,90,255,0.10);color:#4A40CC;border:0.5px solid rgba(100,90,255,0.25);">Insurtech</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">Case Study · 2019 – 2023</span>
+    </div>
+    <h1 data-reveal="" style="font-size:40px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:18px;text-wrap:balance;">Redesigning car insurance so people actually trust what they're buying</h1>
+    <p data-reveal="" style="font-size:18px;color:#666666;line-height:1.5;margin-bottom:24px;max-width:600px;">End-to-end redesign of the quote-to-purchase flow for Mexico's leading car insurance marketplace — lifting conversion 18% by replacing confusion with confidence.</p>
+    <p data-reveal="" style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:44px;">Role: Senior Product Designer · Stack: Figma + HotJar + Usability Testing · Team: 2 designers, 3 engineers, 1 PM</p>
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:32px;border-top:0.5px solid #E5E5E2;">
+      <sc-for list="{{ heroMetrics }}" as="m" hint-placeholder-count="4">
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.1;color:#1A1A1A;">{{ m.value }}</div>
+          <div style="font-size:13px;color:#666666;line-height:1.4;">{{ m.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- 01 PROBLEM -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">01 / The Problem</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Users weren't buying — not because the product was broken, but because they didn't trust it</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">Guros was a digital car insurance marketplace where users could compare policies from multiple providers. The quoter worked. The results showed up. But users were dropping before completing a quote — and those who did finish rarely felt confident enough to buy.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:36px;">The cheapest option wasn't winning by merit. It was winning by default: users didn't understand what coverage differences actually meant for them, so they picked the lowest number and hoped for the best. Or they left.</p>
+
+    <!-- Before / After -->
+    <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.06em;color:#999999;width:48px;flex:none;">BEFORE</span>
+        <div style="flex:1;display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;padding:12px;text-align:center;background:#fff;border:0.5px solid #E5E5E2;border-radius:8px;font-size:13px;color:#444;">Drop-off at form step 3</div>
+          <span style="color:#E24B4A;font-size:14px;font-weight:600;">⇢ ✕ ⇠</span>
+          <div style="flex:1;padding:12px;text-align:center;background:#fff;border:0.5px solid #E5E5E2;border-radius:8px;font-size:13px;color:#444;">Users default to cheapest or abandon</div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:#999999;padding-left:60px;">No guidance · Jargon-heavy results · Confidence gap at decision point</p>
+      <div style="height:0.5px;background:#E5E5E2;margin:4px 0;"></div>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-size:11px;font-weight:600;letter-spacing:0.06em;color:#645AFF;width:48px;flex:none;">AFTER</span>
+        <div style="flex:1;display:flex;align-items:center;gap:10px;">
+          <div style="flex:1;padding:12px;text-align:center;background:#fff;border:0.5px solid #E5E5E2;border-radius:8px;font-size:13px;color:#444;">Simplified input flow</div>
+          <span style="color:#645AFF;font-size:16px;">→</span>
+          <div style="flex:1.4;padding:12px;text-align:center;background:rgba(100,90,255,0.10);border:0.5px solid #645AFF;border-radius:8px;font-size:12px;color:#1A1A1A;line-height:1.3;">Guided results +<br><span style="font-size:10px;color:#666;">decision support</span></div>
+          <span style="color:#645AFF;font-size:16px;">→</span>
+          <div style="flex:1;padding:12px;text-align:center;background:#fff;border:0.5px solid #E5E5E2;border-radius:8px;font-size:13px;color:#444;">Confident purchase</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 RESEARCH -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">02 / Research</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">The data pointed to distrust, not friction</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">Before redesigning anything, I needed to understand where and why users were failing. I combined three methods.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">HotJar heatmaps and session recordings revealed specific drop-off points in the form flow — particularly at step 3, where coverage options first appeared. Users were scrolling past result filters without engaging. Usability tests and interviews exposed the pattern underneath: users didn't trust what they were seeing. They couldn't translate coverage differences into personal relevance. Surveys confirmed it — the majority of users rated themselves 'not sure' or 'confused' when selecting a plan.</p>
+
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;">
+      <sc-for list="{{ research }}" as="r" hint-placeholder-count="3">
+        <div style="background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:12px;padding:18px;">
+          <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">{{ r.label }}</div>
+          <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:6px;">{{ r.name }}</div>
+          <p style="font-size:13px;color:#666666;line-height:1.5;">{{ r.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+
+    <div data-reveal="" style="background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:12px;padding:20px 22px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Key Insight</div>
+      <p style="font-size:15px;color:#1A1A1A;font-weight:500;">Users didn't need more options — they needed guidance.</p>
+    </div>
+  </section>
+
+  <!-- 03 DESIGN DIRECTION -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">03 / Design Direction</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">One principle, four decisions</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">Rather than streamlining the form in isolation, I reframed the design challenge: give users the tools to make a confident decision, not just a fast one. That principle drove four concrete decisions.</p>
+
+    <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Decision 01</div>
+      <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Reduce cognitive load at every input step</h3>
+      <p style="font-size:14px;color:#666666;">Progressive disclosure, smarter defaults, and microcopy that explained why each field mattered — not just what to enter.</p>
+    </div>
+
+    <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Decision 02</div>
+      <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Surface meaning, not raw data, on the results page</h3>
+      <p style="font-size:14px;color:#666666;">Contextual tooltips, a 'recommended for you' highlight based on user profile, and visual cues for price-to-value trade-offs replaced the flat comparison table.</p>
+    </div>
+
+    <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Decision 03</div>
+      <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Build decision support into the flow</h3>
+      <p style="font-size:14px;color:#666666;">Short coverage explainers, a persistent summary panel to reduce short-term memory load, and inline confidence cues at the point of selection.</p>
+    </div>
+
+    <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;">
+      <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Decision 04</div>
+      <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Treat mobile as a first-class experience</h3>
+      <p style="font-size:14px;color:#666666;">A significant portion of users quoted on mobile but converted on desktop — a trust gap, not a usability gap. I rebuilt the mobile flow to close it.</p>
+    </div>
+  </section>
+
+  <!-- 04 PROTOTYPING & VALIDATION -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">04 / Prototyping & Validation</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Iterative testing before a single line of code</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">Every flow was prototyped in Figma and validated through usability testing before engineering handoff. Each round of testing changed something — not cosmetically, but structurally.</p>
+
+    <div data-reveal="" style="display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-bottom:24px;">
+      <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="5">
+        <div style="flex:1;min-width:120px;padding:16px 14px;background:{{ p.bg }};border:0.5px solid {{ p.border }};border-radius:10px;display:flex;flex-direction:column;gap:8px;">
+          <span style="font-size:11px;font-weight:600;letter-spacing:0.04em;color:#999999;">{{ p.step }}</span>
+          <span style="font-size:13px;color:#1A1A1A;line-height:1.35;font-weight:500;">{{ p.name }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <p data-reveal="" style="font-size:15px;color:#444444;">Testing surfaced two recurring issues that wouldn't have been caught in review: users misread the recommended plan highlight as an upsell, and the persistent summary panel competed with the CTA on small screens. Both were fixed before handoff.</p>
+  </section>
+
+  <!-- 05 DESIGN SYSTEM CONTRIBUTIONS -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">05 / Design System Contributions</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Components built for the quoter, reused across four verticals</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:24px;">The quoter wasn't a one-off project — it became the UX and component foundation for everything Guros launched after it. I contributed the following patterns to the shared design system.</p>
+
+    <div data-reveal="" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;">
+      <sc-for list="{{ contributions }}" as="c" hint-placeholder-count="6">
+        <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:10px;">
+          <span style="color:#645AFF;font-size:14px;line-height:1.4;flex:none;">✓</span>
+          <span style="font-size:14px;color:#444444;line-height:1.4;">{{ c }}</span>
+        </div>
+      </sc-for>
+    </div>
+
+    <p data-reveal="" style="font-size:15px;color:#444444;">These patterns were reused directly when Guros expanded to mobile insurance, electronics insurance, and a third vertical — compressing launch timelines without starting from scratch.</p>
+  </section>
+
+  <!-- 06 STAKEHOLDER ALIGNMENT -->
+  <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">06 / Stakeholder Alignment</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Design as a shared language between product, engineering, and business</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">Insurance products have regulatory constraints, business rules baked into pricing logic, and a sales team with strong opinions about what 'should' be shown to users. Keeping the design direction coherent across those stakeholders was as much the job as the design itself.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;">I ran alignment sessions at key milestones — problem framing, direction, pre-handoff — using annotated prototypes rather than static specs. Engineers knew what to build and why. The PM had the rationale documented for stakeholder questions. QA had edge cases mapped before development started.</p>
+  </section>
+
+  <!-- 07 OUTCOMES -->
+  <section style="background:#FAFAF8;border-top:0.5px solid #E5E5E2;border-bottom:0.5px solid #E5E5E2;">
+    <div style="max-width:720px;margin:0 auto;padding:64px 24px;">
+      <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">07 / Outcomes</p>
+      <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:28px;">What the redesign delivered</h2>
+      <div data-reveal="" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:28px;">
+        <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="4">
+          <div style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:22px;">
+            <div style="font-size:34px;font-weight:600;letter-spacing:-0.03em;line-height:1;color:#645AFF;margin-bottom:10px;">{{ o.value }}</div>
+            <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:4px;">{{ o.label }}</div>
+            <div style="font-size:13px;color:#666666;line-height:1.45;">{{ o.context }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <p data-reveal="" style="font-size:15px;color:#444444;">The 15% renewal lift was the number that mattered most internally. It meant users weren't just completing a purchase — they understood what they'd bought. That's the metric that separates a UX improvement from a business one.</p>
+    </div>
+  </section>
+
+  <!-- 08 NEXT -->
+  <section style="max-width:720px;margin:0 auto;padding:64px 24px;">
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">08 / What's Next</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">From fixing the funnel to building the platform</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The conversion lift wasn't the end state — it was the proof of concept. The real output was a design system and UX foundation that Guros could expand on without rebuilding from scratch. Four verticals launched on the same patterns. That's the compounding value of system-level thinking applied to a product problem.</p>
+    <p data-reveal="" style="font-size:15px;color:#1A1A1A;font-weight:500;">The next layer I'd build: behavioral intelligence in the recommendation engine — not just profile-based matching, but signals from how users interact with the results page to surface the plan they'll actually renew.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:0.5px solid #E5E5E2;">
+    <div style="max-width:720px;margin:0 auto;padding:32px 24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-size:15px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px;">Bernardo Reyes</div>
+        <a href="mailto:bernardo.reyes.design@gmail.com" style="font-size:13px;color:#645AFF;">bernardo.reyes.design@gmail.com</a>
+      </div>
+      <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted process — no proprietary Guros product assets</span>
+    </div>
+  </footer>
+</main>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;password&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;guros2026&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = { unlocked: true, error: false };
+
+  componentDidMount() {
+    this._observe();
+  }
+  componentDidUpdate() { this._observe(); }
+
+  _observe() {
+    if (this.props.revealMotion === false) return;
+    requestAnimationFrame(() => {
+      const els = document.querySelectorAll('[data-reveal]:not([data-seen])');
+      if (!els.length) return;
+      const show = (el) => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
+      }, { threshold: 0.1, rootMargin: '0px 0px -6% 0px' });
+      els.forEach((el) => {
+        el.setAttribute('data-seen', '1');
+        const r = el.getBoundingClientRect();
+        if (r.top < (window.innerHeight || 800) * 1.1) return; // above the fold: leave visible
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(14px)';
+        el.style.transition = 'opacity .55s ease, transform .55s ease';
+        io.observe(el);
+        setTimeout(() => show(el), 1600);
+      });
+    });
+  }
+
+  _check = () => {
+    const correct = this.props.password ?? 'guros2026';
+    const val = (document.getElementById('pw-input') || {}).value || '';
+    if (val === correct) {
+      sessionStorage.setItem('guros-unlocked', 'true');
+      this.setState({ unlocked: true, error: false });
+    } else {
+      this.setState({ error: true });
+    }
+  };
+
+  renderVals() {
+    const A = '#645AFF';
+    return {
+      locked: !this.state.unlocked,
+      unlocked: this.state.unlocked,
+      error: this.state.error,
+      tryUnlock: this._check,
+      onKey: (e) => { if (e.key === 'Enter') this._check(); },
+      heroMetrics: [
+        { value: '18%', label: 'Conversion lift across the quoting funnel' },
+        { value: '15%', label: 'Increase in policy renewals' },
+        { value: '4', label: 'Insurance verticals launched on the same system' },
+        { value: '3', label: 'Years as lead designer on the platform' },
+      ],
+      research: [
+        { label: 'Quantitative', name: 'HotJar Analysis', body: 'Session recordings and heatmaps pinpointed drop-off at form step 3 and revealed which result filters users ignored entirely.' },
+        { label: 'Qualitative', name: 'Usability Tests', body: 'Moderated testing uncovered the confidence gap: users couldn\'t map coverage differences to their own situation.' },
+        { label: 'Survey', name: 'Confidence Audit', body: 'Structured surveys quantified the problem — most users reported feeling unsure or confused when choosing a plan.' },
+      ],
+      pipeline: [
+        { step: '01', name: 'Research synthesis', bg: '#FAFAF8', border: '#E5E5E2' },
+        { step: '02', name: 'Figma prototype', bg: '#FAFAF8', border: '#E5E5E2' },
+        { step: '03', name: 'Usability test', bg: '#FAFAF8', border: '#E5E5E2' },
+        { step: '04', name: 'Iterate', bg: '#FAFAF8', border: '#E5E5E2' },
+        { step: '05', name: 'Engineering handoff', bg: 'rgba(100,90,255,0.10)', border: A },
+      ],
+      contributions: [
+        'Quote input form — progressive disclosure pattern',
+        'Results card — comparison layout with confidence cues',
+        'Coverage tooltip — contextual explainer component',
+        'Persistent summary panel — sticky state across steps',
+        'Recommendation highlight — profile-based signal',
+        'Mobile-first checkout — adapted from desktop flow',
+      ],
+      outcomes: [
+        { value: '18%', label: 'Conversion lift', context: 'Across the end-to-end quoting funnel after redesign' },
+        { value: '15%', label: 'Renewal increase', context: 'Users who understood their coverage at purchase came back' },
+        { value: '4', label: 'Verticals launched', context: 'On the same system and component foundation' },
+        { value: '↓', label: 'Time to quote', context: 'Reduced steps and clearer IA shortened the average path to completion' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
