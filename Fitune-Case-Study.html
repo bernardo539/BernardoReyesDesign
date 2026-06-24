@@ -270,10 +270,9 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;password&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;BernaRocks102&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { unlocked: false, error: false };
+  state = { unlocked: true, error: false };
 
   componentDidMount() {
-    if (sessionStorage.getItem('fitune-unlocked') === 'true') this.setState({ unlocked: true });
     this._observe();
   }
   componentDidUpdate() { this._observe(); }
