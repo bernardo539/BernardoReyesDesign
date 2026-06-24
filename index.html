@@ -92,7 +92,7 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
       <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
         <a data-reveal="" class="reveal" href="{{ p.href }}" style="display:block;background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;{{ p.pointerStyle }}" style-hover="display:block;background:#fff;border:0.5px solid #D0D0CC;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;transform:translateY(-2px);{{ p.pointerStyle }}">
-          <div style="width:100%;aspect-ratio:16/9;background:{{ p.cover }};border-bottom:0.5px solid #E5E5E2;display:flex;align-items:flex-end;justify-content:space-between;padding:18px;gap:8px;">
+          <div style="width:100%;aspect-ratio:16/9;background-color:{{ p.coverFallback }};background:{{ p.coverBg }};border-bottom:0.5px solid #E5E5E2;display:flex;align-items:flex-end;justify-content:space-between;padding:18px;gap:8px;">
             <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.92);">{{ p.name }}</span>
             <div style="display:inline-flex;align-items:center;gap:6px;">
               <sc-if value="{{ p.comingSoon }}" hint-placeholder-val="{{ false }}">
@@ -174,19 +174,19 @@ class Component extends DCLogic {
         { value: '3',   label: 'Design systems shipped' },
       ],
       projects: [
-        { name: 'Fitune', href: 'Fitune-Case-Study.html', cover: '#645AFF', category: 'Design Systems', period: '2025 – Present',
+        { name: 'Fitune', href: 'Fitune-Case-Study.html', coverBg: '#645AFF', coverFallback: '#645AFF', category: 'Design Systems', period: '2025 – Present',
           title: 'Fitune — Design System & AI Pipeline',
           desc: 'Built a full design system from scratch and a Claude Code pipeline that delivers dev-ready components to engineering, cutting handoff cycles by 35%.',
           comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Guros', href: '#contact', cover: '#2E2A52', category: 'Insurtech', period: '2022 – 2024',
+        { name: 'Guros', href: '#contact', coverBg: 'url(assets/images/cover/guros.jpg) center/cover no-repeat', coverFallback: '#2E2A52', category: 'Insurtech', period: '2022 – 2024',
           title: 'Guros — Conversion-led redesign',
           desc: 'Led the redesign of the quote-to-purchase flow, lifting conversion by 18% across the insurance marketplace.',
           comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Syscap', href: '#', cover: '#3A4A63', category: 'B2B SaaS', period: '2020 – 2022',
+        { name: 'Syscap', href: '#', coverBg: 'url(assets/images/cover/axcess.jpg) center/cover no-repeat', coverFallback: '#3A4A63', category: 'B2B SaaS', period: '2020 – 2022',
           title: 'Syscap — Platform & component library',
           desc: 'Designed the core SaaS platform and its first shared component library, standardizing patterns across 4 product teams.',
           comingSoon: true, disabled: true, pointerStyle: 'pointer-events:none;cursor:default;' },
-        { name: 'Mediclar', href: '#', cover: '#1A3A4A', category: 'Healthtech', period: '2023 – 2024',
+        { name: 'Mediclar', href: '#', coverBg: 'url(assets/images/cover/mediclar.jpg) center/cover no-repeat', coverFallback: '#1A3A4A', category: 'Healthtech', period: '2023 – 2024',
           title: 'Mediclar — Patient experience platform',
           desc: 'Designed the end-to-end patient flow for a digital health platform, standardizing patterns across web and mobile.',
           comingSoon: true, disabled: true, pointerStyle: 'pointer-events:none;cursor:default;' },
