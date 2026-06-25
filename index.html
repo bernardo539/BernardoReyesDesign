@@ -210,13 +210,24 @@
       <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;margin-bottom:40px;max-width:520px;">Currently available for senior product design and design-systems work. Based in Mexico, working remotely UTC-6.</p>
       <div data-reveal="" class="reveal" style="display:flex;flex-direction:column;border-top:0.5px solid #E5E5E2;">
         <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="3">
-          <a href="{{ c.href }}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;" style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;background:#FAFAF8;">
-            <div style="display:flex;flex-direction:column;gap:2px;">
-              <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
-              <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
+          <sc-if value="{{ c.copyEmail }}" hint-placeholder-val="{{ false }}">
+            <div onclick="{{ handleEmailCopy }}" style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;cursor:pointer;" style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;background:#FAFAF8;cursor:pointer;">
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
+                <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
+              </div>
+              <span style="font-size:18px;color:{{ emailCopied ? '#1F9D63' : '#645AFF' }};">{{ emailCopied ? 'Copied ✓' : '→' }}</span>
             </div>
-            <span style="font-size:18px;color:#645AFF;">→</span>
-          </a>
+          </sc-if>
+          <sc-if value="{{ !c.copyEmail }}" hint-placeholder-val="{{ true }}">
+            <a href="{{ c.href }}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;" style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;background:#FAFAF8;">
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
+                <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
+              </div>
+              <span style="font-size:18px;color:#645AFF;">→</span>
+            </a>
+          </sc-if>
         </sc-for>
       </div>
     </div>
@@ -255,10 +266,16 @@ class Component extends DCLogic {
           comingSoon: false, disabled: false, pointerStyle: '' },
       ],
       stack: ['Figma', 'Design Tokens', 'Claude Code', 'React', 'Storybook', 'Framer', 'Prototyping'],
+      emailCopied: this.state.emailCopied || false,
+      handleEmailCopy: () => {
+        navigator.clipboard.writeText('bernardo.reyes.design@gmail.com');
+        this.setState({ emailCopied: true });
+        setTimeout(() => this.setState({ emailCopied: false }), 2000);
+      },
       contacts: [
-        { label: 'Email', value: 'bernardo.reyes.design@gmail.com', href: 'mailto:bernardo.reyes.design@gmail.com' },
+        { label: 'Email', value: 'bernardo.reyes.design@gmail.com', href: '#', copyEmail: true },
         { label: 'LinkedIn', value: 'in/bernardo-reyes-design', href: 'https://www.linkedin.com/in/bernardo-reyes-design/' },
-        { label: 'Availability', value: 'Remote · UTC-6 · Open now', href: '#contact' },
+        { label: 'Availability', value: 'Let\'s talk · Schedule a call →', href: 'https://calendly.com/bernardo-reyes-design/15min' },
       ],
     };
   }
