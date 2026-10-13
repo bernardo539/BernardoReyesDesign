@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Fitune — Design System & AI Pipeline · Bernardo Reyes</title>
-<meta name="description" content="How I built Fitune's design system from scratch and a Claude Code pipeline that delivers dev-ready components to engineering, cutting handoff cycles by 35%.">
+<meta name="description" content="How I built Fitune's design system from scratch and a Claude Code pipeline that delivers dev ready components to engineering, cutting handoff cycles by 35%.">
 
 <!-- Open Graph -->
 <meta property="og:type" content="article">
@@ -75,8 +75,8 @@
       <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">Case Study · Sep 2025 – Present</span>
     </div>
     <h1 data-reveal="" style="font-size:40px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:18px;text-wrap:balance;">Building Fitune's experience platform from scratch</h1>
-    <p data-reveal="" style="font-size:18px;color:#666666;line-height:1.5;margin-bottom:24px;max-width:600px;">Token architecture, a 95%-production-ready component system, governance, and an AI-assisted delivery pipeline — for a multi-product B2B SaaS.</p>
-    <p data-reveal="" style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:44px;">Role: Senior Product Designer · Stack: Figma + Tailwind CSS v3 + Vue 2.7 + Claude Code · Team: 2 designers, 4 engineers</p>
+    <p data-reveal="" style="font-size:18px;color:#666666;line-height:1.5;margin-bottom:24px;max-width:600px;">Token architecture, a 95% production ready component system, governance, and an AI assisted delivery pipeline, for a multi product B2B SaaS.</p>
+    <p data-reveal="" style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:44px;">Role: Senior Product Designer · Design Lead · Stack: Figma + Tailwind CSS v3 + Vue 2.7 + Claude Code · Team: 2 designers, 4 engineers</p>
     <div data-reveal="" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:32px;border-top:0.5px solid #E5E5E2;">
       <sc-for list="{{ heroMetrics }}" as="m" hint-placeholder-count="4">
         <div style="display:flex;flex-direction:column;gap:4px;">
@@ -91,8 +91,8 @@
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">01 / The Problem</p>
     <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">No shared design language across two products</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">When I joined Fitune, the product had no shared design language. Engineering and design were working from inconsistent references, handoff cycles were long, and there was no path to support dark mode or white-label theming for different studio operators across two separate products — Admin and Webapp.</p>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:36px;">My mandate: build the experience platform from scratch — token architecture, component system, governance model, and a delivery pipeline that could scale without adding headcount.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">When I joined Fitune, the product had no shared design language. Engineering and design were working from inconsistent references, handoff cycles were long, and there was no path to support dark mode or white label theming for different studio operators across two separate products: Admin and Webapp.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:36px;">My mandate: build the experience platform from scratch. Token architecture, component system, governance model, and a delivery pipeline that could scale without adding headcount.</p>
 
     <!-- Before / After -->
     <div data-reveal="" style="display:flex;flex-direction:column;gap:14px;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;">
@@ -122,9 +122,9 @@
   <!-- 02 ARCHITECTURE -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">02 / Architecture</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">A 4-layer token system for multi-mode, multi-tenant scale</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">A flat token system wouldn't support the product's requirements. I designed a 4-layer architecture where each layer has a single responsibility and a single set of consumers.</p>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">The 3-layer alternative would have required duplicating every token for each mode and each tenant. The 4-layer model separates concerns: changing the brand doesn't touch mode logic, and adding a tenant doesn't touch the semantic layer.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">A 4 layer token system for multi mode, multi tenant scale</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">A flat token system wouldn't support the product's requirements. I designed a 4 layer architecture where each layer has a single responsibility and a single set of consumers.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">The 3 layer alternative would have required duplicating every token for each mode and each tenant. The 4 layer model separates concerns: changing the brand doesn't touch mode logic, and adding a tenant doesn't touch the semantic layer.</p>
 
     <!-- 4-layer diagram -->
     <div data-reveal="" style="display:flex;flex-direction:column;align-items:center;margin-bottom:28px;">
@@ -150,9 +150,9 @@
   <!-- 03 COMPONENT SYSTEM -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">03 / Component System</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">95% production-ready at handoff</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">Every component that exits the pipeline arrives at engineering at roughly 95% completion. Engineering inserts the output into staging and promotes to production — no interpretation work, no separate implementation spike.</p>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">This works because the pipeline enforces strict output contracts. The remaining 5% is intentional: integration-specific data wiring and API bindings handled during staging — the pipeline owns visual and interaction completeness, not business logic.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">95% production ready at handoff</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">Every component that exits the pipeline arrives at engineering at roughly 95% completion. Engineering inserts the output into staging and promotes to production, with no interpretation work, no separate implementation spike.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">This works because the pipeline enforces strict output contracts. The remaining 5% is intentional: integration specific data wiring and API bindings handled during staging. The pipeline owns visual and interaction completeness, not business logic.</p>
     <div data-reveal="" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
       <sc-for list="{{ contracts }}" as="c" hint-placeholder-count="5">
         <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:10px;">
@@ -166,11 +166,11 @@
   <!-- 04 FEATURE DELIVERY -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">04 / Feature Delivery</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">45% edge-case coverage, and growing</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:24px;">Beyond individual components, the pipeline supports full feature prototypes — complete flows with edge cases, empty states, error states, and loading states documented and ready for review. The token and component foundation had to be stable before feature-level delivery could accelerate. That foundation is now in place.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">45% edge case coverage, and growing</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:24px;">Beyond individual components, the pipeline supports full feature prototypes: complete flows with edge cases, empty states, error states, and loading states documented and ready for review. The token and component foundation had to be stable before feature level delivery could accelerate. That foundation is now in place.</p>
     <div data-reveal="" style="background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:12px;padding:20px 22px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
-        <span style="font-size:13px;font-weight:600;color:#1A1A1A;">Planned features at full edge-case coverage</span>
+        <span style="font-size:13px;font-weight:600;color:#1A1A1A;">Planned features at full edge case coverage</span>
         <span style="font-size:15px;font-weight:600;color:#645AFF;">45%</span>
       </div>
       <div style="height:8px;background:#F3F3F0;border-radius:100px;overflow:hidden;">
@@ -188,13 +188,13 @@
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">External library policy</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Dependencies earn adoption</h3>
-      <p style="font-size:14px;color:#666666;">Any dependency must meet 5 criteria before adoption — usage volume, disproportionate rebuild cost, library stability, single adoption unlocking multiple components, and mandatory wrapper encapsulation so any library can be swapped without touching consumers.</p>
+      <p style="font-size:14px;color:#666666;">Any dependency must meet 5 criteria before adoption: usage volume, disproportionate rebuild cost, library stability, single adoption unlocking multiple components, and mandatory wrapper encapsulation so any library can be swapped without touching consumers.</p>
     </div>
 
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Component promotion</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Components earn their place</h3>
-      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Nothing enters the shared system without passing a gate: token audit, light/dark validation, accessibility review, and stale-import detection across the codebase.</p>
+      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Nothing enters the shared system without passing a gate: token audit, light/dark validation, accessibility review, and stale import detection across the codebase.</p>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
         <sc-for list="{{ promo }}" as="st" hint-placeholder-count="4">
           <div style="flex:1;min-width:80px;padding:11px;text-align:center;background:{{ st.bg }};border:0.5px solid {{ st.border }};border-radius:8px;font-size:13px;font-weight:500;color:{{ st.color }};">{{ st.name }}</div>
@@ -206,7 +206,7 @@
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Open questions registry</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Decisions logged, not debated twice</h3>
-      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Architectural decisions affecting multiple components are logged with an ID, owner, trade-offs, and resolution status — a traceable history that stops the same debate resurfacing every sprint.</p>
+      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Architectural decisions affecting multiple components are logged with an ID, owner, tradeoffs, and resolution status, a traceable history that stops the same debate resurfacing every sprint.</p>
       <div style="border:0.5px solid #E5E5E2;border-radius:8px;overflow:hidden;font-family:'SF Mono','Fira Code',ui-monospace,monospace;font-size:12px;">
         <div style="display:grid;grid-template-columns:64px 110px 1fr;gap:10px;padding:10px 14px;background:#FAFAF8;color:#999999;border-bottom:0.5px solid #E5E5E2;">
           <span>ID</span><span>Status</span><span>Topic</span>
@@ -224,9 +224,9 @@
 
   <!-- 06 PIPELINE -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
-    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">06 / AI-Assisted Delivery</p>
+    <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">06 / AI Assisted Delivery</p>
     <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Closing the gap from Figma frame to production component</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">The bottleneck wasn't design quality — it was the distance between a finished frame and a production-ready component. I built a Claude Code-powered prototyping agent that closes that gap, operating under strict constraints.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">The bottleneck wasn't design quality. It was the distance between a finished frame and a production ready component. I built a Claude Code powered prototyping agent that closes that gap, operating under strict constraints.</p>
     <div data-reveal="" style="display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
       <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="5">
         <div style="flex:1;min-width:120px;padding:16px 14px;background:{{ p.bg }};border:0.5px solid {{ p.border }};border-radius:10px;display:flex;flex-direction:column;gap:8px;">
@@ -259,15 +259,15 @@
           </div>
         </sc-for>
       </div>
-      <p data-reveal="" style="font-size:15px;color:#444444;">Light/dark mode and multi-tenant theming were supported from day one — no migration cost. The design system now serves as the single source of truth across product and engineering.</p>
+      <p data-reveal="" style="font-size:15px;color:#444444;">Light/dark mode and multi tenant theming were supported from day one. No migration cost. The design system now serves as the single source of truth across product and engineering.</p>
     </div>
   </section>
 
   <!-- 08 NEXT -->
   <section style="max-width:720px;margin:0 auto;padding:64px 24px;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">08 / What's Next</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">AI-native interaction patterns</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The system handles static and interactive UI well. The next platform investment is AI-native interaction patterns — streaming states, agent-to-human handoffs, uncertainty cues, and trust signals. As AI-powered features become a priority, these patterns need to be defined at the system level, not solved one-off per team.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">AI native interaction patterns</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The system handles static and interactive UI well. The next platform investment is AI native interaction patterns: streaming states, agent to human handoffs, uncertainty cues, and trust signals. As AI powered features become a priority, these patterns need to be defined at the system level, not solved one off per team.</p>
     <p data-reveal="" style="font-size:15px;color:#1A1A1A;font-weight:500;">These are the questions I'm building toward.</p>
   </section>
 
@@ -278,7 +278,7 @@
         <div style="font-size:15px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px;">Bernardo Reyes</div>
         <a href="mailto:bernardo.reyes.design@gmail.com" style="font-size:13px;color:#645AFF;">bernardo.reyes.design@gmail.com</a>
       </div>
-      <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted architecture — no proprietary Fitune product assets</span>
+      <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted architecture, no proprietary Fitune product assets</span>
     </div>
   </footer>
 </main>
@@ -335,21 +335,21 @@ class Component extends DCLogic {
       tryUnlock: this._check,
       onKey: (e) => { if (e.key === 'Enter') this._check(); },
       heroMetrics: [
-        { value: '95%', label: 'Production-ready at handoff' },
-        { value: '45%', label: 'Features at full edge-case coverage' },
+        { value: '95%', label: 'Production ready at handoff' },
+        { value: '45%', label: 'Features at full edge case coverage' },
         { value: '35%', label: 'Reduction in handoff cycles' },
         { value: '40%', label: 'Faster prototype iteration' },
       ],
       layers: [
-        { label: 'Layer 4 — Semantics', desc: 'Role-based tokens. The only layer components consume.', token: '--color-text-primary · --color-bg-page', bg: 'rgba(100,90,255,0.10)', border: A, accent: A, hasArrow: true },
-        { label: 'Layer 3 — Mode', desc: 'Light / dark resolution, set via [data-mode] before first paint.', token: '--mode-surface-page · --mode-text-primary', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
-        { label: 'Layer 2 — Brand', desc: 'Fitune defaults. Tenant-overridable via a 5-override contract.', token: '--brand-accent · --brand-font-heading', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
-        { label: 'Layer 1 — Primitives', desc: 'Raw values. Never consumed directly by components.', token: '--primitive-blue-500 · --primitive-spacing-4', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: false },
+        { label: 'Layer 4: Semantics', desc: 'Role based tokens. The only layer components consume.', token: '--color-text-primary · --color-bg-page', bg: 'rgba(100,90,255,0.10)', border: A, accent: A, hasArrow: true },
+        { label: 'Layer 3: Mode', desc: 'Light / dark resolution, set via [data-mode] before first paint.', token: '--mode-surface-page · --mode-text-primary', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
+        { label: 'Layer 2: Brand', desc: 'Fitune defaults. Tenant overridable via a 5 override contract.', token: '--brand-accent · --brand-font-heading', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
+        { label: 'Layer 1: Primitives', desc: 'Raw values. Never consumed directly by components.', token: '--primitive-blue-500 · --primitive-spacing-4', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: false },
       ],
       contracts: [
-        'Only verified semantic tokens — no hardcoded values',
+        'Only verified semantic tokens: no hardcoded values',
         'All interactive states: default, hover, focus, active, disabled, loading',
-        'Accessibility built in — WCAG AA contrast, focus ring, aria',
+        'Accessibility built in: WCAG AA contrast, focus ring, aria',
         'Light and dark mode validated before handoff',
         'A REVIEW.md QA checklist ships with every component',
         'Two output formats: static HTML + Vue 2.7 components',
@@ -362,7 +362,7 @@ class Component extends DCLogic {
       ],
       registry: [
         { id: 'Q-01', status: '✅ Resolved', statusColor: '#1F9D63', topic: 'Dark elevation strategy' },
-        { id: 'Q-02', status: '⚠ Open', statusColor: '#C58A1A', topic: 'Multi-tenant font loading' },
+        { id: 'Q-02', status: '⚠ Open', statusColor: '#C58A1A', topic: 'Multi tenant font loading' },
         { id: 'Q-03', status: '⚠ Open', statusColor: '#C58A1A', topic: 'Accent contrast in dark mode' },
       ],
       pipeline: [
@@ -373,14 +373,14 @@ class Component extends DCLogic {
         { step: '05', name: 'Engineering handoff', bg: 'rgba(100,90,255,0.10)', border: A },
       ],
       constraints: [
-        { label: 'Token enforcement', body: 'Cannot use a value absent from the semantic layer — it flags the gap rather than approximating.' },
+        { label: 'Token enforcement', body: 'Cannot use a value absent from the semantic layer. It flags the gap rather than approximating.' },
         { label: 'Layer discipline', body: 'Components import only from their layer or below. No reverse dependencies.' },
         { label: 'Delivery format', body: 'Static HTML for review + Vue 2.7 for handoff, each with a QA checklist.' },
       ],
       outcomes: [
-        { value: '95%', label: 'Production-ready', context: 'Components inserted into staging without interpretation work' },
-        { value: '45%', label: 'Edge-case coverage', context: 'Features with full empty/error/loading states, and growing' },
-        { value: '−35%', label: 'Handoff friction', context: 'Revision rounds before engineering sign-off' },
+        { value: '95%', label: 'Production ready', context: 'Components inserted into staging without interpretation work' },
+        { value: '45%', label: 'Edge case coverage', context: 'Features with full empty/error/loading states, and growing' },
+        { value: '−35%', label: 'Handoff friction', context: 'Revision rounds before engineering sign off' },
         { value: '−40%', label: 'Iteration time', context: 'From design decision to reviewable prototype' },
       ],
     };
