@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Axcess — Platform & Component Library · Bernardo Reyes</title>
-<meta name="description" content="How I designed the core SaaS platform and its first shared component library for Axcess, standardizing patterns across 4 product teams.">
+<meta name="description" content="How I designed Axcess, Syscap's credit platform for SMEs in Mexico, and built its design ops from scratch, cutting time to market by 20% and design rework by 30%.">
 
 <!-- Open Graph -->
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://bernardoreyesdesign.com/Axcess-Case-Study.html">
 <meta property="og:title" content="Axcess — Platform & Component Library · Bernardo Reyes">
-<meta property="og:description" content="Designing the core SaaS platform and its first shared component library, standardizing patterns across 4 product teams.">
+<meta property="og:description" content="Designing Syscap's credit platform for SMEs and building its design ops from scratch, cutting time to market by 20% and design rework by 30%.">
 <meta property="og:image" content="https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg">
 
 <!-- Canonical -->
@@ -72,11 +72,11 @@
   <section style="max-width:720px;margin:0 auto;padding:80px 24px 56px;">
     <div data-reveal="" style="display:flex;align-items:center;gap:8px;margin-bottom:22px;flex-wrap:wrap;">
       <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:rgba(100,90,255,0.10);color:#4A40CC;border:0.5px solid rgba(100,90,255,0.25);">Fintech · B2B SaaS</span>
-      <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">Case Study · 2020 – 2022</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">Case Study · Aug 2024 – Aug 2025</span>
     </div>
     <h1 data-reveal="" style="font-size:40px;font-weight:700;letter-spacing:-0.03em;line-height:1.1;margin-bottom:18px;text-wrap:balance;">Building Axcess's financial profile platform from scratch</h1>
-    <p data-reveal="" style="font-size:18px;color:#666666;line-height:1.5;margin-bottom:24px;max-width:600px;">Co-creating tools that surface Credit Bureau and SAT data as actionable financial intelligence — and rebuilding how design, product, and engineering worked together.</p>
-    <p data-reveal="" style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:44px;">Role: Senior Product Designer · Stack: Figma + Tailwind CSS + Storybook · Team: 1 designer, cross-functional stakeholders</p>
+    <p data-reveal="" style="font-size:18px;color:#666666;line-height:1.5;margin-bottom:24px;max-width:600px;">Axcess is Syscap's credit platform for small and medium businesses in Mexico. Co creating tools that surface Credit Bureau and SAT data as actionable financial intelligence, and rebuilding how design, product, and engineering worked together.</p>
+    <p data-reveal="" style="font-size:13px;color:#999999;line-height:1.6;margin-bottom:44px;">Role: Senior Product Designer at Syscap · Stack: Figma + Tailwind CSS + Storybook · Team: 1 designer, cross functional stakeholders</p>
     <div data-reveal="" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding-top:32px;border-top:0.5px solid #E5E5E2;">
       <sc-for list="{{ heroMetrics }}" as="m" hint-placeholder-count="4">
         <div style="display:flex;flex-direction:column;gap:4px;">
@@ -99,7 +99,7 @@
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">01 / The Problem</p>
     <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">No design process, no handoff standard, no validation loop</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">When I joined Axcess, design, product, and engineering had no shared workflow. Decisions weren't documented, handoff was ad hoc, and production errors were common. The product itself — a platform letting businesses build a verified financial profile using Credit Bureau and SAT data — had no prior user research and no usability testing gate before development.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">When I joined Axcess, design, product, and engineering had no shared workflow. Decisions weren't documented, handoff was ad hoc, and production errors were common. The product itself, a platform letting businesses build a verified financial profile using Credit Bureau and SAT data, had no prior user research and no usability testing gate before development.</p>
     <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:36px;">My mandate: design the core financial visualization tools and rebuild how the three teams worked together.</p>
 
     <!-- Before / After -->
@@ -131,9 +131,9 @@
   <!-- 02 RESEARCH & DISCOVERY -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">02 / Research & Discovery</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Co-creation with business and tech stakeholders to define the core experience</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The core challenge wasn't technical — it was conceptual. Credit Bureau and SAT data is dense, jargon-heavy, and unfamiliar to most business owners. Before any UI work, I ran co-creation sessions with business stakeholders and engineers to define what 'financial profile' meant to the user: not raw data, but a clear picture of credit position and actionable next steps.</p>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">These sessions defined the information architecture, the visualization logic, and the constraints the design had to meet — precise enough to trust in a credit context, clear enough for a non-financial audience.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Co creation with business and tech stakeholders to define the core experience</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The core challenge wasn't technical. It was conceptual. Credit Bureau and SAT data is dense, jargon heavy, and unfamiliar to most business owners. Before any UI work, I ran co creation sessions with business stakeholders and engineers to define what 'financial profile' meant to the user: not raw data, but a clear picture of credit position and actionable next steps.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">These sessions defined the information architecture, the visualization logic, and the constraints the design had to meet: precise enough to trust in a credit context, clear enough for a non financial audience.</p>
 
     <!-- Architecture diagram -->
     <div data-reveal="" style="display:flex;flex-direction:column;align-items:center;margin-bottom:28px;">
@@ -166,9 +166,9 @@
   <!-- 03 DESIGN DECISIONS -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">03 / Design Decisions</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Clarity over completeness — surfacing credit intelligence, not raw data</h2>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Clarity over completeness: surfacing credit intelligence, not raw data</h2>
     <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The financial visualization tools had one constraint above all: a business owner with no financial background had to understand their credit position at a glance. Every design decision was filtered through that constraint.</p>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">This meant progressive disclosure — summary first, detail on demand — and a strict rule against exposing raw bureau or SAT fields without translation into plain-language indicators.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">This meant progressive disclosure: summary first, detail on demand. It also meant a strict rule against exposing raw bureau or SAT fields without translation into plain language indicators.</p>
     <div data-reveal="" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
       <sc-for list="{{ contracts }}" as="c" hint-placeholder-count="6">
         <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:10px;">
@@ -182,11 +182,11 @@
   <!-- 04 FEATURE DELIVERY -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">04 / Feature Delivery</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">−20% time-to-market through standardized process</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:24px;">The process change and the product work happened in parallel. Introducing usability testing as a standard gate before development handoff — combined with standardized deliverables and a Tailwind CSS-aligned Storybook — eliminated the revision cycles that had been absorbing engineering capacity. Time-to-market dropped 20% within two quarters of the process rollout.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">−20% time to market through standardized process</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:24px;">The process change and the product work happened in parallel. Introducing usability testing as a standard gate before development handoff, combined with standardized deliverables and a Tailwind CSS aligned Storybook, eliminated the revision cycles that had been absorbing engineering capacity. Time to market dropped 20% within two quarters of the process rollout.</p>
     <div data-reveal="" style="background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:12px;padding:20px 22px;">
       <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px;">
-        <span style="font-size:13px;font-weight:600;color:#1A1A1A;">Time-to-market reduction after process rollout</span>
+        <span style="font-size:13px;font-weight:600;color:#1A1A1A;">Time to market reduction after process rollout</span>
         <span style="font-size:15px;font-weight:600;color:#645AFF;">−20%</span>
       </div>
       <div style="height:8px;background:#F3F3F0;border-radius:100px;overflow:hidden;">
@@ -198,25 +198,25 @@
   <!-- 05 DESIGN OPERATIONS -->
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">05 / Design Operations</p>
-    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Three mechanisms that eliminated rework</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">A design process without structure drifts. I built three lightweight mechanisms to keep design, product, and engineering aligned as the product grew.</p>
+    <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Three mechanisms that reduced rework</h2>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:32px;">A design process without structure drifts. I built three lightweight mechanisms to keep design, product, and engineering aligned as the product grew. Every standard was documented in line with financial regulation, including KYC and AML flows, and reviewed in workshops with product, engineering, and legal.</p>
 
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Standardized deliverables</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Every handoff ships with the same artifacts</h3>
-      <p style="font-size:14px;color:#666666;">Wireframes, annotated specs, Storybook component documentation, and a decision log entry — every time. No negotiation on format. Engineering knows exactly what to expect before the handoff meeting.</p>
+      <p style="font-size:14px;color:#666666;">Wireframes, annotated specs, Storybook component documentation, and a decision log entry, every time. No negotiation on format. Engineering knows exactly what to expect before the handoff meeting.</p>
     </div>
 
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;margin-bottom:14px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Usability testing gate</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Nothing ships without user validation</h3>
-      <p style="font-size:14px;color:#666666;">Usability testing was introduced as a mandatory gate before development handoff. Tests were lightweight — 3–5 sessions per feature — but consistent. Design decisions became evidence-based, not opinion-based.</p>
+      <p style="font-size:14px;color:#666666;">Usability testing was introduced as a mandatory gate before development handoff. Tests were lightweight, 3–5 sessions per feature, but consistent. Design decisions became evidence based, not opinion based.</p>
     </div>
 
     <div data-reveal="" style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:24px;">
       <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:#645AFF;margin-bottom:8px;">Decision log</div>
       <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;margin-bottom:8px;">Decisions documented, not debated twice</h3>
-      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Every significant design decision was logged with context, trade-offs, and resolution. Onboarding new stakeholders stopped requiring the same conversation three times.</p>
+      <p style="font-size:14px;color:#666666;margin-bottom:20px;">Every significant design decision was logged with context, tradeoffs, and resolution. Onboarding new stakeholders stopped requiring the same conversation three times.</p>
       <div style="border:0.5px solid #E5E5E2;border-radius:8px;overflow:hidden;font-family:'SF Mono','Fira Code',ui-monospace,monospace;font-size:12px;">
         <div style="display:grid;grid-template-columns:64px 110px 1fr;gap:10px;padding:10px 14px;background:#FAFAF8;color:#999999;border-bottom:0.5px solid #E5E5E2;">
           <span>ID</span><span>Status</span><span>Topic</span>
@@ -236,7 +236,7 @@
   <section style="max-width:720px;margin:0 auto;padding:48px 24px;border-top:0.5px solid #E5E5E2;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">06 / Implementation</p>
     <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">Storybook as the single source of truth between design and engineering</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">The handoff standard centered on Storybook — every component documented with Tailwind CSS-aligned naming, interactive states, and usage notes. This made the design system a living reference, not a static spec that drifted from production.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:28px;">The handoff standard centered on Storybook: every component documented with Tailwind CSS aligned naming, interactive states, and usage notes. This made the design system a living reference, not a static spec that drifted from production.</p>
     <div data-reveal="" style="display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
       <sc-for list="{{ pipeline }}" as="p" hint-placeholder-count="5">
         <div style="flex:1;min-width:120px;padding:16px 14px;background:{{ p.bg }};border:0.5px solid {{ p.border }};border-radius:10px;display:flex;flex-direction:column;gap:8px;">
@@ -285,7 +285,7 @@
   <section style="display:none;max-width:720px;margin:0 auto;padding:64px 24px;">
     <p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:14px;">08 / What's Next</p>
     <h2 data-reveal="" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:20px;">From financial profile to credit action</h2>
-    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The financial visualization layer answered one question well: where do you stand? The next platform investment is actionability — translating a credit position into a specific set of steps a business can take to improve it. That requires connecting the profile layer to product offers, partner data, and a recommendation engine. The design system foundation makes that possible without rebuilding from scratch.</p>
+    <p data-reveal="" style="font-size:15px;color:#444444;margin-bottom:16px;">The financial visualization layer answered one question well: where do you stand? The next platform investment is actionability: translating a credit position into a specific set of steps a business can take to improve it. That requires connecting the profile layer to product offers, partner data, and a recommendation engine. The design system foundation makes that possible without rebuilding from scratch.</p>
   </section>
 
   <!-- FOOTER -->
@@ -295,7 +295,7 @@
         <div style="font-size:15px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px;">Bernardo Reyes</div>
         <a href="mailto:bernardo.reyes.design@gmail.com" style="font-size:13px;color:#645AFF;">bernardo.reyes.design@gmail.com</a>
       </div>
-      <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted architecture — no proprietary Axcess product assets</span>
+      <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted architecture, no proprietary Axcess product assets</span>
     </div>
   </footer>
 </main>
@@ -352,19 +352,19 @@ class Component extends DCLogic {
       tryUnlock: this._check,
       onKey: (e) => { if (e.key === 'Enter') this._check(); },
       heroMetrics: [
-        { value: '−20%', label: 'Time-to-market after process rollout' },
-        { value: '2', label: 'Data sources unified (SAT + Credit Bureau)' },
+        { value: '−20%', label: 'Time to market after process rollout' },
+        { value: '−30%', label: 'Design rework' },
+        { value: '+50%', label: 'Frontend implementation accuracy' },
         { value: '0→1', label: 'Design ops built from scratch' },
-        { value: '35%', label: 'Fewer production errors post-handoff' },
       ],
       layers: [
         { label: 'Raw data layer', desc: 'Credit Bureau + SAT inputs. Never shown directly to users.', token: 'bureau_score · sat_fiscal_status', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
         { label: 'Processing layer', desc: 'Normalization and categorization of financial signals.', token: 'credit_risk_band · fiscal_health_score', bg: '#fff', border: '#E5E5E2', accent: '#1A1A1A', hasArrow: true },
-        { label: 'Visualization layer', desc: 'User-facing financial profile. The only layer the product exposes.', token: 'profile_score · opportunity_indicators', bg: 'rgba(100,90,255,0.10)', border: A, accent: A, hasArrow: false },
+        { label: 'Visualization layer', desc: 'User facing financial profile. The only layer the product exposes.', token: 'profile_score · opportunity_indicators', bg: 'rgba(100,90,255,0.10)', border: A, accent: A, hasArrow: false },
       ],
       contracts: [
         'Progressive disclosure: summary score → detail breakdown → source data',
-        'Plain-language translation of every Credit Bureau and SAT field',
+        'Plain language translation of every Credit Bureau and SAT field',
         'Credit opportunity indicators tied to specific profile improvements',
         'Consistent Tailwind CSS token naming aligned with engineering',
         'All states covered: loading, empty, error, partial data',
@@ -372,26 +372,27 @@ class Component extends DCLogic {
       ],
       registry: [
         { id: 'D-01', status: '✅ Resolved', statusColor: '#1F9D63', topic: 'Progressive disclosure model for bureau data' },
-        { id: 'D-02', status: '✅ Resolved', statusColor: '#1F9D63', topic: 'Tailwind token naming convention for design-dev alignment' },
-        { id: 'D-03', status: '⚠ Open', statusColor: '#C58A1A', topic: 'Mobile-first layout for financial profile summary' },
+        { id: 'D-02', status: '✅ Resolved', statusColor: '#1F9D63', topic: 'Tailwind token naming convention for design dev alignment' },
+        { id: 'D-03', status: '⚠ Open', statusColor: '#C58A1A', topic: 'Mobile first layout for financial profile summary' },
       ],
       pipeline: [
-        { step: '01', name: 'Co-creation session', bg: '#FAFAF8', border: '#E5E5E2' },
+        { step: '01', name: 'Co creation session', bg: '#FAFAF8', border: '#E5E5E2' },
         { step: '02', name: 'Usability testing', bg: '#FAFAF8', border: '#E5E5E2' },
         { step: '03', name: 'Annotated spec + decision log', bg: '#FAFAF8', border: '#E5E5E2' },
         { step: '04', name: 'Storybook documentation', bg: '#FAFAF8', border: '#E5E5E2' },
         { step: '05', name: 'Engineering handoff', bg: 'rgba(100,90,255,0.10)', border: A },
       ],
       constraints: [
-        { label: 'Naming discipline', body: 'Tailwind CSS-aligned token names in Figma and Storybook — no drift between design and production.' },
+        { label: 'Naming discipline', body: 'Tailwind CSS aligned token names in Figma and Storybook. No drift between design and production.' },
         { label: 'State coverage', body: 'Every component documented with all interactive states before handoff. No interpretation work in engineering.' },
         { label: 'Decision traceability', body: 'Every component links to its decision log entry. Context travels with the artifact.' },
       ],
       outcomes: [
-        { value: '−20%', label: 'Time-to-market', context: 'Reduction after standardized process and usability testing gate' },
+        { value: '−20%', label: 'Time to market', context: 'Reduction after standardized process and usability testing gate' },
+        { value: '−30%', label: 'Design rework', context: 'Design ops standards and documentation aligned with financial regulation, including KYC and AML flows' },
+        { value: '+50%', label: 'Frontend implementation accuracy', context: 'Design system in Tailwind CSS and Storybook, plus handoff standards' },
         { value: '2', label: 'Data sources unified', context: 'Credit Bureau and SAT data surfaced through a single financial profile' },
-        { value: '0→1', label: 'Design ops', context: 'Built from scratch — deliverables, decision log, and Storybook standard' },
-        { value: '↓', label: 'Production errors', context: 'Reduced post-handoff through Tailwind-aligned naming and annotated specs' },
+        { value: '0→1', label: 'Design ops', context: 'Built from scratch: deliverables, decision log, and Storybook standard' },
       ],
     };
   }
