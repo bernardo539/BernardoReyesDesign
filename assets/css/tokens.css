@@ -1,0 +1,407 @@
+/* ==========================================================================
+   br. Design Tokens v0.1
+   Source of truth: docs/br-design-tokens.md
+
+   Architecture: primitive → mode → semantic
+   Only Mode and Semantic are exposed in CSS. Primitive values are inlined
+   into the Mode layer, with the primitive name noted in a comment.
+
+   Modes:
+   - Color:   light (default) / dark   → [data-theme="dark"] on <html>
+   - Layout:  desktop (default) / mobile → @media (max-width: 819px)
+   - Motion:  default / reduced          → @media (prefers-reduced-motion)
+
+   Naming: --br-{category}-{role}-{variant}-{state}
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   MODE — light / desktop / default motion
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color: background */
+  --br-color-bg-canvas: #EFF5F4;            /* neutral.100 */
+  --br-color-bg-surface: #FAFDFC;           /* neutral.25 */
+  --br-color-bg-subtle: #DEE9E7;            /* neutral.200 */
+  --br-color-bg-inverse: #00312D;           /* teal.950 */
+
+  /* Color: border */
+  --br-color-border-default: #DEE9E7;       /* neutral.200 */
+  --br-color-border-strong: #618D88;        /* teal.600 */
+
+  /* Color: text */
+  --br-color-text-primary: #00312D;         /* teal.950 */
+  --br-color-text-secondary: #446F6A;       /* teal.700 */
+  --br-color-text-disabled: #9AA4A2;        /* neutral.500 */
+  --br-color-text-inverse: #CAFF00;         /* lime.200 */
+  --br-color-text-inverse-muted: #B9DDD8;   /* teal.300 */
+  --br-color-text-link: #587100;            /* lime.700 */
+
+  /* Color: accent (surface only in light — never text/icon/border on canvas) */
+  --br-color-accent-default: #CAFF00;       /* lime.200 */
+  --br-color-accent-hover: #A5D100;         /* lime.400 */
+  --br-color-accent-pressed: #8CB200;       /* lime.500 */
+  --br-color-on-accent: #00312D;            /* teal.950 */
+  --br-color-focus-ring: #00312D;           /* teal.950 */
+
+  /* Color: status */
+  --br-color-status-success-bg: #D9FFE0;     /* green.100 */
+  --br-color-status-success-text: #007B36;   /* green.700 */
+  --br-color-status-success-border: #9AEAAB; /* green.300 */
+  --br-color-status-warning-bg: #FFF1DF;     /* amber.100 */
+  --br-color-status-warning-text: #895B00;   /* amber.700 */
+  --br-color-status-warning-border: #FFCA7F; /* amber.300 */
+  --br-color-status-danger-bg: #FFEFEE;      /* red.100 */
+  --br-color-status-danger-text: #B92028;    /* red.700 */
+  --br-color-status-danger-border: #FFC3BD;  /* red.300 */
+  --br-color-status-info-bg: #EBF5FF;        /* blue.100 */
+  --br-color-status-info-text: #0068B4;      /* blue.700 */
+  --br-color-status-info-border: #B4D8FF;    /* blue.300 */
+
+  /* Typography: families & weights (same in every mode) */
+  --br-font-family-accent: 'Fira Sans', sans-serif;
+  --br-font-family-body: 'Plus Jakarta Sans', sans-serif;
+  --br-font-family-mono: 'Fira Mono', monospace;
+  --br-font-weight-regular: 400;
+  --br-font-weight-medium: 500;
+  --br-font-weight-semibold: 600;
+  --br-font-weight-bold: 700;
+  --br-font-weight-extrabold: 800;
+  --br-font-tracking-tighter: -0.03em;
+  --br-font-tracking-tight: -0.02em;
+  --br-font-tracking-snug: -0.01em;
+  --br-font-tracking-normal: 0;
+  --br-font-tracking-wide: 0.04em;
+
+  /* Typography: scale (desktop) */
+  --br-font-display-lg-size: 96px;  --br-font-display-lg-line-height: 96px;
+  --br-font-display-md-size: 72px;  --br-font-display-md-line-height: 72px;
+  --br-font-heading-lg-size: 40px;  --br-font-heading-lg-line-height: 48px;
+  --br-font-heading-md-size: 32px;  --br-font-heading-md-line-height: 40px;
+  --br-font-heading-sm-size: 24px;  --br-font-heading-sm-line-height: 32px;
+  --br-font-body-lg-size: 18px;     --br-font-body-lg-line-height: 28px;
+  --br-font-body-md-size: 16px;     --br-font-body-md-line-height: 24px;
+  --br-font-body-sm-size: 14px;     --br-font-body-sm-line-height: 20px;
+  --br-font-caption-md-size: 12px;  --br-font-caption-md-line-height: 16px;
+  --br-font-label-md-size: 16px;    --br-font-label-md-line-height: 24px;
+  --br-font-label-sm-size: 14px;    --br-font-label-sm-line-height: 20px;
+
+  /* Spacing (desktop) */
+  --br-space-inset-xs: 4px;
+  --br-space-inset-sm: 8px;
+  --br-space-inset-md: 16px;
+  --br-space-inset-lg: 24px;
+  --br-space-inset-xl: 32px;
+  --br-space-gap-xs: 4px;
+  --br-space-gap-sm: 8px;
+  --br-space-gap-md: 12px;
+  --br-space-gap-lg: 20px;
+  --br-space-gap-xl: 32px;
+  --br-space-section: 96px;
+  --br-space-gutter-page: 32px;
+
+  /* Radius (desktop) */
+  --br-radius-sm: 8px;
+  --br-radius-md: 16px;
+  --br-radius-lg: 24px;
+  --br-radius-xl: 32px;
+  --br-radius-pill: 9999px;
+
+  /* Sizing (desktop) */
+  --br-size-control-sm: 32px;
+  --br-size-control-md: 44px;
+  --br-size-control-lg: 48px;
+  --br-size-avatar-lg: 150px;
+
+  /* Icons (desktop) */
+  --br-icon-sm: 16px;
+  --br-icon-md: 20px;
+  --br-icon-lg: 24px;
+  --br-icon-xl: 32px;
+
+  /* Motion (default) */
+  --br-duration-instant: 100ms;
+  --br-duration-fast: 200ms;
+  --br-duration-base: 300ms;
+  --br-duration-slow: 600ms;
+  --br-duration-loader-cycle: 800ms;
+  --br-easing-linear: linear;
+  --br-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --br-easing-enter: cubic-bezier(0, 0, 0, 1);
+  --br-easing-exit: cubic-bezier(0.3, 0, 1, 1);
+  --br-easing-emphasized: cubic-bezier(0.5, 0, 0, 1);
+  --br-motion-distance: 8px;
+  --br-motion-scale: 0.97;
+
+  /* Provisional (doc §9 — proposed, not closed yet) */
+  --br-border-width-default: 1px;
+  --br-border-width-strong: 2px;
+  --br-opacity-dim: 0.25;
+  --br-opacity-disabled: 0.4;
+  --br-opacity-scrim: 0.6;
+  --br-z-base: 0;
+  --br-z-sticky: 100;
+  --br-z-overlay: 200;
+  --br-z-modal: 300;
+  --br-z-toast: 400;
+  --br-layout-container: 1100px;
+}
+
+
+/* --------------------------------------------------------------------------
+   MODE — dark color
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --br-color-bg-canvas: #0B201E;            /* teal.1000 */
+  --br-color-bg-surface: #133734;           /* teal.900 */
+  --br-color-bg-subtle: #1D4541;            /* teal.850 */
+  --br-color-bg-inverse: #CAFF00;           /* lime.200 */
+
+  --br-color-border-default: #2A534E;       /* teal.800 */
+  --br-color-border-strong: #618D88;        /* teal.600 */
+
+  --br-color-text-primary: #ECFFFC;         /* teal.50 */
+  --br-color-text-secondary: #9FC7C2;       /* teal.400 */
+  --br-color-text-disabled: #618D88;        /* teal.600 */
+  --br-color-text-inverse: #00312D;         /* teal.950 */
+  --br-color-text-inverse-muted: #405300;   /* lime.800 */
+  --br-color-text-link: #CAFF00;            /* lime.200 */
+
+  --br-color-accent-default: #CAFF00;       /* lime.200 */
+  --br-color-accent-hover: #E6FFB7;         /* lime.100 */
+  --br-color-accent-pressed: #BDE751;       /* lime.300 */
+  --br-color-on-accent: #00312D;            /* teal.950 */
+  --br-color-focus-ring: #CAFF00;           /* lime.200 */
+
+  --br-color-status-success-bg: #003C17;     /* green.900 */
+  --br-color-status-success-text: #9AEAAB;   /* green.300 */
+  --br-color-status-success-border: #007B36; /* green.700 */
+  --br-color-status-warning-bg: #432B00;     /* amber.900 */
+  --br-color-status-warning-text: #FFCA7F;   /* amber.300 */
+  --br-color-status-warning-border: #895B00; /* amber.700 */
+  --br-color-status-danger-bg: #610009;      /* red.900 */
+  --br-color-status-danger-text: #FFC3BD;    /* red.300 */
+  --br-color-status-danger-border: #B92028;  /* red.700 */
+  --br-color-status-info-bg: #00315A;        /* blue.900 */
+  --br-color-status-info-text: #B4D8FF;      /* blue.300 */
+  --br-color-status-info-border: #0068B4;    /* blue.700 */
+}
+
+
+/* --------------------------------------------------------------------------
+   MODE — mobile (breakpoint provisional: bp.md 820)
+   -------------------------------------------------------------------------- */
+@media (max-width: 819px) {
+  :root {
+    --br-font-display-lg-size: 56px;  --br-font-display-lg-line-height: 56px;
+    --br-font-display-md-size: 44px;  --br-font-display-md-line-height: 48px;
+    --br-font-heading-lg-size: 32px;  --br-font-heading-lg-line-height: 40px;
+    --br-font-heading-md-size: 24px;  --br-font-heading-md-line-height: 32px;
+    --br-font-heading-sm-size: 20px;  --br-font-heading-sm-line-height: 28px;
+
+    --br-space-inset-md: 12px;
+    --br-space-inset-lg: 20px;
+    --br-space-inset-xl: 24px;
+    --br-space-gap-lg: 16px;
+    --br-space-gap-xl: 24px;
+    --br-space-section: 64px;
+    --br-space-gutter-page: 16px;
+
+    --br-radius-md: 12px;
+    --br-radius-lg: 20px;
+    --br-radius-xl: 24px;
+
+    --br-size-control-sm: 40px;
+    --br-size-avatar-lg: 96px;
+
+    --br-icon-md: 24px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   MODE — reduced motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --br-duration-instant: 0ms;
+    --br-duration-fast: 0ms;
+    --br-duration-base: 100ms;   /* opacity only */
+    --br-duration-slow: 100ms;
+    --br-motion-distance: 0px;
+    --br-motion-scale: 1;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   SEMANTIC — references Mode only, never raw values
+   -------------------------------------------------------------------------- */
+:root {
+  /* Color */
+  --br-color-page-bg: var(--br-color-bg-canvas);
+  --br-color-card-bg: var(--br-color-bg-surface);
+  --br-color-card-border: var(--br-color-border-default);
+  --br-color-card-feature-bg: var(--br-color-bg-inverse);
+  --br-color-card-feature-fg: var(--br-color-text-inverse);
+  --br-color-card-feature-fg-muted: var(--br-color-text-inverse-muted);
+  --br-color-card-highlight-bg: var(--br-color-accent-default);
+  --br-color-card-highlight-fg: var(--br-color-on-accent);
+  --br-color-button-primary-bg: var(--br-color-accent-default);
+  --br-color-button-primary-bg-hover: var(--br-color-accent-hover);
+  --br-color-button-primary-bg-pressed: var(--br-color-accent-pressed);
+  --br-color-button-primary-fg: var(--br-color-on-accent);
+  --br-color-button-secondary-bg: var(--br-color-bg-surface);
+  --br-color-button-secondary-border: var(--br-color-border-default);
+  --br-color-button-secondary-border-hover: var(--br-color-text-secondary);
+  --br-color-button-secondary-fg: var(--br-color-text-primary);
+  --br-color-nav-item-fg: var(--br-color-text-primary);
+  --br-color-nav-item-bg-hover: var(--br-color-bg-subtle);
+  --br-color-nav-item-active-bg: var(--br-color-bg-inverse);
+  --br-color-nav-item-active-fg: var(--br-color-text-inverse);
+  --br-color-link-fg: var(--br-color-text-link);
+  --br-color-input-bg: var(--br-color-bg-surface);
+  --br-color-input-border: var(--br-color-border-default);
+  --br-color-input-border-focus: var(--br-color-focus-ring);
+  --br-color-input-placeholder: var(--br-color-text-secondary);
+  --br-color-alert-success-bg: var(--br-color-status-success-bg);
+  --br-color-alert-success-fg: var(--br-color-status-success-text);
+  --br-color-alert-success-border: var(--br-color-status-success-border);
+  --br-color-alert-warning-bg: var(--br-color-status-warning-bg);
+  --br-color-alert-warning-fg: var(--br-color-status-warning-text);
+  --br-color-alert-warning-border: var(--br-color-status-warning-border);
+  --br-color-alert-danger-bg: var(--br-color-status-danger-bg);
+  --br-color-alert-danger-fg: var(--br-color-status-danger-text);
+  --br-color-alert-danger-border: var(--br-color-status-danger-border);
+  --br-color-alert-info-bg: var(--br-color-status-info-bg);
+  --br-color-alert-info-fg: var(--br-color-status-info-text);
+  --br-color-alert-info-border: var(--br-color-status-info-border);
+  --br-color-icon-default: var(--br-color-text-primary);
+  --br-color-icon-muted: var(--br-color-text-secondary);
+  --br-color-icon-on-accent: var(--br-color-on-accent);
+
+  /* Spacing */
+  --br-space-card-padding: var(--br-space-inset-xl);
+  --br-space-card-content-gap: var(--br-space-gap-lg);
+  --br-space-bento-gap: var(--br-space-gap-lg);
+  --br-space-button-padding-x: var(--br-space-inset-md);
+  --br-space-button-padding-y: var(--br-space-inset-sm);
+  --br-space-nav-padding: var(--br-space-inset-xs);
+  --br-space-nav-item-gap: var(--br-space-gap-xs);
+  --br-space-stack-tight: var(--br-space-gap-sm);
+  --br-space-stack-default: var(--br-space-gap-md);
+  --br-space-stack-loose: var(--br-space-gap-xl);
+  --br-space-page-padding-x: var(--br-space-gutter-page);
+  --br-space-section-spacing: var(--br-space-section);
+
+  /* Radius */
+  --br-radius-card: var(--br-radius-xl);
+  --br-radius-icon-tile: var(--br-radius-md);
+  --br-radius-mockup-inner: var(--br-radius-lg);
+  --br-radius-button: var(--br-radius-pill);
+  --br-radius-nav: var(--br-radius-pill);
+  --br-radius-chip: var(--br-radius-pill);
+  --br-radius-input: var(--br-radius-sm);
+  --br-radius-swatch: var(--br-radius-sm);
+
+  /* Sizing */
+  --br-size-button-height: var(--br-size-control-md);
+  --br-size-nav-item-height: var(--br-size-control-md);
+  --br-size-input-height: var(--br-size-control-lg);
+  --br-size-hit-area-min: var(--br-size-control-md);
+  --br-size-icon-tile: 64px;
+
+  /* Icons */
+  --br-icon-inline: var(--br-icon-sm);
+  --br-icon-button: var(--br-icon-md);
+  --br-icon-nav: var(--br-icon-md);
+  --br-icon-tile: var(--br-icon-xl);
+  --br-icon-arrow: var(--br-icon-lg);
+
+  /* Motion */
+  --br-transition-hover: var(--br-duration-fast) var(--br-easing-standard);
+  --br-transition-press: var(--br-duration-instant) var(--br-easing-standard);
+  --br-transition-card-filter: var(--br-duration-base) var(--br-easing-standard);
+  --br-transition-theme-switch: var(--br-duration-base) var(--br-easing-standard);
+  --br-transition-enter: var(--br-duration-slow) var(--br-easing-enter);
+  --br-transition-exit: var(--br-duration-fast) var(--br-easing-exit);
+  --br-transition-loader: var(--br-duration-loader-cycle) var(--br-easing-linear);
+}
+
+
+/* --------------------------------------------------------------------------
+   SEMANTIC — text styles (composite typography as classes)
+   -------------------------------------------------------------------------- */
+.br-text-hero-title {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-display-lg-size);
+  line-height: var(--br-font-display-lg-line-height);
+  font-weight: var(--br-font-weight-extrabold);
+  letter-spacing: var(--br-font-tracking-tighter);
+}
+.br-text-stat-value {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-display-md-size);
+  line-height: var(--br-font-display-md-line-height);
+  font-weight: var(--br-font-weight-extrabold);
+  letter-spacing: var(--br-font-tracking-tighter);
+}
+.br-text-page-title {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-heading-lg-size);
+  line-height: var(--br-font-heading-lg-line-height);
+  font-weight: var(--br-font-weight-bold);
+  letter-spacing: var(--br-font-tracking-tight);
+}
+.br-text-section-title {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-heading-md-size);
+  line-height: var(--br-font-heading-md-line-height);
+  font-weight: var(--br-font-weight-bold);
+  letter-spacing: var(--br-font-tracking-tight);
+}
+.br-text-card-title {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-heading-sm-size);
+  line-height: var(--br-font-heading-sm-line-height);
+  font-weight: var(--br-font-weight-medium);
+  letter-spacing: var(--br-font-tracking-snug);
+}
+.br-text-page-body {
+  font-family: var(--br-font-family-body);
+  font-size: var(--br-font-body-lg-size);
+  line-height: var(--br-font-body-lg-line-height);
+  font-weight: var(--br-font-weight-regular);
+}
+.br-text-card-body {
+  font-family: var(--br-font-family-body);
+  font-size: var(--br-font-body-md-size);
+  line-height: var(--br-font-body-md-line-height);
+  font-weight: var(--br-font-weight-regular);
+}
+.br-text-button-label,
+.br-text-nav-label {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-label-md-size);
+  line-height: var(--br-font-label-md-line-height);
+  font-weight: var(--br-font-weight-medium);
+}
+.br-text-chip-label {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-label-sm-size);
+  line-height: var(--br-font-label-sm-line-height);
+  font-weight: var(--br-font-weight-medium);
+}
+.br-text-meta-label {
+  font-family: var(--br-font-family-mono);
+  font-size: var(--br-font-caption-md-size);
+  line-height: var(--br-font-caption-md-line-height);
+  font-weight: var(--br-font-weight-regular);
+}
+.br-text-input-helper {
+  font-family: var(--br-font-family-accent);
+  font-size: var(--br-font-caption-md-size);
+  line-height: var(--br-font-caption-md-line-height);
+  font-weight: var(--br-font-weight-medium);
+  letter-spacing: var(--br-font-tracking-wide);
+}
