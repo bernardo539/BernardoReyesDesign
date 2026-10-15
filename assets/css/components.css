@@ -1,0 +1,117 @@
+/* ==========================================================================
+   br. Components
+   Built only from Semantic tokens in tokens.css (never raw values).
+   ========================================================================== */
+
+
+/* Base ------------------------------------------------------------------- */
+html { background: var(--br-color-page-bg); }
+body {
+  background: var(--br-color-page-bg);
+  color: var(--br-color-text-primary);
+  font-family: var(--br-font-family-body);
+  transition: background-color var(--br-transition-theme-switch), color var(--br-transition-theme-switch);
+}
+::selection {
+  background: var(--br-color-accent-default);
+  color: var(--br-color-on-accent);
+}
+:focus-visible {
+  outline: var(--br-border-width-strong) solid var(--br-color-focus-ring);
+  outline-offset: 2px;
+}
+
+
+/* Button ----------------------------------------------------------------- */
+.br-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--br-space-gap-sm);
+  height: var(--br-size-button-height);
+  padding: 0 calc(var(--br-space-button-padding-x) + var(--br-space-inset-sm));
+  border-radius: var(--br-radius-button);
+  border: var(--br-border-width-default) solid transparent;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--br-transition-hover),
+    border-color var(--br-transition-hover),
+    transform var(--br-transition-press);
+}
+.br-btn:active { transform: scale(var(--br-motion-scale)); }
+
+.br-btn--primary {
+  background: var(--br-color-button-primary-bg);
+  color: var(--br-color-button-primary-fg);
+}
+.br-btn--primary:hover { background: var(--br-color-button-primary-bg-hover); }
+.br-btn--primary:active { background: var(--br-color-button-primary-bg-pressed); }
+
+.br-btn--secondary {
+  background: var(--br-color-button-secondary-bg);
+  color: var(--br-color-button-secondary-fg);
+  border-color: var(--br-color-button-secondary-border);
+}
+.br-btn--secondary:hover { border-color: var(--br-color-button-secondary-border-hover); }
+
+
+/* Nav item --------------------------------------------------------------- */
+.br-nav-item {
+  display: inline-flex;
+  align-items: center;
+  height: var(--br-size-nav-item-height);
+  padding: 0 var(--br-space-inset-md);
+  border-radius: var(--br-radius-nav);
+  color: var(--br-color-nav-item-fg);
+  transition: background-color var(--br-transition-hover), color var(--br-transition-hover);
+}
+.br-nav-item:hover { background: var(--br-color-nav-item-bg-hover); }
+
+
+/* Chip ------------------------------------------------------------------- */
+.br-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--br-space-inset-xs) var(--br-space-inset-sm);
+  border-radius: var(--br-radius-chip);
+  background: var(--br-color-bg-subtle);
+  color: var(--br-color-text-primary);
+}
+.br-chip--accent {
+  background: var(--br-color-card-highlight-bg);
+  color: var(--br-color-card-highlight-fg);
+}
+
+
+/* Card ------------------------------------------------------------------- */
+.br-card {
+  display: block;
+  background: var(--br-color-card-bg);
+  border: var(--br-border-width-default) solid var(--br-color-card-border);
+  border-radius: var(--br-radius-card);
+  overflow: hidden;
+  transition: border-color var(--br-transition-hover), transform var(--br-transition-hover);
+}
+a.br-card:hover {
+  border-color: var(--br-color-border-strong);
+  transform: translateY(calc(var(--br-motion-distance) / -4));
+}
+
+
+/* List row (contact) ----------------------------------------------------- */
+.br-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--br-space-gap-md);
+  padding: var(--br-space-inset-lg) var(--br-space-inset-xs);
+  border-bottom: var(--br-border-width-default) solid var(--br-color-border-default);
+  cursor: pointer;
+  transition: padding var(--br-transition-hover), background-color var(--br-transition-hover);
+}
+.br-row:hover {
+  padding-left: var(--br-space-inset-md);
+  padding-right: var(--br-space-inset-md);
+  background: var(--br-color-bg-subtle);
+}
