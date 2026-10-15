@@ -115,3 +115,20 @@ a.br-card:hover {
   padding-right: var(--br-space-inset-md);
   background: var(--br-color-bg-subtle);
 }
+
+
+/* Input ------------------------------------------------------------------ */
+.br-input {
+  height: var(--br-size-input-height);
+  padding: 0 var(--br-space-inset-md);
+  border: var(--br-border-width-default) solid var(--br-color-input-border);
+  border-radius: var(--br-radius-input);
+  background: var(--br-color-input-bg);
+  color: var(--br-color-text-primary);
+  font-family: var(--br-font-family-body);
+  font-size: var(--br-font-body-md-size);
+  outline: none;
+  transition: border-color var(--br-transition-hover);
+}
+.br-input::placeholder { color: var(--br-color-input-placeholder); }
+.br-input:focus { border-color: var(--br-color-input-border-focus); }
