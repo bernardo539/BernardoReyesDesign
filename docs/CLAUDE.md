@@ -1,15 +1,19 @@
-# CLAUDE.md — Design Composer Runtime & Design System Reference
+# CLAUDE.md — Design Composer Runtime & br. Design System Reference
 
 This file is the authoritative source of truth for AI-assisted authoring on this repo.
-All values are extracted from the live source files. Do not invent values.
+All values come from the live source files. Do not invent values.
+
+Design system sources of truth: `docs/br-design-tokens.md` (spec), `assets/css/tokens.css`
+(tokens + text styles), `assets/css/components.css` (component classes). Human-readable
+summary: `docs/design-system.md`.
 
 ---
 
 ## What this repo is
 
 A GitHub Pages portfolio site for Bernardo Reyes, Senior Product Designer.
-Built with Design Composer (DC) — `.dc.html` files rendered by `support.js`,
-a compiled React 18 runtime that runs entirely in the browser.
+Built with Design Composer (DC) — `.html` files containing an `<x-dc>` component, rendered by
+`support.js`, a compiled React 18 runtime that runs entirely in the browser.
 
 **No build step. No npm. No framework imports.**
 
@@ -19,22 +23,34 @@ a compiled React 18 runtime that runs entirely in the browser.
 
 ```
 /
-├── index.html                        ← portfolio homepage
-├── Fitune_Case_Study_Light_dc.html   ← Fitune case study
-├── support.js                        ← DC runtime — NEVER MODIFY
+├── index.html                  ← portfolio homepage
+├── Fitune-Case-Study.html      ← Fitune case study
+├── Guros-Case-Study.html       ← Guros case study
+├── Axcess-Case-Study.html      ← Axcess · Syscap case study
+├── support.js                  ← DC runtime — NEVER MODIFY
+├── CNAME                       ← custom domain (bernardoreyesdesign.com)
+├── README.md
 ├── docs/
-│   ├── CLAUDE.md                     ← this file
-│   └── design-system.md              ← human-readable DS reference
+│   ├── CLAUDE.md               ← this file
+│   ├── design-system.md        ← human-readable DS reference
+│   └── br-design-tokens.md     ← br. token spec (primitives, modes, rationale)
 ├── assets/
-│   ├── images/
-│   │   └── covers/                   ← project card cover images
+│   ├── css/
+│   │   ├── tokens.css          ← Mode + Semantic tokens, .br-text-* styles
+│   │   └── components.css      ← .br-btn, .br-chip, .br-card, .br-row, .br-input, .br-nav-item
+│   ├── docs/                   ← CV PDFs
+│   └── images/
+│       ├── covers/             ← project card cover images
+│       ├── axcess/
+│       └── guros/
 └── .gitignore
 ```
 
 **Hard rules:**
 - `support.js` is never modified under any circumstances
-- All `.dc.html` files live at root level — DC sibling fetch requires same directory
-- New case studies are named `[ProjectName]_Case_Study_dc.html` (underscores, no spaces)
+- All DC pages live at root level — DC sibling fetch requires same directory
+- New case studies are named `[ProjectName]-Case-Study.html` (PascalCase name, hyphens, no spaces)
+- Every page links `assets/css/tokens.css` and `assets/css/components.css` in `<head>`
 - Never add npm, webpack, vite, or any build tooling
 - No external JS libraries beyond what support.js already loads (React 18 from unpkg)
 
@@ -42,7 +58,7 @@ a compiled React 18 runtime that runs entirely in the browser.
 
 ## DC Runtime — Architecture
 
-`support.js` is a compiled React 18 runtime. Each `.dc.html` file is a self-contained
+`support.js` is a compiled React 18 runtime. Each page is a self-contained
 Design Composer component with three parts:
 
 1. **`<x-dc>` block** — the HTML template (supports DC directives)
@@ -50,7 +66,7 @@ Design Composer component with three parts:
 3. **`data-props` attribute** — prop schema as JSON
 
 ### Boot sequence
-1. Browser loads `.dc.html`
+1. Browser loads the page; `<head>` loads fonts, `tokens.css`, `components.css`, `support.js`
 2. `support.js` loads React 18 from unpkg (CDN)
 3. Runtime parses `<x-dc>` and the logic script
 4. Mounts a React root into `#dc-root`
@@ -61,12 +77,30 @@ Design Composer component with three parts:
 ## DC Runtime — Template Directives
 
 ### `{{ expression }}` — interpolation
-Renders a value from `renderVals()`. Supports dot paths and simple equality checks.
+Renders a value from `renderVals()`. Supports dot paths, negation and simple equality checks.
 
 ```html
 <div>{{ item.label }}</div>
 <div>{{ count }}</div>
+<sc-if value="{{ !c.copyEmail }}">…</sc-if>
 ```
+
+**The parser cannot handle `var()` inside a `{{ }}` expression.** A ternary or string literal
+like `{{ copied ? 'var(--br-color-status-success-text)' : 'var(--br-color-icon-default)' }}`
+breaks. Compute the value in `renderVals()` and interpolate the plain variable instead:
+
+```javascript
+// renderVals()
+emailIconColor: this.state.emailCopied
+  ? 'var(--br-color-status-success-text)'
+  : 'var(--br-color-icon-default)',
+```
+```html
+<span style="color:{{ emailIconColor }};">{{ emailIconText }}</span>
+```
+
+Interpolating a string that *contains* `var()` is fine (`background:{{ L.bg }}` where
+`L.bg = 'var(--br-color-bg-surface)'`). Only expressions written inside the braces are a problem.
 
 ### `sc-for` — list rendering
 ```html
@@ -88,44 +122,37 @@ Renders a value from `renderVals()`. Supports dot paths and simple equality chec
 - `value` — expression from `renderVals()`
 - `hint-placeholder-val` — value shown during streaming (before JS evaluates)
 
-### `style-hover` — hover state
-```html
-<a
-  style="color:#666666;font-size:14px;"
-  style-hover="color:#1A1A1A;font-size:14px;"
->Link</a>
-```
-The DC runtime injects a generated class for the `:hover` pseudo-selector.
-Both `style` and `style-hover` must be complete style strings (not diffs).
-
-### `style-focus` — focus state
-```html
-<input
-  style="border:0.5px solid #D0D0CC;"
-  style-focus="border:0.5px solid #645AFF;"
-/>
-```
+### `style-hover` / `style-focus` — avoid
+The runtime supports `style-hover="…"` and `style-focus="…"` (complete style strings, not diffs),
+but the site no longer uses them. Hover, active and focus states come from the `.br-*` classes in
+`components.css`, which use native `:hover` / `:active` / `:focus`. If a new interactive pattern
+needs states, add a class to `components.css` built from Semantic tokens.
 
 ### `<helmet>` — head injection
 Injects `<link>`, `<style>`, `<meta>`, or `<script>` tags into `<head>`.
-Used for fonts and page-level styles. Runs once per component mount.
+Runs once per component mount. Used for Plus Jakarta Sans and a small reset; tokens and
+components are linked in the real `<head>` instead.
 
 ```html
 <helmet>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
   </style>
 </helmet>
 ```
 
----
+Do not set `background`, `color` or `font-family` on `body` here — `components.css` does that
+from tokens.
 
+---
 ## DC Runtime — Logic Class
 
-Every `.dc.html` file has a logic class that extends `DCLogic`.
+Every DC page has a logic class that extends `DCLogic`.
 
 ```javascript
 class Component extends DCLogic {
@@ -197,7 +224,10 @@ renderVals() {
 
 ## DC Runtime — Scroll reveal pattern
 
-Used in both existing files. Copy exactly — do not invent variations.
+Copy exactly — do not invent variations. Motion values come from tokens, so reduced motion
+(`--br-motion-distance: 0px`, short durations) is handled for free.
+
+`index.html` (no gated content, runs once):
 
 ```javascript
 componentDidMount() {
@@ -210,10 +240,10 @@ componentDidMount() {
     }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
     els.forEach((el) => {
       const r = el.getBoundingClientRect();
-      if (r.top < (window.innerHeight || 800) * 1.1) return; // above fold: leave visible
+      if (r.top < (window.innerHeight || 800) * 1.1) return; // above the fold: leave visible
       el.style.opacity = '0';
-      el.style.transform = 'translateY(16px)';
-      el.style.transition = 'opacity .6s ease, transform .6s ease';
+      el.style.transform = 'translateY(var(--br-motion-distance))';
+      el.style.transition = 'opacity var(--br-transition-enter), transform var(--br-transition-enter)';
       io.observe(el);
       setTimeout(() => show(el), 1600);
     });
@@ -221,215 +251,228 @@ componentDidMount() {
 }
 ```
 
+Case studies use the same body inside `_observe()`, called from both `componentDidMount()` and
+`componentDidUpdate()` so content revealed after unlocking the password gate is observed too.
+It selects `[data-reveal]:not([data-seen])`, marks each element with `data-seen="1"`, and uses
+`threshold: 0.1, rootMargin: '0px 0px -6% 0px'`. Copy it from `Fitune-Case-Study.html`.
+
 Mark elements for reveal with `data-reveal=""`:
 ```html
-<h2 data-reveal="" style="...">Section heading</h2>
-<p data-reveal="" style="...">Body copy</p>
+<h2 class="br-text-section-title" data-reveal="">Section heading</h2>
+<p class="br-text-page-body" data-reveal="" style="color:var(--br-color-text-secondary);">Body copy</p>
 ```
 
 ---
 
-## Design System — Colors
+## Design System — Authoring rules
 
-All values used verbatim in source files.
+The br. system: lime `#CAFF00` + teal `#00312D`, Fira Sans (accent) + Plus Jakarta Sans (body) +
+Fira Mono (meta), light mode by default, flat. Token tables live in `docs/design-system.md`;
+the CSS is the source of truth.
 
-| Token | Hex / Value | Usage |
-|---|---|---|
-| Primary accent | `#645AFF` | CTAs, links, eyebrow labels, icons |
-| Accent dark | `#4A40CC` | Hover state for primary accent |
-| Accent subtle bg | `rgba(100,90,255,0.10)` | Pill/tag backgrounds, highlighted cards |
-| Accent subtle border | `rgba(100,90,255,0.25)` | Pill/tag borders |
-| Text primary | `#1A1A1A` | Headings, body text |
-| Text secondary | `#666666` | Body copy, supporting text |
-| Text tertiary | `#999999` | Captions, timestamps, bylines |
-| Surface default | `#FFFFFF` | Page background, card background |
-| Surface subtle | `#FAFAF8` | About section bg, alternate rows, code blocks |
-| Border default | `0.5px solid #E5E5E2` | Cards, dividers, section separators |
-| Border interactive | `0.5px solid #D0D0CC` | Input borders, secondary button borders |
-| Error | `#E24B4A` | Error messages, failure states |
-| Success | `#1F9D63` | Resolved states, success indicators |
-| Warning | `#C58A1A` | Open/pending states |
+1. **Only `--br-*` tokens.** Every color, font, size, spacing, radius, border width, z-index,
+   duration and easing in markup or `renderVals()` is a `var(--br-*)`. Prefer Semantic tokens
+   (`--br-color-card-bg`, `--br-space-card-padding`, `--br-radius-card`); fall back to Mode tokens
+   (`--br-color-text-secondary`, `--br-space-gap-md`, `--br-radius-sm`) only when no Semantic role fits.
+   Never reference primitive names; they don't exist in CSS.
+2. **No hex, rgb or hsl in markup.** If a value is missing, add it to `tokens.css` (Mode, then
+   Semantic) and to `br-design-tokens.md` first. The one existing exception is white translucent
+   text/badges over photographic covers on `index.html` project cards.
+3. **Lime is a surface in light mode.** `--br-color-accent-default` / `--br-color-card-highlight-bg`
+   is never text, icon or border on canvas or surface. For lime-ish text use `--br-color-text-link`.
+   Text on lime is `--br-color-on-accent` / `--br-color-card-highlight-fg`.
+4. **Borders are 1px:** `var(--br-border-width-default) solid var(--br-color-border-default)`.
+   `--br-border-width-strong` (2px) is for focus rings.
+5. **Flat.** No `box-shadow`. Depth = border color + surface change.
+6. **Use components and text styles first.** Reach for `.br-btn`, `.br-chip`, `.br-card`, `.br-row`,
+   `.br-input`, `.br-nav-item` and `.br-text-*` before writing inline styles. Inline styles are for
+   layout (flex, grid, margins) and one-off color overrides with tokens.
+7. **`@media` is allowed.** Type, spacing, radius and sizing already switch to mobile values below
+   820px inside `tokens.css`. Add a media query only when layout itself must change, and use
+   `max-width: 819px` to stay aligned with the mobile mode. Put it in `components.css` or the page
+   `<helmet>` `<style>`, not inline.
+8. **No `var()` inside `{{ }}` expressions.** Compute token-dependent values in `renderVals()`
+   (see Template Directives).
+9. **Dark mode must work.** Colors switch on `[data-theme="dark"]` on `<html>`. No page sets it yet,
+   but anything built only from tokens works in both; never assume a light-only value.
+10. **Rule of 4.** Any new spatial value is a multiple of 4.
 
-**No hardcoded colors outside this palette.**
-**No box-shadows** — elevation is expressed through border only.
+### Quick map: what to use
 
----
-
-## Design System — Typography
-
-Font: **Plus Jakarta Sans** — weights 300, 400, 500, 600, 700.
-Always loaded via Google Fonts in `<helmet>`.
-
-| Role | Size | Weight | Tracking | Line-height |
-|---|---|---|---|---|
-| Hero h1 | 52px | 700 | -0.04em | 1.05 |
-| Hero h2 (subtitle) | 52px | 300 | -0.03em | 1.05 |
-| Section h2 | 32px | 600 | -0.03em | 1.15 |
-| Case study h1 | 40px | 700 | -0.03em | 1.1 |
-| Card h3 | 17px | 600 | -0.01em | 1.3 |
-| Stat value | 32–34px | 600 | -0.03em | 1.1–1.15 |
-| Body | 15px | 400 | — | 1.65 |
-| Body large | 18px | 400 | — | 1.5 |
-| Small / caption | 13px | 400 | — | 1.5 |
-| Eyebrow / label | 11px | 600 | 0.08em | — |
-| Code / monospace | 12–13px | 400 | — | — |
-
-Eyebrow labels are always: `font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#645AFF` (or `#999999` for muted variant).
-
-Monospace font stack: `'SF Mono','Fira Code',ui-monospace,monospace`
-
----
-
-## Design System — Spacing
-
-| Context | Value |
+| Need | Use |
 |---|---|
-| Section padding (vertical) | 64px – 96px |
-| Section padding (horizontal) | 24px |
-| Hero section padding top | 80px – 112px |
-| Card padding | 24px |
-| Small card / row padding | 14px – 20px |
-| Nav height | 56px |
-| Scroll margin top (anchored sections) | 56px – 72px |
-| Max-width content | 720px |
-| Max-width wide (grid) | 960px |
+| Page / card / subtle background | `--br-color-page-bg` / `--br-color-card-bg` / `--br-color-bg-subtle` |
+| Dark feature surface | `--br-color-card-feature-bg` + `-fg` / `-fg-muted` |
+| Lime highlight surface | `--br-color-card-highlight-bg` + `--br-color-card-highlight-fg` |
+| Primary / secondary text | `--br-color-text-primary` / `--br-color-text-secondary` |
+| Link text | `--br-color-text-link` (`--br-color-link-fg`) |
+| Divider | `var(--br-border-width-default) solid var(--br-color-border-default)` |
+| Error / success / warning text | `--br-color-status-{danger,success,warning}-text` |
+| Section padding | `var(--br-space-section-spacing) var(--br-space-page-padding-x)` |
+| Card padding | `--br-space-card-padding` (outcome cards use `--br-space-inset-lg`) |
+| Vertical rhythm | `--br-space-gap-{xs,sm,md,lg,xl}` / `--br-space-stack-{tight,default,loose}` |
+| Hover / enter transitions | `--br-transition-hover` / `--br-transition-enter` |
+| Sticky layer | `--br-z-sticky` |
 
----
+### Text styles (classes in `tokens.css`)
 
-## Design System — Border Radius
-
-| Element | Radius |
+| Class | Use |
 |---|---|
-| Pills / tags / badges | 100px |
-| Cards (primary) | 16px |
-| Cards (small) | 12px |
-| Buttons | 10px |
-| Inputs | 10px |
-| Code blocks | 10px |
-| Progress bars | 100px |
-| Small chips | 8px |
+| `.br-text-hero-title` | Home hero name (Fira Sans 800, 96 → 56 mobile) |
+| `.br-text-stat-value` | Hero stats (Fira Sans 800, 72 → 44) |
+| `.br-text-page-title` | Case study h1, hero subtitle, outcome values (Fira Sans 700, 40 → 32) |
+| `.br-text-section-title` | Section h2 (Fira Sans 700, 32 → 24) |
+| `.br-text-card-title` | Card h3, contact values, `br.` logo (Fira Sans 500, 24 → 20) |
+| `.br-text-page-body` | Long-form body (Plus Jakarta Sans 18/28) |
+| `.br-text-card-body` | Card description (Plus Jakarta Sans 16/24) |
+| `.br-text-button-label` / `.br-text-nav-label` | Buttons and nav items (Fira Sans 500, 16) |
+| `.br-text-chip-label` | Chips, diagram labels (Fira Sans 500, 14) |
+| `.br-text-meta-label` | Eyebrows, dates, captions, footer (Fira Mono 12) |
+| `.br-text-input-helper` | Input helper text (Fira Sans 500, 12, wide tracking) |
 
----
-
-## Design System — Motion
-
-| Type | Value |
-|---|---|
-| Reveal (scroll) | `opacity .6s ease, transform .6s ease` — `translateY(16px → 0)` |
-| Hover transitions | `transition: all .15s` or `transition: color .15s` |
-| No shadows | Use border changes for hover elevation instead |
-
-Hover "lift" on cards: `transform: translateY(-2px)` + border darkening.
-No `box-shadow` anywhere in the codebase.
+Smaller inline text without a class uses `font-size:var(--br-font-body-sm-size)` or
+`var(--br-font-caption-md-size)`.
 
 ---
 
 ## Design System — Component Patterns
 
-### Sticky nav
+### Sticky nav (case study)
 ```html
-<nav style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:0.5px solid #E5E5E2;">
-  <div style="width:100%;max-width:960px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:56px;">
-    <a href="./index.html" style="font-size:15px;font-weight:700;letter-spacing:-0.02em;color:#1A1A1A;">BR</a>
-    <a href="./index.html" style="font-size:14px;color:#666666;transition:color .15s;" style-hover="font-size:14px;color:#1A1A1A;">← Back to portfolio</a>
+<nav style="position:sticky;top:0;z-index:var(--br-z-sticky);background:color-mix(in srgb, var(--br-color-page-bg) 85%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:var(--br-border-width-default) solid var(--br-color-border-default);">
+  <div style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-inset-sm) var(--br-space-page-padding-x);display:flex;justify-content:space-between;align-items:center;">
+    <a href="index.html" class="br-text-card-title" style="font-weight:var(--br-font-weight-extrabold);letter-spacing:var(--br-font-tracking-tight);color:var(--br-color-text-primary);">br.</a>
+    <a href="index.html" class="br-nav-item br-text-nav-label">← Back to Home</a>
   </div>
 </nav>
 ```
+On `index.html` the right side is a flex group (`gap:var(--br-space-nav-item-gap)`) of
+`.br-nav-item` links plus a `.br-btn--primary` "Contact" button.
 
-### Primary button
+### Buttons
 ```html
-<a href="#work" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#645AFF;color:#fff;border:0.5px solid #645AFF;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#4A40CC;color:#fff;border:0.5px solid #4A40CC;">View work →</a>
+<a href="#work" class="br-btn br-btn--primary br-text-button-label">View work →</a>
+<a href="#contact" class="br-btn br-btn--secondary br-text-button-label">Get in touch</a>
 ```
 
-### Secondary button
+### Chips
 ```html
-<a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:transparent;color:#1A1A1A;border:0.5px solid #D0D0CC;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#FAFAF8;color:#1A1A1A;border:0.5px solid #D0D0CC;">Get in touch</a>
-```
-
-### Accent pill / tag
-```html
-<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:rgba(100,90,255,0.10);color:#4A40CC;border:0.5px solid rgba(100,90,255,0.25);">Design Systems</span>
-```
-
-### Neutral pill / tag
-```html
-<span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:#F3F3F0;color:#666666;border:0.5px solid #E5E5E2;">Category</span>
+<span class="br-chip br-chip--accent br-text-chip-label">Design Systems</span>
+<span class="br-chip br-text-chip-label">Insurtech</span>
 ```
 
 ### Section eyebrow
 ```html
-<p data-reveal="" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:16px;">01 / The Problem</p>
+<p class="br-text-meta-label" data-reveal="" style="text-transform:uppercase;color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-md);letter-spacing:var(--br-font-tracking-wide);">01 / The Problem</p>
 ```
 
-### Metric / stat card (outcomes grid)
+### Section shell (case study)
 ```html
-<div style="background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;padding:22px;">
-  <div style="font-size:34px;font-weight:600;letter-spacing:-0.03em;line-height:1;color:#645AFF;margin-bottom:10px;">{{ o.value }}</div>
-  <div style="font-size:14px;font-weight:600;color:#1A1A1A;margin-bottom:4px;">{{ o.label }}</div>
-  <div style="font-size:13px;color:#666666;line-height:1.45;">{{ o.context }}</div>
+<section style="max-width:720px;margin:0 auto;padding:var(--br-space-section-spacing) var(--br-space-page-padding-x);border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
+  <!-- eyebrow, .br-text-section-title h2, .br-text-page-body paragraphs -->
+</section>
+```
+
+### Hero metrics (case study)
+```html
+<div data-reveal="" style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--br-space-gap-lg);padding-top:var(--br-space-gap-xl);border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
+  <sc-for list="{{ heroMetrics }}" as="m" hint-placeholder-count="4">
+    <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);">
+      <div class="br-text-stat-value" style="color:var(--br-color-text-primary);">{{ m.value }}</div>
+      <div style="font-size:var(--br-font-body-sm-size);color:var(--br-color-text-secondary);line-height:1.4;">{{ m.label }}</div>
+    </div>
+  </sc-for>
+</div>
+```
+
+### Metric / outcome card
+```html
+<div style="background:var(--br-color-bg-surface);border:var(--br-border-width-default) solid var(--br-color-border-default);border-radius:var(--br-radius-card);padding:var(--br-space-inset-lg);">
+  <div class="br-text-page-title" style="color:var(--br-color-text-primary);margin-bottom:var(--br-space-gap-sm);">{{ o.value }}</div>
+  <div class="br-text-chip-label" style="color:var(--br-color-text-primary);margin-bottom:var(--br-space-gap-xs);">{{ o.label }}</div>
+  <div style="font-size:var(--br-font-body-sm-size);color:var(--br-color-text-secondary);line-height:1.45;">{{ o.context }}</div>
 </div>
 ```
 
 ### Project card
 ```html
-<a data-reveal="" href="{{ p.href }}"
-   style="display:block;background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;"
-   style-hover="display:block;background:#fff;border:0.5px solid #D0D0CC;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;transform:translateY(-2px);">
-  <div style="width:100%;aspect-ratio:16/9;background:{{ p.cover }};border-bottom:0.5px solid #E5E5E2;...">
-    <!-- cover area -->
+<a data-reveal="" class="br-card" href="{{ p.href }}">
+  <div style="width:100%;aspect-ratio:16/9;background-color:{{ p.coverFallback }};background:{{ p.coverBg }};">
+    <!-- cover area; coverFallback = 'var(--br-color-bg-inverse)' set in renderVals -->
   </div>
-  <div style="padding:24px;display:flex;flex-direction:column;gap:12px;">
-    <!-- card body -->
+  <div style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;gap:var(--br-space-stack-default);">
+    <div><span class="br-chip br-text-chip-label">{{ p.category }}</span></div>
+    <h3 class="br-text-card-title">{{ p.title }}</h3>
+    <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">{{ p.desc }}</p>
   </div>
 </a>
 ```
 
 ### Contact row
 ```html
-<a href="{{ c.href }}"
-   style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;"
-   style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;background:#FAFAF8;">
-  <div style="display:flex;flex-direction:column;gap:2px;">
-    <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
-    <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
+<a href="{{ c.href }}" target="_blank" rel="noopener noreferrer" class="br-row">
+  <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);min-width:0;">
+    <span class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);">{{ c.label }}</span>
+    <span class="br-text-card-title" style="overflow-wrap:anywhere;">{{ c.value }}</span>
   </div>
-  <span style="font-size:18px;color:#645AFF;">→</span>
+  <span class="br-text-button-label" style="color:var(--br-color-icon-default);">→</span>
 </a>
+```
+
+### Password gate input
+```html
+<div style="display:flex;gap:var(--br-space-gap-sm);">
+  <input class="br-input" id="pw-input" type="password" placeholder="Enter password" onKeyDown="{{ onKey }}" style="flex:1;">
+  <button class="br-btn br-btn--primary br-text-button-label" onClick="{{ tryUnlock }}">Unlock →</button>
+</div>
+<sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
+  <p style="font-size:var(--br-font-body-sm-size);color:var(--br-color-status-danger-text);margin-top:var(--br-space-gap-sm);">Incorrect password. Try again.</p>
+</sc-if>
+```
+
+### Highlighted diagram step
+Data-driven diagrams set their colors in `renderVals()`; the highlighted step uses the lime surface:
+```javascript
+{ name: 'Promoted', bg: 'var(--br-color-card-highlight-bg)', border: 'var(--br-color-card-highlight-bg)', color: 'var(--br-color-on-accent)' },
+{ name: 'Review',   bg: 'var(--br-color-bg-surface)',        border: 'var(--br-color-border-default)',   color: 'var(--br-color-text-secondary)' },
+```
+```html
+<div style="background:{{ s.bg }};border:var(--br-border-width-default) solid {{ s.border }};border-radius:var(--br-radius-md);color:{{ s.color }};">{{ s.name }}</div>
 ```
 
 ### Code / monospace block
 ```html
-<div style="font-family:'SF Mono','Fira Code',ui-monospace,monospace;font-size:13px;color:#666666;background:#FAFAF8;border:0.5px solid #E5E5E2;border-radius:10px;padding:14px 18px;">
+<div class="br-text-meta-label" style="color:var(--br-color-text-secondary);background:var(--br-color-bg-surface);border:var(--br-border-width-default) solid var(--br-color-border-default);border-radius:var(--br-radius-sm);padding:var(--br-space-inset-md);">
   token-name · example-value
 </div>
 ```
 
 ### Progress bar
 ```html
-<div style="height:8px;background:#F3F3F0;border-radius:100px;overflow:hidden;">
-  <div style="width:45%;height:100%;background:#645AFF;border-radius:100px;"></div>
+<div style="height:8px;background:var(--br-color-bg-subtle);border-radius:var(--br-radius-pill);overflow:hidden;">
+  <div style="width:45%;height:100%;background:var(--br-color-bg-inverse);border-radius:var(--br-radius-pill);"></div>
 </div>
 ```
 
 ### Footer (case study)
 ```html
-<footer style="border-top:0.5px solid #E5E5E2;">
-  <div style="max-width:720px;margin:0 auto;padding:32px 24px 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+<footer style="border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
+  <div style="max-width:720px;margin:0 auto;padding:var(--br-space-inset-xl) var(--br-space-inset-lg) 48px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--br-space-gap-md);">
     <div>
-      <div style="font-size:15px;font-weight:600;letter-spacing:-0.01em;margin-bottom:4px;">Bernardo Reyes</div>
-      <a href="mailto:bernardo.reyes.design@gmail.com" style="font-size:13px;color:#645AFF;">bernardo.reyes.design@gmail.com</a>
+      <div class="br-text-button-label" style="margin-bottom:var(--br-space-gap-xs);">Bernardo Reyes</div>
+      <a href="mailto:bernardo.reyes.design@gmail.com" style="font-size:var(--br-font-body-sm-size);color:var(--br-color-text-link);">bernardo.reyes.design@gmail.com</a>
     </div>
-    <span style="font-size:11px;color:#999999;font-family:'SF Mono','Fira Code',ui-monospace,monospace;max-width:280px;text-align:right;">Abstracted architecture — no proprietary assets</span>
+    <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);max-width:280px;text-align:right;">Abstracted architecture, no proprietary assets</span>
   </div>
 </footer>
 ```
 
 ### Footer (portfolio)
 ```html
-<footer style="border-top:0.5px solid #E5E5E2;">
-  <div style="width:100%;max-width:960px;margin:0 auto;padding:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-    <span style="font-size:13px;color:#999999;">© 2026 Bernardo Reyes</span>
-    <span style="font-size:13px;color:#999999;">Designed &amp; built with a system.</span>
+<footer style="border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
+  <div style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-inset-lg) var(--br-space-page-padding-x);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--br-space-gap-sm);">
+    <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">© 2026 Bernardo Reyes</span>
+    <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">Designed &amp; built with a system.</span>
   </div>
 </footer>
 ```
@@ -438,7 +481,8 @@ No `box-shadow` anywhere in the codebase.
 
 ## Case Study — File Template
 
-New case studies follow this exact shell. Replace `[PROJECT]`, `[COLOR]`, `[PASSWORD]`.
+New case studies follow this exact shell. Replace `[PROJECT]`, `[PASSWORD]`.
+Save as `[ProjectName]-Case-Study.html` at the repo root.
 
 ```html
 <!DOCTYPE html>
@@ -446,6 +490,14 @@ New case studies follow this exact shell. Replace `[PROJECT]`, `[COLOR]`, `[PASS
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>[PROJECT] — … · Bernardo Reyes</title>
+<!-- description, Open Graph and canonical meta: copy from Fitune-Case-Study.html -->
+
+<!-- br. design tokens -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tokens.css">
+<link rel="stylesheet" href="./assets/css/components.css">
+
 <script src="./support.js"></script>
 </head>
 <body>
@@ -453,28 +505,29 @@ New case studies follow this exact shell. Replace `[PROJECT]`, `[COLOR]`, `[PASS
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Plus Jakarta Sans',sans-serif;background:#FFFFFF;color:#1A1A1A;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  body{-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
-  ::selection{background:rgba(100,90,255,0.18);}
 </style>
 </helmet>
 
 <!-- Nav, Gate (sc-if locked), Main content (sc-if unlocked), Footer -->
-<!-- See Fitune_Case_Study_Light_dc.html for full pattern -->
+<!-- See Fitune-Case-Study.html for the full pattern -->
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;password&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;[PASSWORD]&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = { unlocked: false, error: false };
-  // ... (copy from Fitune case study)
+  // ... (copy _observe, _check and renderVals structure from the Fitune case study)
 }
 </script>
 </body>
 </html>
 ```
+
+The live pages also include the Microsoft Clarity snippet in `<head>`; copy it from an existing page.
 
 ---
 
@@ -496,16 +549,16 @@ of the visual system — do not skip or reorder.
 
 **Hero metrics** (4 stats above the fold):
 - Always 4 items in a `grid-template-columns: repeat(4,1fr)` grid
-- Format: value (large, accent) + label (small, secondary)
+- Format: value (`.br-text-stat-value`, `--br-color-text-primary`) + label (`--br-font-body-sm-size`, `--br-color-text-secondary`)
 - Examples: `95%`, `−35%`, `45%`, `−40%`
 
 **Outcomes section** (07):
-- 2×2 grid of metric cards
-- Each card: value (34px accent), label (14px bold), context (13px secondary)
+- Section background `--br-color-bg-surface` with 1px top and bottom borders
+- 2×2 grid (`repeat(2,1fr)`, gap `--br-space-gap-md`) of metric cards
+- Each card: value (`.br-text-page-title`), label (`.br-text-chip-label`, primary), context (`--br-font-body-sm-size`, secondary)
 - Ends with a 1–2 sentence synthesis paragraph
 
 ---
-
 ## Case Study — Content Rules
 
 Enforced by the Content Strategist role:
