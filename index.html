@@ -25,8 +25,8 @@
 
 <!-- br. design tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/tokens.css">
-<link rel="stylesheet" href="./assets/css/components.css">
+<link rel="stylesheet" href="./assets/css/tokens.css?v=4">
+<link rel="stylesheet" href="./assets/css/components.css?v=4">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -97,211 +97,309 @@
   body{-webkit-font-smoothing:antialiased;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
+  .home-header-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--br-space-gap-md);}
+  .home-header-inner > a:first-child{justify-self:start;}
+  .home-cta{justify-self:end;}
+  .home-theme-toggle{position:fixed;right:var(--br-space-page-padding-x);bottom:var(--br-space-page-padding-x);z-index:var(--br-z-sticky);}
+  .home-header{transition:transform var(--br-transition-enter);}
+  .home-header--hidden{transform:translateY(-100%);transition:transform var(--br-transition-exit);}
+  @media (max-width: 819px){
+    .home-header-inner{grid-template-columns:1fr auto;}
+    .home-filters{grid-column:1 / -1;grid-row:2;justify-self:center;}
+  }
 </style>
 </helmet>
 
-<nav style="position:sticky;top:0;z-index:var(--br-z-sticky);background:color-mix(in srgb, var(--br-color-page-bg) 85%, transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:var(--br-border-width-default) solid var(--br-color-border-default);">
-  <div style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-inset-sm) var(--br-space-page-padding-x);display:flex;justify-content:space-between;align-items:center;">
-    <a href="#top" class="br-text-card-title" style="font-weight:var(--br-font-weight-extrabold);letter-spacing:var(--br-font-tracking-tight);color:var(--br-color-text-primary);">br.</a>
-    <div style="display:flex;gap:var(--br-space-nav-item-gap);align-items:center;">
-      <a href="#work" class="br-nav-item br-text-nav-label">Work</a>
-      <a href="#about" class="br-nav-item br-text-nav-label">About</a>
-      <a href="#contact" class="br-btn br-btn--primary br-text-button-label" style="margin-left:var(--br-space-gap-sm);">Contact</a>
-    </div>
+<header class="home-header" style="position:sticky;top:0;z-index:var(--br-z-sticky);">
+  <div class="home-header-inner" style="width:100%;padding:var(--br-space-inset-md) var(--br-space-page-padding-x);">
+    <a href="./index.html" class="br-text-card-title" style="font-weight:var(--br-font-weight-extrabold);letter-spacing:var(--br-font-tracking-tight);color:var(--br-color-text-primary);">br.</a>
+    <nav class="br-segmented home-filters" aria-label="Filter cards">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button type="button" class="{{ f.cls }}" aria-pressed="{{ f.active }}" onClick="{{ f.onSelect }}">{{ f.label }}</button>
+      </sc-for>
+    </nav>
+    <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-text-button-label home-cta">Let's talk</a>
   </div>
-</nav>
+</header>
 
-<main id="top">
-  <!-- HERO — variante split -->
-  <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ true }}">
-  <section style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-section) var(--br-space-page-padding-x) var(--br-space-section-spacing);">
-    <p data-reveal="" class="reveal br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">Senior Product Designer &amp; Design Lead</p>
-    <h1 data-reveal="" class="reveal br-text-hero-title" style="margin-bottom:var(--br-space-gap-sm);">Bernardo Reyes</h1>
-    <h2 data-reveal="" class="reveal br-text-page-title" style="color:var(--br-color-text-secondary);font-weight:var(--br-font-weight-medium);margin-bottom:var(--br-space-gap-xl);">Design systems &amp; AI augmented delivery.</h2>
-    <p data-reveal="" class="reveal br-text-page-body" style="color:var(--br-color-text-secondary);max-width:600px;margin-bottom:var(--br-space-gap-xl);">8+ years designing across fintech, insurtech, and B2B SaaS. I build design systems from scratch and ship them through AI augmented pipelines that cut engineering handoff to a fraction.</p>
-    <div data-reveal="" class="reveal" style="display:flex;gap:var(--br-space-gap-sm);flex-wrap:wrap;margin-bottom:var(--br-space-section);">
-      <a href="#work" class="br-btn br-btn--primary br-text-button-label">View work →</a>
-      <a href="#contact" class="br-btn br-btn--secondary br-text-button-label">Get in touch</a>
-    </div>
-    <div data-reveal="" class="reveal" style="display:flex;gap:var(--br-space-gap-xl) calc(var(--br-space-gap-xl) * 2);align-items:flex-start;padding-top:var(--br-space-gap-xl);border-top:var(--br-border-width-default) solid var(--br-color-border-default);flex-wrap:wrap;">
-      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-        <div style="display:flex;flex-direction:column;gap:var(--br-space-stack-tight);">
-          <div class="br-text-stat-value">{{ s.value }}</div>
-          <div class="br-text-meta-label" style="color:var(--br-color-text-secondary);max-width:140px;">{{ s.label }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-  </sc-if>
+<main id="top" style="width:100%;max-width:var(--br-layout-container);margin:0 auto;padding:var(--br-space-gap-xl) var(--br-space-page-padding-x) var(--br-space-section-spacing);">
+  <div class="br-bento">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="14">
+      <div class="{{ c.cellClass }}" data-card="{{ c.id }}">
 
-  <!-- HERO — variante centered -->
-  <sc-if value="{{ isCentered }}" hint-placeholder-val="{{ false }}">
-  <section style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-section) var(--br-space-page-padding-x);text-align:center;">
-    <p data-reveal="" class="reveal br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">Senior Product Designer &amp; Design Lead · Remote · UTC-6</p>
-    <h1 data-reveal="" class="reveal br-text-hero-title" style="margin-bottom:var(--br-space-gap-sm);">Bernardo Reyes</h1>
-    <h2 data-reveal="" class="reveal br-text-page-title" style="color:var(--br-color-text-secondary);font-weight:var(--br-font-weight-medium);margin-bottom:var(--br-space-gap-xl);">Design systems &amp;<br>AI augmented delivery.</h2>
-    <p data-reveal="" class="reveal br-text-page-body" style="color:var(--br-color-text-secondary);max-width:560px;margin:0 auto var(--br-space-gap-xl);">8+ years designing across fintech, insurtech, and B2B SaaS, building design systems from scratch and shipping them through AI augmented pipelines.</p>
-    <div data-reveal="" class="reveal" style="display:flex;gap:var(--br-space-gap-sm);justify-content:center;flex-wrap:wrap;margin-bottom:var(--br-space-section);">
-      <a href="#work" class="br-btn br-btn--primary br-text-button-label">View work →</a>
-      <a href="#contact" class="br-btn br-btn--secondary br-text-button-label">Get in touch</a>
-    </div>
-    <div data-reveal="" class="reveal" style="display:flex;gap:var(--br-space-gap-xl) calc(var(--br-space-gap-xl) * 2);align-items:center;justify-content:center;padding-top:var(--br-space-gap-xl);border-top:var(--br-border-width-default) solid var(--br-color-border-default);flex-wrap:wrap;">
-      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-        <div style="display:flex;flex-direction:column;gap:var(--br-space-stack-tight);align-items:center;">
-          <div class="br-text-stat-value">{{ s.value }}</div>
-          <div class="br-text-meta-label" style="color:var(--br-color-text-secondary);max-width:140px;">{{ s.label }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-  </sc-if>
-
-  <!-- WORK -->
-  <section id="work" style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-section-spacing) var(--br-space-page-padding-x);scroll-margin-top:72px;">
-    <div data-reveal="" class="reveal" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:var(--br-space-gap-xl);flex-wrap:wrap;gap:var(--br-space-gap-sm);">
-      <h2 class="br-text-section-title">Work</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--br-space-bento-gap);">
-      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
-        <a data-reveal="" class="reveal br-card" href="{{ p.href }}" style="{{ p.pointerStyle }}">
-          <div style="width:100%;aspect-ratio:16/9;background-color:{{ p.coverFallback }};background:{{ p.coverBg }};display:flex;align-items:flex-end;justify-content:space-between;padding:var(--br-space-inset-md);gap:var(--br-space-gap-sm);">
-            <span class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:rgba(255,255,255,0.92);">{{ p.name }}</span>
-            <div style="display:inline-flex;align-items:center;gap:var(--br-space-gap-xs);">
-              <sc-if value="{{ p.comingSoon }}" hint-placeholder-val="{{ false }}">
-                <span class="br-chip br-text-chip-label" style="background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:var(--br-border-width-default) solid rgba(255,255,255,0.22);backdrop-filter:blur(4px);">Coming soon</span>
-              </sc-if>
+        <!-- INTRO -->
+        <sc-if value="{{ c.isIntro }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:space-between;gap:var(--br-space-gap-xl);">
+            <div>
+              <h1 class="br-text-hero-title" style="margin-bottom:var(--br-space-gap-md);">Bernardo Reyes</h1>
+              <h2 class="br-text-section-title" style="color:var(--br-color-text-secondary);font-weight:var(--br-font-weight-medium);margin-bottom:var(--br-space-gap-lg);">Design systems &amp; AI augmented delivery.</h2>
+              <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">8+ years designing across fintech, insurtech, and B2B SaaS. I build design systems from scratch and ship them through AI augmented pipelines that cut engineering handoff to a fraction.</p>
+            </div>
+            <div style="display:flex;gap:var(--br-space-gap-sm);flex-wrap:wrap;">
+              <button type="button" class="br-btn br-btn--primary br-text-button-label" onClick="{{ showWork }}">View work →</button>
+              <a href="mailto:bernardo.reyes.design@gmail.com" class="br-btn br-btn--secondary br-text-button-label">Get in touch</a>
             </div>
           </div>
-          <div style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;gap:var(--br-space-stack-default);">
-            <div style="display:flex;align-items:center;gap:var(--br-space-gap-sm);">
-              <span class="br-chip br-text-chip-label">{{ p.category }}</span>
+        </sc-if>
+
+        <!-- PROJECT (cover image only) -->
+        <sc-if value="{{ c.isProject }}" hint-placeholder-val="{{ false }}">
+          <a class="br-card" href="{{ c.href }}" aria-label="{{ c.title }}" style="background-color:var(--br-color-bg-inverse);background:{{ c.coverBg }};"></a>
+        </sc-if>
+
+        <!-- STAT -->
+        <sc-if value="{{ c.isStat }}" hint-placeholder-val="{{ false }}">
+          <div class="{{ c.cardClass }}" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <div>
+              <div class="br-text-stat-value">{{ c.value }}</div>
+              <div class="br-text-card-body" style="margin-top:var(--br-space-gap-xs);">{{ c.label }}</div>
             </div>
-            <h3 class="br-text-card-title">{{ p.title }}</h3>
-            <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">{{ p.desc }}</p>
           </div>
-        </a>
-      </sc-for>
-    </div>
-  </section>
+        </sc-if>
 
-  <!-- ABOUT -->
-  <section id="about" style="background:var(--br-color-bg-surface);border-top:var(--br-border-width-default) solid var(--br-color-border-default);border-bottom:var(--br-border-width-default) solid var(--br-color-border-default);scroll-margin-top:56px;">
-    <div style="width:100%;max-width:720px;margin:0 auto;padding:var(--br-space-section-spacing) var(--br-space-page-padding-x);">
-      <p data-reveal="" class="reveal br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">About</p>
-      <h2 data-reveal="" class="reveal br-text-section-title" style="margin-bottom:var(--br-space-gap-lg);">Designing systems that ship faster.</h2>
-      <p data-reveal="" class="reveal br-text-page-body" style="color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">I'm a senior product designer with 8+ years across fintech, insurtech, and B2B SaaS. My focus is design systems: the kind that don't just live in Figma, but reach production with minimal translation loss.</p>
-      <p data-reveal="" class="reveal br-text-page-body" style="color:var(--br-color-text-secondary);margin-bottom:var(--br-space-section);">At Fitune I built a full system from scratch and wired a Claude Code pipeline that delivers dev ready components straight to engineering, cutting handoff cycles by 35%. I also mentor designers on the team as they adopt this workflow. At Guros, design work I led lifted conversion 18%. I care about craft, measurable outcomes, and tools that let small teams move like big ones.</p>
+        <!-- ABOUT -->
+        <sc-if value="{{ c.isAbout }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;gap:var(--br-space-stack-default);">
+            <h2 class="br-text-section-title">Designing systems that ship faster.</h2>
+            <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">I'm a senior product designer with 8+ years across fintech, insurtech, and B2B SaaS. My focus is design systems: the kind that don't just live in Figma, but reach production with minimal translation loss.</p>
+            <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">At Fitune I built a full system from scratch and wired a Claude Code pipeline that delivers dev ready components straight to engineering, cutting handoff cycles by 35%. I also mentor designers on the team as they adopt this workflow. At Guros, design work I led lifted conversion 18%. I care about craft, measurable outcomes, and tools that let small teams move like big ones.</p>
+          </div>
+        </sc-if>
 
-      <div data-reveal="" class="reveal" style="border-top:var(--br-border-width-default) solid var(--br-color-border-default);padding-top:var(--br-space-gap-xl);">
-        <p class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">Stack &amp; tools</p>
-        <div style="display:flex;flex-wrap:wrap;gap:var(--br-space-gap-sm);margin-bottom:var(--br-space-gap-xl);">
-          <sc-for list="{{ stack }}" as="t" hint-placeholder-count="7">
-            <span class="br-chip br-chip--accent br-text-chip-label">{{ t }}</span>
-          </sc-for>
-        </div>
-        <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" class="br-btn br-btn--secondary br-text-button-label">Download Resume ↓</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact" style="scroll-margin-top:56px;">
-    <div style="width:100%;max-width:720px;margin:0 auto;padding:var(--br-space-section-spacing) var(--br-space-page-padding-x);">
-      <p data-reveal="" class="reveal br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">Contact</p>
-      <h2 data-reveal="" class="reveal br-text-section-title" style="margin-bottom:var(--br-space-gap-md);">Open to remote roles &amp; collaborations.</h2>
-      <p data-reveal="" class="reveal br-text-page-body" style="color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-xl);max-width:520px;">Currently available for senior product design and design systems work. Based in Mexico, working remotely UTC-6.</p>
-      <div data-reveal="" class="reveal" style="display:flex;flex-direction:column;border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
-        <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="3">
-          <sc-if value="{{ c.copyEmail }}" hint-placeholder-val="{{ false }}">
-            <div onclick="{{ handleEmailCopy }}" class="br-row">
-              <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);min-width:0;">
-                <span class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);">{{ c.label }}</span>
-                <span class="br-text-card-title" style="overflow-wrap:anywhere;">{{ c.value }}</span>
-              </div>
-              <span class="br-text-button-label" style="color:{{ emailIconColor }};white-space:nowrap;">{{ emailIconText }}</span>
+        <!-- STACK -->
+        <sc-if value="{{ c.isStack }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:center;">
+            <div style="display:flex;flex-wrap:wrap;gap:var(--br-space-gap-sm);">
+              <sc-for list="{{ stack }}" as="t" hint-placeholder-count="7">
+                <span class="br-chip br-chip--accent br-text-chip-label">{{ t }}</span>
+              </sc-for>
             </div>
-          </sc-if>
-          <sc-if value="{{ !c.copyEmail }}" hint-placeholder-val="{{ true }}">
-            <a href="{{ c.href }}" target="_blank" rel="noopener noreferrer" class="br-row">
-              <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);min-width:0;">
-                <span class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);">{{ c.label }}</span>
-                <span class="br-text-card-title" style="overflow-wrap:anywhere;">{{ c.value }}</span>
-              </div>
-              <span class="br-text-button-label" style="color:var(--br-color-icon-default);">→</span>
-            </a>
-          </sc-if>
-        </sc-for>
+          </div>
+        </sc-if>
+
+        <!-- LINK (resume, LinkedIn) -->
+        <sc-if value="{{ c.isLink }}" hint-placeholder-val="{{ false }}">
+          <a class="br-card" href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" download="{{ c.download }}" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:var(--br-space-gap-sm);">
+              <span class="br-text-card-title" style="overflow-wrap:anywhere;">{{ c.value }}</span>
+              <span class="br-text-card-title" style="color:var(--br-color-icon-default);">{{ c.icon }}</span>
+            </div>
+          </a>
+        </sc-if>
+
+        <!-- EMAIL (copy to clipboard) -->
+        <sc-if value="{{ c.isEmail }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" onClick="{{ handleEmailCopy }}" style="cursor:pointer;padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-sm);">
+              <span class="br-text-card-body" style="font-weight:var(--br-font-weight-medium);overflow-wrap:anywhere;">bernardo.reyes.design@gmail.com</span>
+              <span class="br-text-button-label" style="color:{{ emailIconColor }};">{{ emailIconText }}</span>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- CALL (feature) -->
+        <sc-if value="{{ c.isCall }}" hint-placeholder-val="{{ false }}">
+          <a class="br-card br-card--feature" href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <div>
+              <h2 class="br-text-section-title" style="margin-bottom:var(--br-space-gap-sm);">Open to remote roles &amp; collaborations.</h2>
+              <span class="br-text-button-label">Let's talk · Schedule a call →</span>
+            </div>
+          </a>
+        </sc-if>
+
+        <!-- LOCATION (personal) -->
+        <sc-if value="{{ c.isLocation }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <div>
+              <div class="br-text-card-title">Guadalajara, MX</div>
+              <div class="br-text-card-body" style="color:var(--br-color-text-secondary);">Working remotely · UTC-6</div>
+            </div>
+          </div>
+        </sc-if>
+
       </div>
-    </div>
-  </section><footer style="border-top:var(--br-border-width-default) solid var(--br-color-border-default);">
-    <div style="width:100%;max-width:960px;margin:0 auto;padding:var(--br-space-inset-lg) var(--br-space-page-padding-x);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:var(--br-space-gap-sm);">
-      <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">© 2026 Bernardo Reyes</span>
-      <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">Designed &amp; built with a system.</span>
-    </div>
-  </footer>
+    </sc-for>
+  </div>
 </main>
+
+<button type="button" class="br-icon-btn br-icon-btn--inverse home-theme-toggle" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}">
+  <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"></path></svg>
+  </sc-if>
+  <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"></path></svg>
+  </sc-if>
+</button>
+
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:900},&quot;heroVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;split&quot;,&quot;centered&quot;],&quot;default&quot;:&quot;split&quot;,&quot;tsType&quot;:&quot;'split' | 'centered'&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
 class Component extends DCLogic {
+  state = { filter: 'all', emailCopied: false, theme: 'light' };
+
+  // Card catalog. size = default span, grow = span when its filter is active.
+  // Case studies are always 2x2. The first card (intro) stays first; the rest are shuffled per page load.
+  static CARDS = [
+    { id: 'intro', type: 'intro', cat: 'about', size: [2, 2] },
+    { id: 'fitune', type: 'project', cat: 'work', size: [2, 2],
+      href: 'Fitune-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/fitune.svg) center/cover no-repeat',
+      title: 'Fitune — Design System & AI Pipeline' },
+    { id: 'stat-years', type: 'stat', cat: 'about', size: [1, 1], value: '8+', label: 'Years experience' },
+    { id: 'stat-guros', type: 'stat', cat: 'work', size: [1, 1], value: '18%', label: 'Conversion lift at Guros' },
+    { id: 'guros', type: 'project', cat: 'work', size: [2, 2],
+      href: './Guros-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/guros.jpg) center/cover no-repeat',
+      title: 'Guros — Conversion led redesign' },
+    { id: 'email', type: 'email', cat: 'about', size: [1, 1] },
+    { id: 'linkedin', type: 'link', cat: 'about', size: [1, 1], value: 'in/bernardo-reyes-design', icon: '↗',
+      href: 'https://www.linkedin.com/in/bernardo-reyes-design/', target: '_blank' },
+    { id: 'axcess', type: 'project', cat: 'work', size: [2, 2],
+      href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat',
+      title: 'Axcess — Platform & component library' },
+    { id: 'about', type: 'about', cat: 'about', size: [2, 2] },
+    { id: 'stat-fitune', type: 'stat', cat: 'work', size: [1, 1], value: '35%', label: 'Handoff reduction at Fitune' },
+    { id: 'location', type: 'location', cat: 'personal', size: [1, 1], grow: [2, 1] },
+    { id: 'stack', type: 'stack', cat: 'about', size: [2, 1] },
+    { id: 'call', type: 'call', cat: 'about', size: [2, 1] },
+    { id: 'resume', type: 'link', cat: 'about', size: [2, 1], value: 'Download CV', icon: '↓',
+      href: './assets/docs/BernardoReyes_CV_ATS.pdf', target: '_self', download: 'BernardoReyes_CV_ATS.pdf' },
+  ];
+
+  static FILTERS = [
+    { id: 'all', label: 'All' },
+    { id: 'about', label: 'About' },
+    { id: 'work', label: 'Work' },
+    { id: 'personal', label: 'Personal' },
+  ];
+
+  componentDidMount() {
+    // Theme: light by default; a choice made with the toggle is remembered per browser.
+    let saved = null;
+    try { saved = localStorage.getItem('br-theme'); } catch (e) {}
+    if (saved === 'dark') this._applyTheme('dark');
+
+    // Header hides while scrolling down and comes back on any scroll up.
+    this._lastY = window.scrollY;
+    this._onScroll = () => {
+      const header = document.querySelector('.home-header');
+      if (!header) return;
+      const y = window.scrollY;
+      const delta = y - this._lastY;
+      if (Math.abs(delta) < 4) return; // ignore jitter
+      header.classList.toggle('home-header--hidden', delta > 0 && y > header.offsetHeight);
+      this._lastY = y;
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+
+    // Old anchors (#work, #about, #contact) open the matching filter.
+    const hash = (window.location.hash || '').slice(1);
+    const fromHash = { work: 'work', about: 'about', contact: 'about', personal: 'personal' }[hash];
+    if (fromHash) this.setState({ filter: fromHash });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+  }
+
+  // FLIP: cards slide from their old grid position to the new one.
+  componentDidUpdate() {
+    const before = this._rects;
+    if (!before) return;
+    this._rects = null;
+    document.querySelectorAll('[data-card]').forEach((el) => {
+      const prev = before[el.getAttribute('data-card')];
+      if (!prev) return;
+      const next = el.getBoundingClientRect();
+      const dx = prev.left - next.left;
+      const dy = prev.top - next.top;
+      if (!dx && !dy) return;
+      el.style.transition = 'none';
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      el.getBoundingClientRect(); // commit the inverted position
+      el.style.transition = 'transform var(--br-transition-card-reorder)';
+      el.style.transform = '';
+    });
+  }
+
+  _applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    try { localStorage.setItem('br-theme', theme); } catch (e) {}
+    this.setState({ theme });
+  }
+
+  _setFilter(filter) {
+    if (filter === this.state.filter) return;
+    const rects = {};
+    document.querySelectorAll('[data-card]').forEach((el) => {
+      rects[el.getAttribute('data-card')] = el.getBoundingClientRect();
+    });
+    this._rects = rects;
+    this.setState({ filter });
+  }
+
+  _order = (() => {
+    const [first, ...rest] = Component.CARDS;
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    return [first, ...rest];
+  })();
+
+  _cards(filter) {
+    const all = this._order;
+    const ordered = filter === 'all'
+      ? all
+      : [...all.filter((c) => c.cat === filter), ...all.filter((c) => c.cat !== filter)];
+    return ordered.map((c) => {
+      const match = filter === 'all' || c.cat === filter;
+      const [w, h] = filter !== 'all' && match && c.grow ? c.grow : c.size;
+      return {
+        ...c,
+        cellClass: 'br-bento-cell'
+          + (w === 2 ? ' br-bento-cell--w2' : '')
+          + (h === 2 ? ' br-bento-cell--h2' : '')
+          + (match ? '' : ' br-bento-cell--dim'),
+        cardClass: 'br-card' + (c.type === 'stat' ? ' br-card--highlight' : ''), // every stat card is solid lime
+        isIntro: c.type === 'intro',
+        isProject: c.type === 'project',
+        isStat: c.type === 'stat',
+        isAbout: c.type === 'about',
+        isStack: c.type === 'stack',
+        isLink: c.type === 'link',
+        isEmail: c.type === 'email',
+        isCall: c.type === 'call',
+        isLocation: c.type === 'location',
+        target: c.target || null,
+        download: c.download || null,
+      };
+    });
+  }
+
   renderVals() {
-    const variant = this.props.heroVariant ?? 'split';
+    const filter = this.state.filter;
     return {
-      isSplit: variant === 'split',
-      isCentered: variant === 'centered',
-      stats: [
-        { value: '8+',  label: 'Years experience' },
-        { value: '18%', label: 'Conversion lift at Guros' },
-        { value: '35%', label: 'Handoff reduction at Fitune' },
-      ],
-      projects: [
-        { name: 'Fitune', href: 'Fitune-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/fitune.svg) center/cover no-repeat', coverFallback: 'var(--br-color-bg-inverse)', category: 'Design Systems', period: '2025 – Present',
-          title: 'Fitune — Design System & AI Pipeline',
-          desc: 'Built a full design system from scratch and a Claude Code pipeline that delivers dev ready components to engineering, cutting handoff cycles by 35%.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Guros', href: './Guros-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/guros.jpg) center/cover no-repeat', coverFallback: 'var(--br-color-bg-inverse)', category: 'Insurtech', period: '2020 – 2024',
-          title: 'Guros — Conversion led redesign',
-          desc: 'Led the redesign of the quote to purchase flow, lifting conversion by 18% across the insurance marketplace.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Axcess · Syscap', href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat', coverFallback: 'var(--br-color-bg-inverse)', category: 'Fintech · B2B SaaS', period: '2024 – 2025',
-          title: 'Axcess — Platform & component library',
-          desc: 'Designed Syscap\'s credit platform for SMEs and built its design ops from scratch, cutting time to market by 20% and design rework by 30%.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-      ],
+      filters: Component.FILTERS.map((f) => ({
+        ...f,
+        active: f.id === filter,
+        cls: 'br-nav-item br-text-chip-label' + (f.id === filter ? ' br-nav-item--active' : ''),
+        onSelect: () => this._setFilter(f.id),
+      })),
+      cards: this._cards(filter),
+      showWork: () => this._setFilter('work'),
+      isLight: this.state.theme === 'light',
+      isDark: this.state.theme === 'dark',
+      themeLabel: this.state.theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode',
+      toggleTheme: () => this._applyTheme(this.state.theme === 'light' ? 'dark' : 'light'),
       stack: ['Figma', 'Design Tokens', 'Claude Code', 'Vue', 'Storybook', 'Framer', 'Prototyping'],
-      emailCopied: this.state.emailCopied || false,
       emailIconColor: this.state.emailCopied ? 'var(--br-color-status-success-text)' : 'var(--br-color-icon-default)',
-      emailIconText: this.state.emailCopied ? 'Copied ✓' : '→',
+      emailIconText: this.state.emailCopied ? 'Copied ✓' : 'Copy →',
       handleEmailCopy: () => {
         navigator.clipboard.writeText('bernardo.reyes.design@gmail.com');
         this.setState({ emailCopied: true });
         setTimeout(() => this.setState({ emailCopied: false }), 2000);
       },
-      contacts: [
-        { label: 'Email', value: 'bernardo.reyes.design@gmail.com', href: '#', copyEmail: true },
-        { label: 'LinkedIn', value: 'in/bernardo-reyes-design', href: 'https://www.linkedin.com/in/bernardo-reyes-design/' },
-        { label: 'Availability', value: 'Let\'s talk · Schedule a call →', href: 'https://calendly.com/bernardo-reyes-design/15min' },
-      ],
     };
-  }
-
-  componentDidMount() {
-    if (this.props.revealMotion === false) return;
-    requestAnimationFrame(() => {
-      const els = document.querySelectorAll('[data-reveal]');
-      const show = (el) => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; };
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
-      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-      els.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.top < (window.innerHeight || 800) * 1.1) return; // above the fold: leave visible
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(var(--br-motion-distance))';
-        el.style.transition = 'opacity var(--br-transition-enter), transform var(--br-transition-enter)';
-        io.observe(el);
-        setTimeout(() => show(el), 1600);
-      });
-    });
   }
 }
 </script>
