@@ -290,7 +290,7 @@ class Component extends DCLogic {
     { id: 'fitune', type: 'project', cat: 'work',
       href: 'Fitune-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/fitune.svg) center/cover no-repeat',
       title: 'Fitune — Design System & AI Pipeline' },
-    { id: 'stat-guros', type: 'stat', cat: 'work', value: '18%', label: 'Conversion lift at Guros' },
+    { id: 'stat-guros', type: 'stat', cat: 'work', value: '+18%', label: 'Conversion on a core purchase flow' },
     { id: 'guros', type: 'project', cat: 'work',
       href: './Guros-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/guros.jpg) center/cover no-repeat',
       title: 'Guros — Conversion led redesign' },
@@ -302,12 +302,12 @@ class Component extends DCLogic {
     { id: 'quote', type: 'quote', cat: 'about',
       quote: 'A design system is only as good as the decisions it makes unnecessary.',
       caption: 'My design principle' },
-    { id: 'stat-fitune', type: 'stat', cat: 'work', value: '35%', label: 'Handoff reduction at Fitune' },
-    // MOCK placeholders — replace with real case studies and metrics (or delete).
+    { id: 'stat-fitune', type: 'stat', cat: 'work', value: '−35%', label: 'Design-to-dev handoff cycles' },
+    { id: 'stat-guros-renewals', type: 'stat', cat: 'work', value: '+15%', label: 'Customer renewals' },
+    { id: 'stat-axcess', type: 'stat', cat: 'work', value: '−20%', label: 'Time to market' },
+    // MOCK placeholders — replace with real case studies (or delete).
     { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, category: 'Case study 04', title: 'Project title goes here' },
     { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, category: 'Case study 05', title: 'Project title goes here' },
-    { id: 'mock-stat-3', type: 'stat', cat: 'work', mock: true, value: '00%', label: 'Metric for case study 04' },
-    { id: 'mock-stat-4', type: 'stat', cat: 'work', mock: true, value: '00%', label: 'Metric for case study 05' },
     { id: 'location', type: 'location', cat: 'personal' },
     // MOCK personal placeholders — replace with real hobbies, side projects, etc.
     { id: 'mock-personal-1', type: 'personal', cat: 'personal', mock: true, title: 'Side project', detail: 'One line about it' },
@@ -329,7 +329,7 @@ class Component extends DCLogic {
   // how I think → proof (case studies, real ones first) → logistics and personal.
   // Fills 9 rows exactly on desktop (no holes):
   //   row 1      intro                 | contact
-  //   row 2      35% | 18% | 00% | 00%   (metrics strip, same order as the case studies)
+  //   row 2      −35% | +18% | +15% | −20%   (metrics strip, same order as the case studies)
   //   rows 3–4   about                 | fitune
   //   rows 5–6   guros                 | axcess
   //   rows 7–8   case 04               | case 05
@@ -337,7 +337,7 @@ class Component extends DCLogic {
   // Cards not listed here fall in after these.
   static RECRUITER_ORDER = [
     'intro', 'call',
-    'stat-fitune', 'stat-guros', 'mock-stat-3', 'mock-stat-4',
+    'stat-fitune', 'stat-guros', 'stat-guros-renewals', 'stat-axcess',
     'about', 'fitune',
     'guros', 'axcess',
     'mock-case-4', 'mock-case-5',
