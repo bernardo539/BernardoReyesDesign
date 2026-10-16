@@ -145,6 +145,8 @@
   --br-z-modal: 300;
   --br-z-toast: 400;
   --br-layout-container: 1100px;
+  --br-layout-bento-columns: 4;
+  --br-size-bento-row: 248px;
 }
 
 
@@ -215,6 +217,9 @@
     --br-size-avatar-lg: 96px;
 
     --br-icon-md: 24px;
+
+    --br-layout-bento-columns: 2;
+    --br-size-bento-row: 168px;
   }
 }
 
@@ -322,6 +327,7 @@
   --br-transition-hover: var(--br-duration-fast) var(--br-easing-standard);
   --br-transition-press: var(--br-duration-instant) var(--br-easing-standard);
   --br-transition-card-filter: var(--br-duration-base) var(--br-easing-standard);
+  --br-transition-card-reorder: var(--br-duration-slow) var(--br-easing-emphasized);
   --br-transition-theme-switch: var(--br-duration-base) var(--br-easing-standard);
   --br-transition-enter: var(--br-duration-slow) var(--br-easing-enter);
   --br-transition-exit: var(--br-duration-fast) var(--br-easing-exit);

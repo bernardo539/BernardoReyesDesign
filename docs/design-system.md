@@ -264,6 +264,7 @@ Easings: `--br-easing-{linear|standard|enter|exit|emphasized}`.
 | `--br-transition-hover` | fast + standard | Color/border/background hover on every component |
 | `--br-transition-press` | instant + standard | `.br-btn:active` scale |
 | `--br-transition-card-filter` | base + standard | Dimming cards (planned) |
+| `--br-transition-card-reorder` | slow + emphasized | Home bento: cards sliding, growing and dimming on filter change |
 | `--br-transition-theme-switch` | base + standard | `body` background/color |
 | `--br-transition-enter` | slow + enter | Scroll reveal |
 | `--br-transition-exit` | fast + exit | Exits |
@@ -288,17 +289,23 @@ Proposed in `br-design-tokens.md §9`, exposed in CSS, not closed yet:
 | `--br-border-width-default` / `-strong` | 1px / 2px |
 | `--br-opacity-dim` / `-disabled` / `-scrim` | 0.25 / 0.4 / 0.6 |
 | `--br-z-base` / `-sticky` / `-overlay` / `-modal` / `-toast` | 0 / 100 / 200 / 300 / 400 |
-| `--br-layout-container` | 1100px (not used yet; pages use 720px / 960px) |
+| `--br-layout-container` | 1100px (home bento; case studies use 720px / 960px) |
+| `--br-layout-bento-columns` | 4 desktop / 2 mobile |
+| `--br-size-bento-row` | 248px desktop / 168px mobile (minimum row height) |
 
 ---
 
 ## Layout
 
-- **Max-widths:** 720px for text and case-study sections, 960px for nav, home hero, project grid, footer.
+- **Max-widths:** home uses `--br-layout-container` (1100px); case studies use 720px for text and 960px for nav and footer.
 - **Responsive:** handled by the mobile mode in `tokens.css` (type, spacing, radius, sizing shrink
   below 820px) plus flex-wrap and auto-fit grids. Adding `@media` is allowed when a layout truly
   needs it; use `max-width: 819px` to stay aligned with the mobile mode.
-- **Project grid:** `repeat(auto-fit, minmax(280px, 1fr))` with `--br-space-bento-gap`.
+- **Home bento:** `.br-bento` grid, 4 columns (2 on mobile), dense packing, cards span 1×1, 2×1 or 2×2.
+  A segmented filter (All / Work / About / Personal) moves matching cards first, can grow them
+  (e.g. Guros and Axcess go 2×1 → 2×2 under Work) and dims the rest; cards slide to their new
+  place with a FLIP animation on `--br-transition-card-reorder`. Old `#work` / `#about` / `#contact`
+  links open the matching filter.
 - **Case study hero metrics:** `repeat(4, 1fr)` grid of `.br-text-stat-value` + caption.
 - **Sticky nav:** `z-index: var(--br-z-sticky)`, background
   `color-mix(in srgb, var(--br-color-page-bg) 85%, transparent)` with `backdrop-filter: blur(12px)`,
@@ -324,10 +331,17 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-card` | Surface card, 1px border, `xl` radius; `a.br-card` lifts on hover | `--br-color-card-*`, `--br-radius-card` |
 | `.br-row` | Contact list row with bottom rule; grows and fills on hover | `--br-color-border-default`, `--br-color-bg-subtle` |
 | `.br-input` | 48px text input; focus border = focus ring | `--br-color-input-*`, `--br-radius-input` |
+| `.br-icon-btn` | Round 44px icon-only button (home theme toggle) | `--br-color-button-secondary-*`, `--br-icon-button` |
+| `.br-card--highlight` | Lime card, teal text | `--br-color-card-highlight-*` |
+| `.br-card--feature` | Teal card, lime text | `--br-color-card-feature-*` |
+| `.br-segmented` | Pill container for filter tabs; holds `.br-nav-item`s | `--br-color-card-*`, `--br-radius-nav` |
+| `.br-nav-item--active` | Selected nav item / filter | `--br-color-nav-item-active-*` |
+| `.br-bento` | 4-col (2 on mobile) dense grid | `--br-layout-bento-columns`, `--br-size-bento-row`, `--br-space-bento-gap` |
+| `.br-bento-cell` (`--w2`, `--h2`, `--dim`) | Grid cell: span 2 cols / 2 rows / filtered-out (dim + scale) | `--br-opacity-dim`, `--br-motion-scale`, `--br-transition-card-reorder` |
 
 Base styles in the same file: `html`/`body` background and color, `::selection` (lime with teal
 text), and a global `:focus-visible` outline (2px `--br-color-focus-ring`, 2px offset).
 
-Patterns built inline from tokens (no class yet): sticky nav, section eyebrow, hero stats,
+Patterns built inline from tokens (no class yet): sticky nav, section eyebrow, case-study hero stats,
 case-study diagrams (highlighted step = `--br-color-card-highlight-bg` + `--br-color-on-accent`),
 outcome cards, footers.

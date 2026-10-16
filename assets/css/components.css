@@ -132,3 +132,101 @@ a.br-card:hover {
 }
 .br-input::placeholder { color: var(--br-color-input-placeholder); }
 .br-input:focus { border-color: var(--br-color-input-border-focus); }
+
+
+/* Card variants ---------------------------------------------------------- */
+.br-card--highlight {
+  background: var(--br-color-card-highlight-bg);
+  border-color: var(--br-color-card-highlight-bg);
+  color: var(--br-color-card-highlight-fg);
+}
+.br-card--feature {
+  background: var(--br-color-card-feature-bg);
+  border-color: var(--br-color-card-feature-bg);
+  color: var(--br-color-card-feature-fg);
+}
+
+
+/* Segmented filter (nav) ------------------------------------------------- */
+.br-segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--br-space-nav-item-gap);
+  padding: var(--br-space-nav-padding);
+  background: color-mix(in srgb, var(--br-color-card-bg) 70%, transparent);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: var(--br-border-width-default) solid var(--br-color-card-border);
+  border-radius: var(--br-radius-nav);
+}
+.br-segmented .br-nav-item {
+  height: var(--br-size-control-sm);
+  padding: 0 var(--br-space-inset-md);
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.br-segmented .br-nav-item:hover { background: var(--br-color-nav-item-bg-hover); }
+.br-segmented .br-nav-item--active,
+.br-segmented .br-nav-item--active:hover {
+  background: var(--br-color-nav-item-active-bg);
+  color: var(--br-color-nav-item-active-fg);
+}
+
+
+/* Bento grid ------------------------------------------------------------- */
+/* 4 columns on desktop, 2 on mobile; dense flow packs mixed sizes. */
+.br-bento {
+  display: grid;
+  grid-template-columns: repeat(var(--br-layout-bento-columns), minmax(0, 1fr));
+  grid-auto-rows: minmax(var(--br-size-bento-row), auto);
+  grid-auto-flow: row dense;
+  gap: var(--br-space-bento-gap);
+}
+.br-bento-cell { min-width: 0; grid-column: span 1; grid-row: span 1; }
+.br-bento-cell--w2 { grid-column: span 2; }
+.br-bento-cell--h2 { grid-row: span 2; }
+.br-bento-cell > * {
+  height: 100%;
+  transition:
+    opacity var(--br-transition-card-reorder),
+    transform var(--br-transition-card-reorder),
+    border-color var(--br-transition-hover);
+}
+.br-bento-cell--dim > * {
+  opacity: var(--br-opacity-dim);
+  transform: scale(var(--br-motion-scale));
+}
+
+
+/* Icon button (round) ---------------------------------------------------- */
+.br-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--br-size-hit-area-min);
+  height: var(--br-size-hit-area-min);
+  padding: 0;
+  border-radius: var(--br-radius-pill);
+  border: var(--br-border-width-default) solid var(--br-color-button-secondary-border);
+  background: var(--br-color-button-secondary-bg);
+  color: var(--br-color-icon-default);
+  cursor: pointer;
+  transition:
+    background-color var(--br-transition-hover),
+    border-color var(--br-transition-hover),
+    color var(--br-transition-hover),
+    transform var(--br-transition-press);
+}
+.br-icon-btn:hover { border-color: var(--br-color-button-secondary-border-hover); }
+.br-icon-btn:active { transform: scale(var(--br-motion-scale)); }
+.br-icon-btn svg { width: var(--br-icon-button); height: var(--br-icon-button); }
+.br-icon-btn--inverse {
+  width: var(--br-size-control-lg);
+  height: var(--br-size-control-lg);
+  background: var(--br-color-card-feature-bg);
+  border-color: var(--br-color-card-feature-bg);
+  color: var(--br-color-card-feature-fg);
+}
+.br-icon-btn--inverse:hover { border-color: var(--br-color-focus-ring); }
+
