@@ -310,7 +310,7 @@ Proposed in `br-design-tokens.md §9`, exposed in CSS, not closed yet:
   |---|---|---|
   | Work (case studies) | 2×2 | Full-colour cover image only |
   | About (intro, about) | 2×1 | Neutral `.br-card`, dark text |
-  | Contact (availability) | 2×1 | `.br-card--feature` — the only dark card. Top: Resume ghost button, then icon actions (`.br-icon-btn--plain`): copy email to clipboard, LinkedIn, Calendly in a new tab. Below: title and "Let's make contact". Always lands in the first two rows. |
+  | Contact (availability) | 2×1 | `.br-card--feature` — the only dark card. Top: Resume ghost button, then icon actions (`.br-icon-btn--plain`): copy email (the circle morphs into a "Copied" pill for 2s), LinkedIn and Calendly (new tab, ↗ on hover). Below: title and "Let's make contact". Always lands in the first two rows. |
   | Data (stats) | 1×1 | `.br-card--highlight` (lime) |
   | Personal | 1×½ (full width on mobile) | Smallest; subtle motion (e.g. `.br-status-dot` + live local time) |
 
@@ -318,9 +318,10 @@ Proposed in `br-design-tokens.md §9`, exposed in CSS, not closed yet:
   (e.g. Guros and Axcess go 2×1 → 2×2 under Work) and dims the rest; cards slide to their new
   place with a FLIP animation on `--br-transition-card-reorder`. Old `#work` / `#about` / `#contact`
   links open the matching filter.
-  **Recruiter** is the exception: nothing is dimmed and cards follow a fixed order for a fast
-  screen (`RECRUITER_ORDER`), chosen so rows stay full and leftover space falls at the end; `RECRUITER_SIZES` holds
-  its size overrides (location becomes 1×1). `#recruiter` opens it directly.
+  **Recruiter** is the exception: nothing is dimmed and the grid is fixed (`RECRUITER_ORDER`),
+  ordered by what a recruiter needs: intro + contact → metrics strip (in case-study order) →
+  about → case studies, real first → quote, location and personal. It fills 9 rows exactly on
+  desktop. `RECRUITER_SIZES` can override sizes for this view only. `#recruiter` opens it directly.
   Hovering a clickable card (link cards and the email card, not dimmed ones) scales it to 1.08
   and pushes the other cards away from its center: about 44px for direct neighbours, fading
   with distance, even past the grid edge, over 900ms with an organic ease. While a card is hovered
@@ -345,6 +346,7 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-btn` | Pill button base: 44px tall, 1px border, press scale | `--br-size-button-height`, `--br-radius-button` |
 | `.br-btn--primary` | Lime button, teal label | `--br-color-button-primary-*` |
 | `.br-btn--secondary` | Surface button with border; border darkens on hover | `--br-color-button-secondary-*` |
+| `.br-btn--reveal-arrow` | A 16px ↗ (`.br-btn__arrow`) slides in after the label on hover/focus and the button grows; for links that leave the site | `--br-icon-sm`, `--br-transition-hover` |
 | `.br-btn--ghost` | Outline button for dark feature cards | `--br-color-card-feature-fg` / `-fg-muted` |
 | `.br-nav-item` | Pill nav link, subtle fill on hover | `--br-color-nav-item-*`, `--br-radius-nav` |
 | `.br-chip` | Neutral pill tag | `--br-color-bg-subtle`, `--br-radius-chip` |
@@ -356,6 +358,8 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-highlight` | Marker-style emphasis in running text: lime surface, on-accent text | `--br-color-card-highlight-*`, `--br-radius-sm` |
 | `.br-status-dot` | 12px success-colour dot with a slow pulse ring (off with reduced motion) | `--br-color-status-success-text` |
 | `.br-icon-btn--plain` | Borderless icon action for dark feature cards; outline + brighter on hover | `--br-color-card-feature-fg` / `-fg-muted` |
+| `.br-icon-btn--external` | On hover/focus the icon fades to `--br-opacity-dim` and a 16px ↗ (`.br-icon-btn__external`) appears centered over it: the link leaves the site | `--br-icon-sm` (16px), `--br-opacity-dim`, `--br-transition-hover` |
+| `.br-icon-btn--morph` (`.is-copied`) | Round icon button stretches into an outlined pill and swaps the icon for a short label (`.br-icon-btn__label`); not clickable while `.is-copied` | `--br-transition-card-filter`, `--br-size-hit-area-min` |
 | `.br-visually-hidden` | Hidden visually, still announced (live status text) | — |
 | `.br-icon-btn` | Round 44px icon-only button (home theme toggle) | `--br-color-button-secondary-*`, `--br-icon-button` |
 | `.br-card--highlight` | Lime card, teal text | `--br-color-card-highlight-*` |

@@ -55,6 +55,27 @@ body {
 }
 .br-btn--secondary:hover { border-color: var(--br-color-button-secondary-border-hover); }
 
+/* Reveal arrow: a ↗ slides in after the label on hover/focus and the button grows —
+   for links that leave the site. */
+.br-btn--reveal-arrow { gap: 0; }
+.br-btn--reveal-arrow .br-btn__arrow {
+  flex: none;
+  width: 0;
+  height: var(--br-icon-sm);
+  margin-left: 0;
+  opacity: 0;
+  transition:
+    width var(--br-transition-hover),
+    margin-left var(--br-transition-hover),
+    opacity var(--br-transition-hover);
+}
+.br-btn--reveal-arrow:hover .br-btn__arrow,
+.br-btn--reveal-arrow:focus-visible .br-btn__arrow {
+  width: var(--br-icon-sm);
+  margin-left: var(--br-space-gap-xs);
+  opacity: 1;
+}
+
 /* Ghost: outline button for use on dark feature cards. */
 .br-btn--ghost {
   background: transparent;
@@ -176,7 +197,10 @@ a.br-card:hover {
 }
 .br-segmented .br-nav-item:hover { background: var(--br-color-nav-item-bg-hover); }
 @media (max-width: 819px) {
-  .br-segmented .br-nav-item { padding: 0 var(--br-space-inset-sm); } /* 5 tabs fit a phone */
+  /* Mobile keeps the 40px touch height (control-sm) but uses desktop's 16px side padding. */
+  .br-segmented .br-nav-item {
+    padding: 0 calc(var(--br-space-inset-md) + var(--br-space-inset-xs));
+  }
 }
 .br-segmented .br-nav-item--active,
 .br-segmented .br-nav-item--active:hover {
@@ -271,8 +295,6 @@ a.br-card:hover {
 .br-icon-btn:active { transform: scale(var(--br-motion-scale)); }
 .br-icon-btn svg { width: var(--br-icon-button); height: var(--br-icon-button); }
 .br-icon-btn--inverse {
-  width: var(--br-size-control-lg);
-  height: var(--br-size-control-lg);
   background: var(--br-color-card-feature-bg);
   border-color: var(--br-color-card-feature-bg);
   color: var(--br-color-card-feature-fg);
@@ -284,6 +306,53 @@ a.br-card:hover {
   border-color: transparent;
   color: var(--br-color-card-feature-fg-muted);
 }
+/* External: on hover/focus the icon fades back and a ↗ appears centered over it —
+   the link leaves the site. */
+.br-icon-btn--external { position: relative; }
+.br-icon-btn--external svg { transition: opacity var(--br-transition-hover); }
+.br-icon-btn .br-icon-btn__external {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: var(--br-icon-sm); /* 16px in every mode */
+  height: var(--br-icon-sm);
+  opacity: 0;
+  transform: translate(calc(var(--br-space-inset-xs) * -1), var(--br-space-inset-xs));
+  transition: opacity var(--br-transition-hover), transform var(--br-transition-hover);
+}
+.br-icon-btn--external:hover svg:not(.br-icon-btn__external),
+.br-icon-btn--external:focus-visible svg:not(.br-icon-btn__external) { opacity: var(--br-opacity-dim); }
+.br-icon-btn--external:hover .br-icon-btn__external,
+.br-icon-btn--external:focus-visible .br-icon-btn__external { opacity: 1; transform: none; }
+
+/* Morph: the round icon button stretches into a pill and swaps its icon for a short label
+   (e.g. copy email → "Copied"). Toggle .is-copied. */
+.br-icon-btn--morph {
+  position: relative;
+  transition:
+    width var(--br-transition-card-filter),
+    border-color var(--br-transition-hover),
+    color var(--br-transition-hover);
+}
+.br-icon-btn--morph svg,
+.br-icon-btn--morph .br-icon-btn__label { transition: opacity var(--br-transition-hover); }
+.br-icon-btn--morph .br-icon-btn__label {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  white-space: nowrap;
+  opacity: 0;
+}
+.br-icon-btn--morph.is-copied {
+  pointer-events: none; /* not clickable while it shows the confirmation */
+  cursor: default;
+  width: calc(var(--br-size-hit-area-min) * 2);
+  border-color: var(--br-color-card-feature-fg-muted);
+  color: var(--br-color-card-feature-fg);
+}
+.br-icon-btn--morph.is-copied svg { opacity: 0; }
+.br-icon-btn--morph.is-copied .br-icon-btn__label { opacity: 1; }
 .br-icon-btn--plain:hover {
   border-color: var(--br-color-card-feature-fg-muted);
   color: var(--br-color-card-feature-fg);
