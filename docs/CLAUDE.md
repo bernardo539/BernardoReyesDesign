@@ -296,6 +296,7 @@ the CSS is the source of truth.
 9. **Dark mode must work.** Colors switch on `[data-theme="dark"]` on `<html>`. No page sets it yet,
    but anything built only from tokens works in both; never assume a light-only value.
 10. **Rule of 4.** Any new spatial value is a multiple of 4.
+11. **No eyebrows.** Never add a small label above a title (uppercase meta line, section number, "About", "My design principle", category over a heading). They survive only in the case studies until those are redesigned; don't copy them anywhere new. Supporting text goes below the title, or nowhere.
 
 ### Quick map: what to use
 
@@ -327,7 +328,7 @@ the CSS is the source of truth.
 | `.br-text-card-body` | Card description (Plus Jakarta Sans 16/24) |
 | `.br-text-button-label` / `.br-text-nav-label` | Buttons and nav items (Fira Sans 500, 16) |
 | `.br-text-chip-label` | Chips, diagram labels (Fira Sans 500, 14) |
-| `.br-text-meta-label` | Eyebrows, dates, captions, footer (Fira Mono 12) |
+| `.br-text-meta-label` | Dates, captions, details under a title, footer (Fira Mono 12). Never as an eyebrow |
 | `.br-text-input-helper` | Input helper text (Fira Sans 500, 12, wide tracking) |
 
 Smaller inline text without a class uses `font-size:var(--br-font-body-sm-size)` or
@@ -361,7 +362,7 @@ On `index.html` the right side is a flex group (`gap:var(--br-space-nav-item-gap
 <span class="br-chip br-text-chip-label">Insurtech</span>
 ```
 
-### Section eyebrow
+### Section eyebrow (legacy: case studies only, do not use in new work)
 ```html
 <p class="br-text-meta-label" data-reveal="" style="text-transform:uppercase;color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-md);letter-spacing:var(--br-font-tracking-wide);">01 / The Problem</p>
 ```

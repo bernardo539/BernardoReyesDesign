@@ -24,6 +24,7 @@
   --br-color-bg-surface: #FAFDFC;           /* neutral.25 */
   --br-color-bg-subtle: #DEE9E7;            /* neutral.200 */
   --br-color-bg-inverse: #00312D;           /* teal.950 */
+  --br-color-bg-tint: #DEFAF6;              /* teal.100 — very light colour surface */
 
   /* Color: border */
   --br-color-border-default: #DEE9E7;       /* neutral.200 */
@@ -162,6 +163,7 @@
   --br-color-bg-surface: #133734;           /* teal.900 */
   --br-color-bg-subtle: #1D4541;            /* teal.850 */
   --br-color-bg-inverse: #CAFF00;           /* lime.200 */
+  --br-color-bg-tint: #1D4541;              /* teal.850 */
 
   --br-color-border-default: #2A534E;       /* teal.800 */
   --br-color-border-strong: #618D88;        /* teal.600 */
@@ -259,6 +261,8 @@
   --br-color-card-feature-fg-muted: var(--br-color-text-inverse-muted);
   --br-color-card-highlight-bg: var(--br-color-accent-default);
   --br-color-card-highlight-fg: var(--br-color-on-accent);
+  --br-color-card-tint-bg: var(--br-color-bg-tint);
+  --br-color-quote-mark: var(--br-color-bg-tint);
   --br-color-button-primary-bg: var(--br-color-accent-default);
   --br-color-button-primary-bg-hover: var(--br-color-accent-hover);
   --br-color-button-primary-bg-pressed: var(--br-color-accent-pressed);
@@ -411,6 +415,13 @@
   font-size: var(--br-font-caption-md-size);
   line-height: var(--br-font-caption-md-line-height);
   font-weight: var(--br-font-weight-regular);
+}
+.br-text-quote-emphasis {
+  font-family: var(--br-font-family-accent);
+  font-size: calc(var(--br-font-display-md-size) * 0.75); /* 54 desktop / 33 mobile */
+  line-height: 1;
+  font-weight: var(--br-font-weight-extrabold);
+  letter-spacing: var(--br-font-tracking-tighter);
 }
 .br-text-input-helper {
   font-family: var(--br-font-family-accent);

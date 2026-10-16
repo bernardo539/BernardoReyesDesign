@@ -169,6 +169,22 @@ a.br-card:hover {
   border-color: var(--br-color-card-highlight-bg);
   color: var(--br-color-card-highlight-fg);
 }
+.br-card--tint {
+  background: var(--br-color-card-tint-bg);
+  border-color: var(--br-color-card-tint-bg);
+}
+/* Quote mark: large decorative opening quote for principle / quote cards.
+   It fills the free space above the quote and reaches a little below its first line
+   (heading-sm line + gap-sm), sitting behind the text. Put it right before the <blockquote>. */
+.br-quote-mark {
+  flex: 1 1 0; /* only the space left above the quote, never its own height */
+  min-height: var(--br-size-control-md);
+  margin-bottom: calc(-1 * (var(--br-font-heading-sm-line-height) + var(--br-space-gap-sm)));
+  color: var(--br-color-quote-mark);
+  pointer-events: none;
+}
+.br-quote-mark svg { display: block; height: 100%; width: auto; }
+
 .br-card--feature {
   background: var(--br-color-card-feature-bg);
   border-color: var(--br-color-card-feature-bg);
@@ -394,6 +410,14 @@ a.br-card:hover {
 }
 .br-avatar--md { --br-avatar-size: var(--br-size-avatar-md); }
 .br-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Revision: show a word struck out and its replacement (<del class="br-strike"> + <ins class="br-insert">). */
+.br-strike {
+  color: var(--br-color-text-secondary);
+  text-decoration: line-through;
+  text-decoration-thickness: var(--br-border-width-strong);
+}
+.br-insert { text-decoration: none; }
 
 /* Highlight: marker-style emphasis inside running text (lime surface, so it stays legible). */
 .br-highlight {

@@ -57,6 +57,7 @@ so lime appears as a **surface** (primary button, highlight card, accent chip, s
 | `--br-color-bg-surface` | `#FAFDFC` neutral.25 | `#133734` teal.900 | Cards, About section, diagram boxes |
 | `--br-color-bg-subtle` | `#DEE9E7` neutral.200 | `#1D4541` teal.850 | Neutral chips, hover rows, nav-item hover |
 | `--br-color-bg-inverse` | `#00312D` teal.950 | `#CAFF00` lime.200 | Feature card, cover fallback, active nav item |
+| `--br-color-bg-tint` | `#DEFAF6` teal.100 | `#1D4541` teal.850 | Very light colour: tint surfaces, quote mark |
 | `--br-color-border-default` | `#DEE9E7` neutral.200 | `#2A534E` teal.800 | Cards, dividers, section rules |
 | `--br-color-border-strong` | `#618D88` teal.600 | `#618D88` teal.600 | Card hover border |
 | `--br-color-text-primary` | `#00312D` teal.950 | `#ECFFFC` teal.50 | Headings, primary copy |
@@ -96,6 +97,8 @@ registry status in case studies (`success-text`, `warning-text`).
 | `--br-color-card-bg` / `-card-border` | bg-surface / border-default |
 | `--br-color-card-feature-bg` / `-fg` / `-fg-muted` | bg-inverse / text-inverse / text-inverse-muted |
 | `--br-color-card-highlight-bg` / `-fg` | accent-default / on-accent |
+| `--br-color-card-tint-bg` | bg-tint |
+| `--br-color-quote-mark` | bg-tint |
 | `--br-color-button-primary-bg` / `-bg-hover` / `-bg-pressed` / `-fg` | accent-default / accent-hover / accent-pressed / on-accent |
 | `--br-color-button-secondary-bg` / `-border` / `-border-hover` / `-fg` | bg-surface / border-default / text-secondary / text-primary |
 | `--br-color-nav-item-fg` / `-bg-hover` | text-primary / bg-subtle |
@@ -119,7 +122,7 @@ registry status in case studies (`success-text`, `warning-text`).
 |---|---|---|---|
 | **Fira Sans** | `--br-font-family-accent` | Display, headings, button/nav/chip labels | 400, 500, 700, 800 |
 | **Plus Jakarta Sans** | `--br-font-family-body` | All reading text | 400, 500 |
-| **Fira Mono** | `--br-font-family-mono` | Meta labels (eyebrows, dates, tags, stat captions) | 400 |
+| **Fira Mono** | `--br-font-family-mono` | Meta labels (dates, details under a title, local time) | 400 |
 
 Fira Sans + Fira Mono load from a `<link>` in each page's `<head>`; Plus Jakarta Sans loads in `<helmet>`.
 
@@ -162,10 +165,11 @@ font-family/size/weight by hand.
 | `.br-text-card-body` | body | body-md | 400 | — | Card descriptions |
 | `.br-text-button-label` / `.br-text-nav-label` | accent | label-md | 500 | — | Buttons, nav items |
 | `.br-text-chip-label` | accent | label-sm | 500 | — | Chips, diagram labels |
-| `.br-text-meta-label` | mono | caption-md | 400 | — | Eyebrows, dates, footer, stat captions |
+| `.br-text-meta-label` | mono | caption-md | 400 | — | Dates, details under a title, footer (never as an eyebrow) |
+| `.br-text-quote-emphasis` | accent | 0.75 × display-md (54 / 33) | 800 | tighter | Big closing words of a poster-style quote |
 | `.br-text-input-helper` | accent | caption-md | 500 | wide | Input helper text |
 
-Eyebrow pattern: `.br-text-meta-label` + `text-transform:uppercase; letter-spacing:var(--br-font-tracking-wide); color:var(--br-color-text-secondary)`.
+**No eyebrows.** Small labels above titles are not part of br. Legacy eyebrows remain only in the case studies until they're redesigned; new work never adds them.
 
 ---
 
@@ -355,6 +359,7 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-row` | Contact list row with bottom rule; grows and fills on hover | `--br-color-border-default`, `--br-color-bg-subtle` |
 | `.br-input` | 48px text input; focus border = focus ring | `--br-color-input-*`, `--br-radius-input` |
 | `.br-avatar` (`--md`) | Round avatar, 150px (96 mobile), `--md` 112px (72 mobile): initials on lime, or an `<img>` child for a photo | `--br-size-avatar-lg` / `-md`, `--br-color-card-highlight-*` |
+| `.br-strike` / `.br-insert` | A word shown struck through (`<del>`, secondary colour, 2px line) next to its replacement (`<ins>`, no underline) | `--br-color-text-secondary`, `--br-border-width-strong` |
 | `.br-highlight` | Marker-style emphasis in running text: lime surface, on-accent text | `--br-color-card-highlight-*`, `--br-radius-sm` |
 | `.br-status-dot` | 12px success-colour dot with a slow pulse ring (off with reduced motion) | `--br-color-status-success-text` |
 | `.br-icon-btn--plain` | Borderless icon action for dark feature cards; outline + brighter on hover | `--br-color-card-feature-fg` / `-fg-muted` |
@@ -364,6 +369,8 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-icon-btn` | Round 44px icon-only button (home theme toggle) | `--br-color-button-secondary-*`, `--br-icon-button` |
 | `.br-card--highlight` | Lime card, teal text | `--br-color-card-highlight-*` |
 | `.br-card--feature` | Teal card, lime text | `--br-color-card-feature-*` |
+| `.br-quote-mark` | Decorative opening quote (SVG) in the tint colour; fills the space above the quote and reaches just below its first line, behind the text | `--br-color-quote-mark` |
+| `.br-card--tint` | Very light colour card (quote) | `--br-color-card-tint-bg` |
 | `.br-segmented` | Pill container for filter tabs; holds `.br-nav-item`s | `--br-color-card-*`, `--br-radius-nav` |
 | `.br-nav-item--active` | Selected nav item / filter | `--br-color-nav-item-active-*` |
 | `.br-bento` | 4-col (2 on mobile) dense grid | `--br-layout-bento-columns`, `--br-size-bento-row`, `--br-space-bento-gap` |
@@ -372,6 +379,6 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 Base styles in the same file: `html`/`body` background and color, `::selection` (lime with teal
 text), and a global `:focus-visible` outline (2px `--br-color-focus-ring`, 2px offset).
 
-Patterns built inline from tokens (no class yet): sticky nav, section eyebrow, case-study hero stats,
+Patterns built inline from tokens (no class yet): sticky nav, case-study hero stats,
 case-study diagrams (highlighted step = `--br-color-card-highlight-bg` + `--br-color-on-accent`),
 outcome cards, footers.
