@@ -25,8 +25,8 @@
 
 <!-- br. design tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/tokens.css?v=25">
-<link rel="stylesheet" href="./assets/css/components.css?v=25">
+<link rel="stylesheet" href="./assets/css/tokens.css?v=30">
+<link rel="stylesheet" href="./assets/css/components.css?v=30">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -174,7 +174,6 @@
         <sc-if value="{{ c.isProjectMock }}" hint-placeholder-val="{{ false }}">
           <div class="br-card" style="position:relative;background:var(--br-color-bg-subtle);padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--br-space-gap-sm);">
             <span class="br-chip br-chip--accent br-text-chip-label" style="position:absolute;top:var(--br-space-inset-lg);right:var(--br-space-inset-lg);">Mock</span>
-            <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">{{ c.category }}</span>
             <h3 class="br-text-section-title">{{ c.title }}</h3>
           </div>
         </sc-if>
@@ -203,12 +202,14 @@
           </div>
         </sc-if>
 
-        <!-- QUOTE (about): a principle in one line -->
+        <!-- QUOTE (about): poster-style principle on a light tint -->
         <sc-if value="{{ c.isQuote }}" hint-placeholder-val="{{ false }}">
-          <figure class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:center;gap:var(--br-space-gap-md);">
-            <span class="br-text-section-title" aria-hidden="true" style="color:var(--br-color-text-disabled);line-height:1;">“</span>
-            <blockquote class="br-text-card-title">{{ c.quote }}</blockquote>
-            <figcaption class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);">{{ c.caption }}</figcaption>
+          <figure class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;">
+            <div class="br-quote-mark" aria-hidden="true"><svg viewBox="0 0 48 40" fill="currentColor"><path d="M0 40V24C0 10 6 2 20 0l2 6c-8 3-11 8-11 14h9v20H0Zm26 0V24c0-14 6-22 20-24l2 6c-8 3-11 8-11 14h9v20H26Z"></path></svg></div>
+            <blockquote style="position:relative;display:flex;flex-direction:column;gap:var(--br-space-gap-sm);">
+              <span class="br-text-card-title">{{ c.lead }}<del class="br-strike">{{ c.struck }}</del> <ins class="br-insert"><span class="br-highlight">{{ c.inserted }}</span></ins>{{ c.middle }}<br>{{ c.second }}</span>
+              <span class="br-text-quote-emphasis">{{ c.emphasis }}</span>
+            </blockquote>
           </figure>
         </sc-if>
 
@@ -298,16 +299,16 @@ class Component extends DCLogic {
       href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat',
       title: 'Axcess — Platform & component library' },
     { id: 'about', type: 'about', cat: 'about' },
-    // MOCK copy — replace with a real principle.
+    // Principle: "lazy" shown struck through and corrected to "easy path" (lime marker);
+    // "the right one." set big and extrabold, poster style. Large quote mark on top in the tint colour.
     { id: 'quote', type: 'quote', cat: 'about',
-      quote: 'A design system is only as good as the decisions it makes unnecessary.',
-      caption: 'My design principle' },
+      lead: 'Find the ', struck: 'lazy', inserted: 'easy path', middle: '.', second: 'Then make it', emphasis: 'the right one.' },
     { id: 'stat-fitune', type: 'stat', cat: 'work', value: '−35%', label: 'Design-to-dev handoff cycles' },
     { id: 'stat-guros-renewals', type: 'stat', cat: 'work', value: '+15%', label: 'Customer renewals' },
     { id: 'stat-axcess', type: 'stat', cat: 'work', value: '−20%', label: 'Time to market' },
     // MOCK placeholders — replace with real case studies (or delete).
-    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, category: 'Case study 04', title: 'Project title goes here' },
-    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, category: 'Case study 05', title: 'Project title goes here' },
+    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, title: 'Case study 04 goes here' },
+    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, title: 'Case study 05 goes here' },
     { id: 'location', type: 'location', cat: 'personal' },
     // MOCK personal placeholders — replace with real hobbies, side projects, etc.
     { id: 'mock-personal-1', type: 'personal', cat: 'personal', mock: true, title: 'Side project', detail: 'One line about it' },
