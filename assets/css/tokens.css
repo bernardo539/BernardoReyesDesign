@@ -112,6 +112,7 @@
   --br-size-control-md: 44px;
   --br-size-control-lg: 48px;
   --br-size-avatar-lg: 150px;
+  --br-size-avatar-md: 112px;
 
   /* Icons (desktop) */
   --br-icon-sm: 16px;
@@ -125,13 +126,16 @@
   --br-duration-base: 300ms;
   --br-duration-slow: 600ms;
   --br-duration-loader-cycle: 800ms;
+  --br-duration-gentle: 900ms;
   --br-easing-linear: linear;
   --br-easing-standard: cubic-bezier(0.2, 0, 0, 1);
   --br-easing-enter: cubic-bezier(0, 0, 0, 1);
   --br-easing-exit: cubic-bezier(0.3, 0, 1, 1);
   --br-easing-emphasized: cubic-bezier(0.5, 0, 0, 1);
+  --br-easing-organic: cubic-bezier(0.25, 1.15, 0.4, 1); /* soft settle, slight overshoot */
   --br-motion-distance: 8px;
   --br-motion-scale: 0.97;
+  --br-motion-float-distance: 8px;
 
   /* Provisional (doc §9 — proposed, not closed yet) */
   --br-border-width-default: 1px;
@@ -215,6 +219,7 @@
 
     --br-size-control-sm: 40px;
     --br-size-avatar-lg: 96px;
+    --br-size-avatar-md: 72px;
 
     --br-icon-md: 24px;
 
@@ -233,7 +238,9 @@
     --br-duration-fast: 0ms;
     --br-duration-base: 100ms;   /* opacity only */
     --br-duration-slow: 100ms;
+    --br-duration-gentle: 100ms;
     --br-motion-distance: 0px;
+    --br-motion-float-distance: 0px;
     --br-motion-scale: 1;
   }
 }
@@ -328,6 +335,7 @@
   --br-transition-press: var(--br-duration-instant) var(--br-easing-standard);
   --br-transition-card-filter: var(--br-duration-base) var(--br-easing-standard);
   --br-transition-card-reorder: var(--br-duration-slow) var(--br-easing-emphasized);
+  --br-transition-card-push: var(--br-duration-gentle) var(--br-easing-organic);
   --br-transition-theme-switch: var(--br-duration-base) var(--br-easing-standard);
   --br-transition-enter: var(--br-duration-slow) var(--br-easing-enter);
   --br-transition-exit: var(--br-duration-fast) var(--br-easing-exit);

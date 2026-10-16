@@ -257,7 +257,8 @@ semantic `--br-icon-inline|button|nav|tile|arrow`. The site currently uses Unico
 | `--br-motion-distance` | 8px | 0px |
 | `--br-motion-scale` | 0.97 | 1 |
 
-Easings: `--br-easing-{linear|standard|enter|exit|emphasized}`.
+Easings: `--br-easing-{linear|standard|enter|exit|emphasized|organic}` (organic = `cubic-bezier(0.25, 1.15, 0.4, 1)`, soft settle with slight overshoot).
+Also: `--br-duration-gentle` 900ms (reduced 100ms) and `--br-motion-float-distance` 8px (reduced 0px).
 
 | Semantic transition | = duration + easing | Used by |
 |---|---|---|
@@ -265,6 +266,7 @@ Easings: `--br-easing-{linear|standard|enter|exit|emphasized}`.
 | `--br-transition-press` | instant + standard | `.br-btn:active` scale |
 | `--br-transition-card-filter` | base + standard | Dimming cards (planned) |
 | `--br-transition-card-reorder` | slow + emphasized | Home bento: cards sliding, growing and dimming on filter change |
+| `--br-transition-card-push` | gentle + organic | Home bento hover: clickable card grows 8%, neighbours move away radially; float amplitude eases in/out |
 | `--br-transition-theme-switch` | base + standard | `body` background/color |
 | `--br-transition-enter` | slow + enter | Scroll reveal |
 | `--br-transition-exit` | fast + exit | Exits |
@@ -301,11 +303,29 @@ Proposed in `br-design-tokens.md §9`, exposed in CSS, not closed yet:
 - **Responsive:** handled by the mobile mode in `tokens.css` (type, spacing, radius, sizing shrink
   below 820px) plus flex-wrap and auto-fit grids. Adding `@media` is allowed when a layout truly
   needs it; use `max-width: 819px` to stay aligned with the mobile mode.
-- **Home bento:** `.br-bento` grid, 4 columns (2 on mobile), dense packing, cards span 1×1, 2×1 or 2×2.
-  A segmented filter (All / Work / About / Personal) moves matching cards first, can grow them
+- **Home bento:** `.br-bento` grid, 4 columns (2 on mobile), dense packing on half-row tracks.
+  Size and look follow the content type (`SIZES` in `index.html`; a card can override with `size`):
+
+  | Type | Size | Look |
+  |---|---|---|
+  | Work (case studies) | 2×2 | Full-colour cover image only |
+  | About (intro, about) | 2×1 | Neutral `.br-card`, dark text |
+  | Contact (availability) | 2×1 | `.br-card--feature` — the only dark card. Top: Resume ghost button, then icon actions (`.br-icon-btn--plain`): copy email to clipboard, LinkedIn, Calendly in a new tab. Below: title and "Let's make contact". Always lands in the first two rows. |
+  | Data (stats) | 1×1 | `.br-card--highlight` (lime) |
+  | Personal | 1×½ (full width on mobile) | Smallest; subtle motion (e.g. `.br-status-dot` + live local time) |
+
+  A segmented filter (All / About / Work / Personal / Recruiter) moves matching cards first, can grow them
   (e.g. Guros and Axcess go 2×1 → 2×2 under Work) and dims the rest; cards slide to their new
   place with a FLIP animation on `--br-transition-card-reorder`. Old `#work` / `#about` / `#contact`
   links open the matching filter.
+  **Recruiter** is the exception: nothing is dimmed and cards follow a fixed order for a fast
+  screen (`RECRUITER_ORDER`), chosen so rows stay full and leftover space falls at the end; `RECRUITER_SIZES` holds
+  its size overrides (location becomes 1×1). `#recruiter` opens it directly.
+  Hovering a clickable card (link cards and the email card, not dimmed ones) scales it to 1.08
+  and pushes the other cards away from its center: about 44px for direct neighbours, fading
+  with distance, even past the grid edge, over 900ms with an organic ease. While a card is hovered
+  the other cards float up to 8px in place (`.br-bento--floating`, `br-float` keyframes with staggered
+  timing); the hovered card holds still. Mouse only, off with reduced motion.
 - **Case study hero metrics:** `repeat(4, 1fr)` grid of `.br-text-stat-value` + caption.
 - **Sticky nav:** `z-index: var(--br-z-sticky)`, background
   `color-mix(in srgb, var(--br-color-page-bg) 85%, transparent)` with `backdrop-filter: blur(12px)`,
@@ -325,19 +345,25 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-btn` | Pill button base: 44px tall, 1px border, press scale | `--br-size-button-height`, `--br-radius-button` |
 | `.br-btn--primary` | Lime button, teal label | `--br-color-button-primary-*` |
 | `.br-btn--secondary` | Surface button with border; border darkens on hover | `--br-color-button-secondary-*` |
+| `.br-btn--ghost` | Outline button for dark feature cards | `--br-color-card-feature-fg` / `-fg-muted` |
 | `.br-nav-item` | Pill nav link, subtle fill on hover | `--br-color-nav-item-*`, `--br-radius-nav` |
 | `.br-chip` | Neutral pill tag | `--br-color-bg-subtle`, `--br-radius-chip` |
 | `.br-chip--accent` | Lime pill tag (stack, case-study category) | `--br-color-card-highlight-*` |
 | `.br-card` | Surface card, 1px border, `xl` radius; `a.br-card` lifts on hover | `--br-color-card-*`, `--br-radius-card` |
 | `.br-row` | Contact list row with bottom rule; grows and fills on hover | `--br-color-border-default`, `--br-color-bg-subtle` |
 | `.br-input` | 48px text input; focus border = focus ring | `--br-color-input-*`, `--br-radius-input` |
+| `.br-avatar` (`--md`) | Round avatar, 150px (96 mobile), `--md` 112px (72 mobile): initials on lime, or an `<img>` child for a photo | `--br-size-avatar-lg` / `-md`, `--br-color-card-highlight-*` |
+| `.br-highlight` | Marker-style emphasis in running text: lime surface, on-accent text | `--br-color-card-highlight-*`, `--br-radius-sm` |
+| `.br-status-dot` | 12px success-colour dot with a slow pulse ring (off with reduced motion) | `--br-color-status-success-text` |
+| `.br-icon-btn--plain` | Borderless icon action for dark feature cards; outline + brighter on hover | `--br-color-card-feature-fg` / `-fg-muted` |
+| `.br-visually-hidden` | Hidden visually, still announced (live status text) | — |
 | `.br-icon-btn` | Round 44px icon-only button (home theme toggle) | `--br-color-button-secondary-*`, `--br-icon-button` |
 | `.br-card--highlight` | Lime card, teal text | `--br-color-card-highlight-*` |
 | `.br-card--feature` | Teal card, lime text | `--br-color-card-feature-*` |
 | `.br-segmented` | Pill container for filter tabs; holds `.br-nav-item`s | `--br-color-card-*`, `--br-radius-nav` |
 | `.br-nav-item--active` | Selected nav item / filter | `--br-color-nav-item-active-*` |
 | `.br-bento` | 4-col (2 on mobile) dense grid | `--br-layout-bento-columns`, `--br-size-bento-row`, `--br-space-bento-gap` |
-| `.br-bento-cell` (`--w2`, `--h2`, `--dim`) | Grid cell: span 2 cols / 2 rows / filtered-out (dim + scale) | `--br-opacity-dim`, `--br-motion-scale`, `--br-transition-card-reorder` |
+| `.br-bento-cell` (`--w2`, `--h2`, `--half`, `--dim`) | Grid cell (1 row by default): span 2 cols / 2 rows / ½ row / filtered-out (dim + scale) | `--br-opacity-dim`, `--br-motion-scale`, `--br-transition-card-reorder` |
 
 Base styles in the same file: `html`/`body` background and color, `::selection` (lime with teal
 text), and a global `:focus-visible` outline (2px `--br-color-focus-ring`, 2px offset).
