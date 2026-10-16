@@ -25,8 +25,8 @@
 
 <!-- br. design tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/tokens.css?v=15">
-<link rel="stylesheet" href="./assets/css/components.css?v=15">
+<link rel="stylesheet" href="./assets/css/tokens.css?v=25">
+<link rel="stylesheet" href="./assets/css/components.css?v=25">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -100,13 +100,25 @@
   .home-header-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--br-space-gap-md);}
   .home-header-inner > a:first-child{justify-self:start;}
   .home-cta{justify-self:end;}
-  .home-theme-toggle{position:fixed;right:var(--br-space-page-padding-x);bottom:var(--br-space-page-padding-x);z-index:var(--br-z-sticky);}
-  .home-header{transition:transform var(--br-transition-enter);}
-  .home-header--hidden{transform:translateY(-100%);transition:transform var(--br-transition-exit);}
+  .home-intro{align-items:center;}
+  /* Hiding slides the header up by animating `top` (set from JS), not transform: a transform or
+     backdrop-filter on the header would trap the fixed mobile filter bar inside it. */
+  .home-header{transition:top var(--br-transition-enter);}
+  .home-header--hidden{transition:top var(--br-transition-exit);}
   @media (max-width: 819px){
     .home-header-inner{grid-template-columns:1fr auto;}
     .home-intro{flex-direction:column;align-items:flex-start;}
-    .home-filters{grid-column:1 / -1;grid-row:2;justify-self:center;}
+    /* Mobile header: blurred bar behind logo, Let's talk and mode switch (same treatment as the filter).
+       Only shown while scrolling up with content under it (.home-header--raised). No bottom border. */
+    .home-header::before{content:'';position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--br-color-card-bg) 70%, transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity var(--br-transition-hover);}
+    .home-header--raised::before{opacity:1;}
+    /* Mobile filter: fixed at the bottom; slides down on scroll down, back up on scroll up. */
+    .home-filters{position:fixed;left:50%;bottom:calc(var(--br-space-inset-md) + env(safe-area-inset-bottom));z-index:var(--br-z-sticky);transform:translateX(-50%);transition:transform var(--br-transition-enter);}
+    .home-filters--hidden{transform:translate(-50%, calc(100% + var(--br-space-inset-md) + env(safe-area-inset-bottom)));transition:transform var(--br-transition-exit);}
+  }
+  /* Phones only (below bp.sm 640): drop the least important filter; personal cards still show in All. */
+  @media (max-width: 639px){
+    .home-tab--personal{display:none;}
   }
 </style>
 </helmet>
@@ -119,7 +131,17 @@
         <button type="button" class="{{ f.cls }}" aria-pressed="{{ f.active }}" onClick="{{ f.onSelect }}">{{ f.label }}</button>
       </sc-for>
     </nav>
-    <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-text-button-label home-cta">Let's talk</a>
+    <div class="home-cta" style="display:flex;align-items:center;gap:var(--br-space-gap-sm);">
+      <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-btn--reveal-arrow br-text-button-label" aria-label="Let's talk (opens Calendly in a new tab)">Let's talk<svg class="br-btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+      <button type="button" class="br-icon-btn br-icon-btn--inverse home-theme-toggle" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}">
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"></path></svg>
+        </sc-if>
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"></path></svg>
+        </sc-if>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -130,13 +152,15 @@
 
         <!-- INTRO -->
         <sc-if value="{{ c.isIntro }}" hint-placeholder-val="{{ false }}">
-          <div class="br-card home-intro" style="padding:var(--br-space-card-padding);display:flex;align-items:center;gap:var(--br-space-gap-lg);">
+          <div class="br-card home-intro" style="padding:var(--br-space-card-padding);display:flex;gap:var(--br-space-gap-lg);">
             <!-- Swap the initials for <img src="…" alt="Bernardo Reyes"> when there's a photo -->
             <div class="br-avatar br-avatar--md" aria-hidden="true">BR</div>
-            <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-sm);min-width:0;">
-              <p class="br-text-meta-label" style="color:var(--br-color-text-secondary);">Hello there, I'm</p>
-              <h1 class="br-text-section-title">Bernardo Reyes</h1>
-              <p class="br-text-card-body" style="color:var(--br-color-text-secondary);"><span class="br-highlight">Senior Product Designer &amp; Design Lead</span> building design systems and design to code workflows at Fitune.</p>
+            <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);min-width:0;">
+              <div>
+                <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">Hello there, I'm</p>
+                <h1 class="br-text-section-title">Bernardo Reyes</h1>
+              </div>
+              <p class="br-text-card-body"><span class="br-highlight">Senior Product Designer &amp; Design Lead</span></p>
             </div>
           </div>
         </sc-if>
@@ -146,9 +170,21 @@
           <a class="br-card" href="{{ c.href }}" aria-label="{{ c.title }}" style="background-color:var(--br-color-bg-inverse);background:{{ c.coverBg }};"></a>
         </sc-if>
 
+        <!-- PROJECT (MOCK placeholder: no link, no cover) -->
+        <sc-if value="{{ c.isProjectMock }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="position:relative;background:var(--br-color-bg-subtle);padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--br-space-gap-sm);">
+            <span class="br-chip br-chip--accent br-text-chip-label" style="position:absolute;top:var(--br-space-inset-lg);right:var(--br-space-inset-lg);">Mock</span>
+            <span class="br-text-meta-label" style="color:var(--br-color-text-secondary);">{{ c.category }}</span>
+            <h3 class="br-text-section-title">{{ c.title }}</h3>
+          </div>
+        </sc-if>
+
         <!-- STAT -->
         <sc-if value="{{ c.isStat }}" hint-placeholder-val="{{ false }}">
-          <div class="{{ c.cardClass }}" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+          <div class="{{ c.cardClass }}" style="position:relative;padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
+              <span class="br-chip br-text-chip-label" style="position:absolute;top:var(--br-space-inset-lg);right:var(--br-space-inset-lg);">Mock</span>
+            </sc-if>
             <div>
               <div class="br-text-stat-value">{{ c.value }}</div>
               <div class="br-text-card-body" style="margin-top:var(--br-space-gap-xs);">{{ c.label }}</div>
@@ -164,18 +200,24 @@
           </div>
         </sc-if>
 
+        <!-- QUOTE (about): a principle in one line -->
+        <sc-if value="{{ c.isQuote }}" hint-placeholder-val="{{ false }}">
+          <figure class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:center;gap:var(--br-space-gap-md);">
+            <span class="br-text-section-title" aria-hidden="true" style="color:var(--br-color-text-disabled);line-height:1;">“</span>
+            <blockquote class="br-text-card-title">{{ c.quote }}</blockquote>
+            <figcaption class="br-text-meta-label" style="text-transform:uppercase;letter-spacing:var(--br-font-tracking-wide);color:var(--br-color-text-secondary);">{{ c.caption }}</figcaption>
+          </figure>
+        </sc-if>
+
         <!-- CONTACT (feature): resume + three direct actions (copy email, LinkedIn, Calendly) -->
         <sc-if value="{{ c.isCall }}" hint-placeholder-val="{{ false }}">
           <div class="br-card br-card--feature" data-clickable="" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:space-between;gap:var(--br-space-gap-lg);">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--br-space-gap-sm);">
               <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" class="br-btn br-btn--ghost br-text-button-label">Resume ↓</a>
               <div style="display:flex;align-items:center;gap:var(--br-space-gap-xs);">
-                <button type="button" class="br-icon-btn br-icon-btn--plain" onClick="{{ copyEmail }}" aria-label="{{ emailLabel }}" title="{{ emailLabel }}">
-                  <sc-if value="{{ !emailCopied }}" hint-placeholder-val="{{ true }}"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="3.25" width="12.5" height="9.5" rx="1.5"></rect><path d="M2.5 4.5 8 8.75l5.5-4.25"></path></svg></sc-if>
-                  <sc-if value="{{ emailCopied }}" hint-placeholder-val="{{ false }}"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5 6.5 12 13 4.5"></path></svg></sc-if>
-                </button>
-                <a href="https://www.linkedin.com/in/bernardo-reyes-design/" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain" aria-label="LinkedIn profile" title="LinkedIn profile"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM2.25 6.25h2.5V14h-2.5V6.25ZM6.5 6.25h2.4v1.06c.36-.62 1.2-1.26 2.47-1.26 2.6 0 3.08 1.66 3.08 3.82V14h-2.5v-3.6c0-.86-.02-1.96-1.2-1.96-1.2 0-1.38.93-1.38 1.9V14H6.5V6.25Z"></path></svg></a>
-                <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain" aria-label="Book a call on Calendly" title="Book a call on Calendly"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"></rect><path d="M2 6.5h12M5.5 1.75v2.5M10.5 1.75v2.5"></path></svg></a>
+                <button type="button" class="{{ emailBtnClass }}" onClick="{{ copyEmail }}" aria-label="{{ emailBtnLabel }}" title="{{ emailBtnLabel }}"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="3.25" width="12.5" height="9.5" rx="1.5"></rect><path d="M2.5 4.5 8 8.75l5.5-4.25"></path></svg><span class="br-icon-btn__label br-text-chip-label" aria-hidden="true">Copied</span></button>
+                <a href="https://www.linkedin.com/in/bernardo-reyes-design/" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn profile"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM2.25 6.25h2.5V14h-2.5V6.25ZM6.5 6.25h2.4v1.06c.36-.62 1.2-1.26 2.47-1.26 2.6 0 3.08 1.66 3.08 3.82V14h-2.5v-3.6c0-.86-.02-1.96-1.2-1.96-1.2 0-1.38.93-1.38 1.9V14H6.5V6.25Z"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+                <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="Book a call on Calendly (opens in a new tab)" title="Book a call on Calendly"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"></rect><path d="M2 6.5h12M5.5 1.75v2.5M10.5 1.75v2.5"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
               </div>
             </div>
             <div>
@@ -183,6 +225,19 @@
               <p class="br-text-button-label">Let's make contact</p>
               <p class="br-visually-hidden" aria-live="polite">{{ emailStatus }}</p>
             </div>
+          </div>
+        </sc-if>
+
+        <!-- PERSONAL (MOCK placeholder) -->
+        <sc-if value="{{ c.isPersonal }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-inset-md) var(--br-space-inset-lg);display:flex;align-items:center;justify-content:space-between;gap:var(--br-space-gap-sm);">
+            <div style="min-width:0;">
+              <div class="br-text-nav-label">{{ c.title }}</div>
+              <div class="br-text-meta-label" style="color:var(--br-color-text-secondary);">{{ c.detail }}</div>
+            </div>
+            <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
+              <span class="br-chip br-text-chip-label" style="flex:none;">Mock</span>
+            </sc-if>
           </div>
         </sc-if>
 
@@ -202,15 +257,6 @@
   </div>
 </main>
 
-<button type="button" class="br-icon-btn br-icon-btn--inverse home-theme-toggle" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}">
-  <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
-    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"></path></svg>
-  </sc-if>
-  <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
-    <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"></path></svg>
-  </sc-if>
-</button>
-
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
 class Component extends DCLogic {
@@ -227,10 +273,12 @@ class Component extends DCLogic {
   static SIZES = {
     project: [2, 2],  // work
     intro: [2, 1],    // about
-    about: [2, 1],
+    about: [2, 2],    // was [2, 1]
+    quote: [2, 1],    // about
     call: [2, 1],     // contact: the one dark card (availability + email, LinkedIn, resume)
     stat: [1, 1],     // data
     location: [1, 0.5], // personal
+    personal: [1, 0.5],
   };
 
   // The first card (intro) stays first; the rest are shuffled per page load.
@@ -247,8 +295,21 @@ class Component extends DCLogic {
       href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat',
       title: 'Axcess — Platform & component library' },
     { id: 'about', type: 'about', cat: 'about' },
+    // MOCK copy — replace with a real principle.
+    { id: 'quote', type: 'quote', cat: 'about',
+      quote: 'A design system is only as good as the decisions it makes unnecessary.',
+      caption: 'My design principle' },
     { id: 'stat-fitune', type: 'stat', cat: 'work', value: '35%', label: 'Handoff reduction at Fitune' },
+    // MOCK placeholders — replace with real case studies and metrics (or delete).
+    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, category: 'Case study 04', title: 'Project title goes here' },
+    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, category: 'Case study 05', title: 'Project title goes here' },
+    { id: 'mock-stat-3', type: 'stat', cat: 'work', mock: true, value: '00%', label: 'Metric for case study 04' },
+    { id: 'mock-stat-4', type: 'stat', cat: 'work', mock: true, value: '00%', label: 'Metric for case study 05' },
     { id: 'location', type: 'location', cat: 'personal' },
+    // MOCK personal placeholders — replace with real hobbies, side projects, etc.
+    { id: 'mock-personal-1', type: 'personal', cat: 'personal', mock: true, title: 'Side project', detail: 'One line about it' },
+    { id: 'mock-personal-2', type: 'personal', cat: 'personal', mock: true, title: 'Hobby', detail: 'A number or a streak' },
+    { id: 'mock-personal-3', type: 'personal', cat: 'personal', mock: true, title: 'Currently learning', detail: 'Topic or course' },
     { id: 'call', type: 'call', cat: 'about' },
   ];
 
@@ -260,20 +321,27 @@ class Component extends DCLogic {
     { id: 'recruiter', label: 'Recruiter' },
   ];
 
-  // Recruiter view: a fixed order built for a fast screen, nothing dimmed.
-  // Who + how to reach me → each case study next to its metric → the rest.
-  // The order keeps every row full until the last one (leftover space only at the end):
-  //   row 1      intro              | contact (call)
-  //   rows 2–3   fitune             | stat-fitune, location / about
-  //   rows 4–5   guros              | axcess
-  //   row 6      stat-guros (sits right under guros)
+  // Recruiter view: one fixed grid built for a fast screen, nothing dimmed.
+  // It answers a recruiter's questions in order: who → how to reach me → impact in numbers →
+  // how I think → proof (case studies, real ones first) → logistics and personal.
+  // Fills 9 rows exactly on desktop (no holes):
+  //   row 1      intro                 | contact
+  //   row 2      35% | 18% | 00% | 00%   (metrics strip, same order as the case studies)
+  //   rows 3–4   about                 | fitune
+  //   rows 5–6   guros                 | axcess
+  //   rows 7–8   case 04               | case 05
+  //   row 9      quote                 | location, side project / hobby, learning (½ rows)
+  // Cards not listed here fall in after these.
   static RECRUITER_ORDER = [
     'intro', 'call',
-    'fitune', 'stat-fitune', 'location', 'about',
-    'guros', 'axcess', 'stat-guros',
+    'stat-fitune', 'stat-guros', 'mock-stat-3', 'mock-stat-4',
+    'about', 'fitune',
+    'guros', 'axcess',
+    'mock-case-4', 'mock-case-5',
+    'quote', 'location', 'mock-personal-1', 'mock-personal-2', 'mock-personal-3',
   ];
-  // Size overrides for the recruiter view only (location becomes a square so the grid tiles).
-  static RECRUITER_SIZES = { location: [1, 1] };
+  // Size overrides for the recruiter view only (none needed with this grid).
+  static RECRUITER_SIZES = {};
 
   componentDidMount() {
     // Hover push only for real pointers that hover, and not with reduced motion.
@@ -303,12 +371,22 @@ class Component extends DCLogic {
       const header = document.querySelector('.home-header');
       if (!header) return;
       const y = window.scrollY;
+      if (y <= 0) header.classList.remove('home-header--raised'); // back at the top: no bar
       const delta = y - this._lastY;
       if (Math.abs(delta) < 4) return; // ignore jitter
-      header.classList.toggle('home-header--hidden', delta > 0 && y > header.offsetHeight);
+      // Bar (mobile/tablet) only while scrolling up with content under the header, never on the way down.
+      header.classList.toggle('home-header--raised', delta < 0 && y > 0);
+      const hide = delta > 0 && y > header.offsetHeight;
+      header.classList.toggle('home-header--hidden', hide);
+      header.style.top = hide ? -header.offsetHeight + 'px' : '0px';
+      // Mobile: the filter bar sits at the bottom and slides down with the same rule.
+      const filters = document.querySelector('.home-filters');
+      if (filters) filters.classList.toggle('home-filters--hidden', hide);
       this._lastY = y;
     };
     window.addEventListener('scroll', this._onScroll, { passive: true });
+    // Page loaded already scrolled: the header is showing over content, so show its bar.
+    document.querySelector('.home-header')?.classList.toggle('home-header--raised', window.scrollY > 0);
 
     // Local time on the personal card, refreshed every 30s.
     this._clock = setInterval(() => this.setState({ now: Date.now() }), 30000);
@@ -414,6 +492,7 @@ class Component extends DCLogic {
 
   // Copy the email; only confirm when it worked, otherwise open the mail app.
   _copyEmail() {
+    if (this.state.emailCopied) return; // the "Copied" pill is not clickable
     const email = 'bernardo.reyes.design@gmail.com';
     const write = navigator.clipboard && navigator.clipboard.writeText
       ? navigator.clipboard.writeText(email)
@@ -481,11 +560,15 @@ class Component extends DCLogic {
           + (match ? '' : ' br-bento-cell--dim'),
         cardClass: 'br-card' + (c.type === 'stat' ? ' br-card--highlight' : ''), // every stat card is solid lime
         isIntro: c.type === 'intro',
-        isProject: c.type === 'project',
+        isProject: c.type === 'project' && !c.mock,
+        isProjectMock: c.type === 'project' && !!c.mock,
+        mock: !!c.mock,
         isStat: c.type === 'stat',
         isAbout: c.type === 'about',
+        isQuote: c.type === 'quote',
         isCall: c.type === 'call',
         isLocation: c.type === 'location',
+        isPersonal: c.type === 'personal',
       };
     });
   }
@@ -496,7 +579,7 @@ class Component extends DCLogic {
       filters: Component.FILTERS.map((f) => ({
         ...f,
         active: f.id === filter,
-        cls: 'br-nav-item br-text-chip-label' + (f.id === filter ? ' br-nav-item--active' : ''),
+        cls: 'br-nav-item br-text-chip-label home-tab--' + f.id + (f.id === filter ? ' br-nav-item--active' : ''),
         onSelect: () => this._setFilter(f.id),
       })),
       cards: this._cards(filter),
@@ -506,7 +589,8 @@ class Component extends DCLogic {
       toggleTheme: () => this._applyTheme(this.state.theme === 'light' ? 'dark' : 'light'),
       localTime: new Date(this.state.now).toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' }),
       emailCopied: this.state.emailCopied,
-      emailLabel: this.state.emailCopied ? 'Email copied' : 'Copy email',
+      emailBtnClass: 'br-icon-btn br-icon-btn--plain br-icon-btn--morph' + (this.state.emailCopied ? ' is-copied' : ''),
+      emailBtnLabel: this.state.emailCopied ? 'Email copied' : 'Copy email',
       emailStatus: this.state.emailCopied ? 'Email copied to clipboard' : '',
       copyEmail: () => this._copyEmail(),
     };
