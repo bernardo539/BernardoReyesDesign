@@ -23,6 +23,11 @@
 <!-- Canonical -->
 <link rel="canonical" href="https://bernardoreyesdesign.com/">
 
+<!-- br. design tokens -->
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./assets/css/tokens.css?v=39">
+<link rel="stylesheet" href="./assets/css/components.css?v=39">
+
 <!-- Structured Data -->
 <script type="application/ld+json">
 {
@@ -86,218 +91,513 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Plus Jakarta Sans',sans-serif;background:#FFFFFF;color:#1A1A1A;line-height:1.6;-webkit-font-smoothing:antialiased;}
+  body{-webkit-font-smoothing:antialiased;overflow-x:clip;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
-  ::selection{background:rgba(100,90,255,0.18);}
+  .home-header-inner{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--br-space-gap-md);}
+  .home-header-inner > a:first-child{justify-self:start;}
+  .home-cta{justify-self:end;}
+  .home-intro{align-items:center;}
+  /* Hiding slides the header up by animating `top` (set from JS), not transform: a transform or
+     backdrop-filter on the header would trap the fixed mobile filter bar inside it. */
+  .home-header{transition:top var(--br-transition-enter);}
+  .home-header--hidden{transition:top var(--br-transition-exit);}
+  @media (max-width: 819px){
+    .home-header-inner{grid-template-columns:1fr auto;}
+    .home-intro{flex-direction:column;align-items:flex-start;}
+    /* Mobile header: blurred bar behind logo, Let's talk and mode switch (same treatment as the filter).
+       Only shown while scrolling up with content under it (.home-header--raised). No bottom border. */
+    .home-header::before{content:'';position:absolute;inset:0;z-index:-1;background:color-mix(in srgb, var(--br-color-card-bg) 70%, transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);opacity:0;transition:opacity var(--br-transition-hover);}
+    .home-header--raised::before{opacity:1;}
+    /* Mobile filter: fixed at the bottom; slides down on scroll down, back up on scroll up. */
+    .home-filters{position:fixed;left:50%;bottom:calc(var(--br-space-inset-md) + env(safe-area-inset-bottom));z-index:var(--br-z-sticky);transform:translateX(-50%);transition:transform var(--br-transition-enter);}
+    .home-filters--hidden{transform:translate(-50%, calc(100% + var(--br-space-inset-md) + env(safe-area-inset-bottom)));transition:transform var(--br-transition-exit);}
+  }
+  /* Phones only (below bp.sm 640): drop the least important filter; personal cards still show in All. */
+  @media (max-width: 639px){
+    .home-tab--personal{display:none;}
+  }
 </style>
 </helmet>
 
-<nav style="position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:0.5px solid #E5E5E2;">
-  <div style="width:100%;max-width:960px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;height:56px;">
-    <a href="#top" style="font-size:15px;font-weight:700;letter-spacing:-0.02em;color:#1A1A1A;">BR</a>
-    <div style="display:flex;gap:24px;align-items:center;">
-      <a href="#work" style="font-size:14px;color:#666666;transition:color .15s;" style-hover="font-size:14px;color:#1A1A1A;">Work</a>
-      <a href="#about" style="font-size:14px;color:#666666;transition:color .15s;" style-hover="font-size:14px;color:#1A1A1A;">About</a>
-      <a href="#contact" style="font-size:14px;font-weight:500;color:#645AFF;transition:color .15s;" style-hover="font-size:14px;font-weight:500;color:#4A40CC;">Contact</a>
+<header class="home-header" style="position:sticky;top:0;z-index:var(--br-z-sticky);">
+  <div class="home-header-inner" style="width:100%;padding:var(--br-space-inset-md) var(--br-space-page-padding-x);">
+    <a href="./index.html" class="br-text-card-title" style="font-weight:var(--br-font-weight-extrabold);letter-spacing:var(--br-font-tracking-tight);color:var(--br-color-text-primary);">br.</a>
+    <nav class="br-segmented home-filters" aria-label="Filter cards">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+        <button type="button" class="{{ f.cls }}" aria-pressed="{{ f.active }}" onClick="{{ f.onSelect }}">{{ f.label }}</button>
+      </sc-for>
+    </nav>
+    <div class="home-cta" style="display:flex;align-items:center;gap:var(--br-space-gap-sm);">
+      <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-btn--reveal-arrow br-text-button-label" aria-label="Let's talk (opens Calendly in a new tab)">Let's talk<svg class="br-btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+      <button type="button" class="br-icon-btn br-icon-btn--inverse home-theme-toggle" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}">
+        <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"></path></svg>
+        </sc-if>
+        <sc-if value="{{ isDark }}" hint-placeholder-val="{{ false }}">
+          <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.5A5.5 5.5 0 0 1 6.5 2.5a5.5 5.5 0 1 0 7 7Z"></path></svg>
+        </sc-if>
+      </button>
     </div>
   </div>
-</nav>
+</header>
 
-<main id="top">
-  <!-- HERO — variante split -->
-  <sc-if value="{{ isSplit }}" hint-placeholder-val="{{ true }}">
-  <section style="width:100%;max-width:720px;margin:0 auto;padding:96px 24px 64px;">
-    <p data-reveal="" class="reveal" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:16px;">Senior Product Designer &amp; Design Lead</p>
-    <h1 data-reveal="" class="reveal" style="font-size:52px;font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:8px;">Bernardo Reyes</h1>
-    <h2 data-reveal="" class="reveal" style="font-size:52px;font-weight:300;letter-spacing:-0.03em;line-height:1.05;color:#666666;margin-bottom:28px;">Design systems &amp; AI augmented delivery.</h2>
-    <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;max-width:560px;margin-bottom:32px;">8+ years designing across fintech, insurtech, and B2B SaaS. I build design systems from scratch and ship them through AI augmented pipelines that cut engineering handoff to a fraction.</p>
-    <div data-reveal="" class="reveal" style="display:flex;gap:8px;margin-bottom:56px;">
-      <a href="#work" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#645AFF;color:#fff;border:0.5px solid #645AFF;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#4A40CC;color:#fff;border:0.5px solid #4A40CC;">View work →</a>
-      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:transparent;color:#1A1A1A;border:0.5px solid #D0D0CC;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#FAFAF8;color:#1A1A1A;border:0.5px solid #D0D0CC;">Get in touch</a>
-    </div>
-    <div data-reveal="" class="reveal" style="display:flex;gap:32px;align-items:flex-start;padding-top:32px;border-top:0.5px solid #E5E5E2;flex-wrap:wrap;">
-      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-        <div style="display:flex;flex-direction:column;gap:4px;">
-          <div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;">{{ s.value }}</div>
-          <div style="font-size:13px;line-height:1.5;color:#666666;max-width:120px;">{{ s.label }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-  </sc-if>
+<main id="top" style="width:100%;max-width:var(--br-layout-container);margin:0 auto;padding:var(--br-space-gap-xl) var(--br-space-page-padding-x) var(--br-space-section-spacing);">
+  <div class="br-bento">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="14">
+      <div class="{{ c.cellClass }}" data-card="{{ c.id }}">
 
-  <!-- HERO — variante centered -->
-  <sc-if value="{{ isCentered }}" hint-placeholder-val="{{ false }}">
-  <section style="width:100%;max-width:720px;margin:0 auto;padding:112px 24px 72px;text-align:center;">
-    <p data-reveal="" class="reveal" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:20px;">Senior Product Designer &amp; Design Lead · Remote · UTC-6</p>
-    <h1 data-reveal="" class="reveal" style="font-size:52px;font-weight:700;letter-spacing:-0.04em;line-height:1.05;margin-bottom:10px;">Bernardo Reyes</h1>
-    <h2 data-reveal="" class="reveal" style="font-size:52px;font-weight:300;letter-spacing:-0.03em;line-height:1.05;color:#666666;margin-bottom:28px;">Design systems &amp;<br>AI augmented delivery.</h2>
-    <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;max-width:520px;margin:0 auto 32px;">8+ years designing across fintech, insurtech, and B2B SaaS, building design systems from scratch and shipping them through AI augmented pipelines.</p>
-    <div data-reveal="" class="reveal" style="display:flex;gap:8px;justify-content:center;margin-bottom:64px;">
-      <a href="#work" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#645AFF;color:#fff;border:0.5px solid #645AFF;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#4A40CC;color:#fff;border:0.5px solid #4A40CC;">View work →</a>
-      <a href="#contact" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:transparent;color:#1A1A1A;border:0.5px solid #D0D0CC;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#FAFAF8;color:#1A1A1A;border:0.5px solid #D0D0CC;">Get in touch</a>
-    </div>
-    <div data-reveal="" class="reveal" style="display:flex;gap:32px;align-items:center;justify-content:center;padding-top:32px;border-top:0.5px solid #E5E5E2;flex-wrap:wrap;">
-      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
-        <div style="display:flex;flex-direction:column;gap:4px;align-items:center;">
-          <div style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;">{{ s.value }}</div>
-          <div style="font-size:13px;line-height:1.5;color:#666666;max-width:120px;">{{ s.label }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </section>
-  </sc-if>
-
-  <!-- WORK -->
-  <section id="work" style="width:100%;max-width:960px;margin:0 auto;padding:64px 24px;scroll-margin-top:72px;">
-    <div data-reveal="" class="reveal" style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:8px;">
-      <h2 style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;">Work</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
-      <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
-        <a data-reveal="" class="reveal" href="{{ p.href }}" style="display:block;background:#fff;border:0.5px solid #E5E5E2;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;{{ p.pointerStyle }}" style-hover="display:block;background:#fff;border:0.5px solid #D0D0CC;border-radius:16px;overflow:hidden;transition:border-color .15s,transform .15s;transform:translateY(-2px);{{ p.pointerStyle }}">
-          <div style="width:100%;aspect-ratio:16/9;background-color:{{ p.coverFallback }};background:{{ p.coverBg }};border-bottom:0.5px solid #E5E5E2;display:flex;align-items:flex-end;justify-content:space-between;padding:18px;gap:8px;">
-            <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.92);">{{ p.name }}</span>
-            <div style="display:inline-flex;align-items:center;gap:6px;">
-              <sc-if value="{{ p.comingSoon }}" hint-placeholder-val="{{ false }}">
-                <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:rgba(255,255,255,0.14);color:rgba(255,255,255,0.92);border:0.5px solid rgba(255,255,255,0.22);backdrop-filter:blur(4px);">Coming soon</span>
-              </sc-if>
+        <!-- INTRO -->
+        <sc-if value="{{ c.isIntro }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card home-intro" style="padding:var(--br-space-card-padding);display:flex;gap:var(--br-space-gap-lg);">
+            <!-- Swap the initials for <img src="…" alt="Bernardo Reyes"> when there's a photo -->
+            <div class="br-avatar br-avatar--md" aria-hidden="true">BR</div>
+            <div style="display:flex;flex-direction:column;gap:var(--br-space-gap-xs);min-width:0;">
+              <div>
+                <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">Hello there, I'm</p>
+                <h1 class="br-text-section-title">Bernardo Reyes</h1>
+              </div>
+              <p class="br-text-card-body"><span class="br-highlight">Senior Product Designer &amp; Design Lead</span></p>
             </div>
           </div>
-          <div style="padding:24px;display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:#F3F3F0;color:#666666;border:0.5px solid #E5E5E2;">{{ p.category }}</span>
-            </div>
-            <h3 style="font-size:17px;font-weight:600;letter-spacing:-0.01em;line-height:1.3;">{{ p.title }}</h3>
-            <p style="font-size:13px;line-height:1.5;color:#666666;">{{ p.desc }}</p>
+        </sc-if>
+
+        <!-- PROJECT (cover image only) -->
+        <sc-if value="{{ c.isProject }}" hint-placeholder-val="{{ false }}">
+          <a class="br-card" href="{{ c.href }}" aria-label="{{ c.title }}" style="background-color:var(--br-color-bg-inverse);background:{{ c.coverBg }};"></a>
+        </sc-if>
+
+        <!-- PROJECT (MOCK placeholder: no link, no cover) -->
+        <sc-if value="{{ c.isProjectMock }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="position:relative;background:var(--br-color-bg-subtle);padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--br-space-gap-sm);">
+            <span class="br-chip br-chip--accent br-text-chip-label" style="position:absolute;top:var(--br-space-inset-lg);right:var(--br-space-inset-lg);">Mock</span>
+            <h3 class="br-text-section-title">{{ c.title }}</h3>
           </div>
-        </a>
-      </sc-for>
-    </div>
-  </section>
+        </sc-if>
 
-  <!-- ABOUT -->
-  <section id="about" style="background:#FAFAF8;border-top:0.5px solid #E5E5E2;border-bottom:0.5px solid #E5E5E2;scroll-margin-top:56px;">
-    <div style="width:100%;max-width:720px;margin:0 auto;padding:80px 24px;">
-      <p data-reveal="" class="reveal" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:16px;">About</p>
-      <h2 data-reveal="" class="reveal" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:24px;">Designing systems that ship faster.</h2>
-      <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;margin-bottom:16px;">I'm a senior product designer with 8+ years across fintech, insurtech, and B2B SaaS. My focus is design systems: the kind that don't just live in Figma, but reach production with minimal translation loss.</p>
-      <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;margin-bottom:40px;">At Fitune I built a full system from scratch and wired a Claude Code pipeline that delivers dev ready components straight to engineering, cutting handoff cycles by 35%. I also mentor designers on the team as they adopt this workflow. At Guros, design work I led lifted conversion 18%. I care about craft, measurable outcomes, and tools that let small teams move like big ones.</p>
-
-      <div data-reveal="" class="reveal" style="border-top:0.5px solid #E5E5E2;padding-top:32px;">
-        <p style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;margin-bottom:16px;">Stack &amp; tools</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;">
-          <sc-for list="{{ stack }}" as="t" hint-placeholder-count="7">
-            <span style="display:inline-flex;align-items:center;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:500;letter-spacing:0.02em;background:rgba(100,90,255,0.10);color:#4A40CC;border:0.5px solid rgba(100,90,255,0.25);">{{ t }}</span>
-          </sc-for>
-        </div>
-        <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:transparent;color:#1A1A1A;border:0.5px solid #D0D0CC;transition:all .15s;" style-hover="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:500;white-space:nowrap;letter-spacing:-0.01em;background:#fff;color:#1A1A1A;border:0.5px solid #D0D0CC;">Download Resume ↓</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  
-
-  <section id="contact" style="scroll-margin-top:56px;">
-    <div style="width:100%;max-width:720px;margin:0 auto;padding:88px 24px 96px;">
-      <p data-reveal="" class="reveal" style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#645AFF;margin-bottom:16px;">Contact</p>
-      <h2 data-reveal="" class="reveal" style="font-size:32px;font-weight:600;letter-spacing:-0.03em;line-height:1.15;margin-bottom:12px;">Open to remote roles &amp; collaborations.</h2>
-      <p data-reveal="" class="reveal" style="font-size:15px;line-height:1.65;color:#666666;margin-bottom:40px;max-width:520px;">Currently available for senior product design and design systems work. Based in Mexico, working remotely UTC-6.</p>
-      <div data-reveal="" class="reveal" style="display:flex;flex-direction:column;border-top:0.5px solid #E5E5E2;">
-        <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="3">
-          <sc-if value="{{ c.copyEmail }}" hint-placeholder-val="{{ false }}">
-            <div onclick="{{ handleEmailCopy }}" style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;cursor:pointer;" style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;background:#FAFAF8;cursor:pointer;">
-              <div style="display:flex;flex-direction:column;gap:2px;">
-                <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
-                <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
-              </div>
-              <span style="font-size:18px;color:{{ emailCopied ? '#1F9D63' : '#645AFF' }};">{{ emailCopied ? 'Copied ✓' : '→' }}</span>
+        <!-- STAT: the label always reserves 3 lines so every number sits at the same height -->
+        <sc-if value="{{ c.isStat }}" hint-placeholder-val="{{ false }}">
+          <div class="{{ c.cardClass }}" style="position:relative;padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
+            <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
+              <span class="br-chip br-text-chip-label" style="position:absolute;top:var(--br-space-inset-lg);right:var(--br-space-inset-lg);">Mock</span>
+            </sc-if>
+            <div>
+              <div class="br-text-stat-value">{{ c.value }}</div>
+              <div class="br-text-card-body" style="margin-top:var(--br-space-gap-xs);min-height:calc(var(--br-font-body-md-line-height) * 3);">{{ c.label }}</div>
             </div>
-          </sc-if>
-          <sc-if value="{{ !c.copyEmail }}" hint-placeholder-val="{{ true }}">
-            <a href="{{ c.href }}" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:space-between;padding:20px 4px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;" style-hover="display:flex;align-items:center;justify-content:space-between;padding:20px 12px;border-bottom:0.5px solid #E5E5E2;transition:padding .15s;background:#FAFAF8;">
-              <div style="display:flex;flex-direction:column;gap:2px;">
-                <span style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#999999;">{{ c.label }}</span>
-                <span style="font-size:17px;font-weight:500;letter-spacing:-0.01em;">{{ c.value }}</span>
+          </div>
+        </sc-if>
+
+        <!-- ABOUT -->
+        <sc-if value="{{ c.isAbout }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;gap:var(--br-space-gap-lg);">
+            <h2 class="br-text-section-title">I design the systems teams build on.</h2>
+            <div style="display:flex;flex-direction:column;gap:var(--br-space-stack-default);">
+              <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">I've spent 8+ years on products that can't afford to confuse people: fintech, insurtech, healthtech, proptech and B2B SaaS.</p>
+              <p class="br-text-card-body" style="color:var(--br-color-text-secondary);">I care less about the perfect screen and more about the system that lets teams of any size ship many good ones. So I build design systems, shape how design and engineering work together, and use AI to cut the busywork. I like being in the room where direction is set, helping designers grow, and seeing the work go live.</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- QUOTE (about): poster-style principle on a light tint -->
+        <sc-if value="{{ c.isQuote }}" hint-placeholder-val="{{ false }}">
+          <figure class="br-card" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;">
+            <div class="br-quote-mark" aria-hidden="true"><svg viewBox="0 0 48 40" fill="currentColor"><path d="M0 40V24C0 10 6 2 20 0l2 6c-8 3-11 8-11 14h9v20H0Zm26 0V24c0-14 6-22 20-24l2 6c-8 3-11 8-11 14h9v20H26Z"></path></svg></div>
+            <blockquote style="position:relative;display:flex;flex-direction:column;gap:var(--br-space-gap-sm);">
+              <span class="br-text-card-title">{{ c.lead }}<del class="br-strike">{{ c.struck }}</del> <ins class="br-insert"><span class="br-highlight">{{ c.inserted }}</span></ins>{{ c.middle }}<br>{{ c.second }}</span>
+              <span class="br-text-quote-emphasis">{{ c.emphasis }}</span>
+            </blockquote>
+          </figure>
+        </sc-if>
+
+        <!-- CONTACT (feature): resume + three direct actions (copy email, LinkedIn, Calendly) -->
+        <sc-if value="{{ c.isCall }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card br-card--feature" data-clickable="" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:space-between;gap:var(--br-space-gap-lg);">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--br-space-gap-sm);">
+              <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" class="br-btn br-btn--ghost br-text-button-label">Resume ↓</a>
+              <div style="display:flex;align-items:center;gap:var(--br-space-gap-xs);">
+                <button type="button" class="{{ emailBtnClass }}" onClick="{{ copyEmail }}" aria-label="{{ emailBtnLabel }}" title="{{ emailBtnLabel }}"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="3.25" width="12.5" height="9.5" rx="1.5"></rect><path d="M2.5 4.5 8 8.75l5.5-4.25"></path></svg><span class="br-icon-btn__label br-text-chip-label" aria-hidden="true">Copied</span></button>
+                <a href="https://www.linkedin.com/in/bernardo-reyes-design/" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn profile"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM2.25 6.25h2.5V14h-2.5V6.25ZM6.5 6.25h2.4v1.06c.36-.62 1.2-1.26 2.47-1.26 2.6 0 3.08 1.66 3.08 3.82V14h-2.5v-3.6c0-.86-.02-1.96-1.2-1.96-1.2 0-1.38.93-1.38 1.9V14H6.5V6.25Z"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+                <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="Book a call on Calendly (opens in a new tab)" title="Book a call on Calendly"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"></rect><path d="M2 6.5h12M5.5 1.75v2.5M10.5 1.75v2.5"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
               </div>
-              <span style="font-size:18px;color:#645AFF;">→</span>
-            </a>
-          </sc-if>
-        </sc-for>
+            </div>
+            <div>
+              <h2 class="br-text-section-title" style="margin-bottom:var(--br-space-gap-sm);">Open to remote roles &amp; collaborations.</h2>
+              <p class="br-text-button-label">Let's make contact</p>
+              <p class="br-visually-hidden" aria-live="polite">{{ emailStatus }}</p>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- PERSONAL: pulsing dot + title + detail (illustrated tiles parked; .br-tile styles stay in components.css) -->
+        <sc-if value="{{ c.isPersonal }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-inset-sm) var(--br-space-gap-md);display:flex;align-items:center;gap:var(--br-space-gap-md);">
+            <span class="br-status-dot" aria-hidden="true"></span>
+            <div style="min-width:0;flex:1;">
+              <div class="br-text-nav-label">{{ c.title }}</div>
+              <div class="br-text-card-note" style="color:var(--br-color-text-secondary);">{{ c.detail }}</div>
+            </div>
+            <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
+              <span class="br-chip br-text-chip-label" style="flex:none;margin-left:auto;">Mock</span>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- LOCATION (personal) -->
+        <sc-if value="{{ c.isLocation }}" hint-placeholder-val="{{ false }}">
+          <div class="br-card" style="padding:var(--br-space-inset-sm) var(--br-space-gap-md);display:flex;align-items:center;gap:var(--br-space-gap-md);">
+            <span class="br-status-dot" aria-hidden="true"></span>
+            <div style="min-width:0;">
+              <div class="br-text-nav-label">Guadalajara, MX</div>
+              <div class="br-text-card-note" style="color:var(--br-color-text-secondary);">{{ localTime }} · UTC-6</div>
+            </div>
+          </div>
+        </sc-if>
+
       </div>
-    </div>
-  </section><footer style="border-top:0.5px solid #E5E5E2;">
-    <div style="width:100%;max-width:960px;margin:0 auto;padding:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
-      <span style="font-size:13px;color:#999999;">© 2026 Bernardo Reyes</span>
-      <span style="font-size:13px;color:#999999;">Designed &amp; built with a system.</span>
-    </div>
-  </footer>
+    </sc-for>
+  </div>
 </main>
+
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:900},&quot;heroVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;split&quot;,&quot;centered&quot;],&quot;default&quot;:&quot;split&quot;,&quot;tsType&quot;:&quot;'split' | 'centered'&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:900}}">
 class Component extends DCLogic {
-  renderVals() {
-    const variant = this.props.heroVariant ?? 'split';
-    return {
-      isSplit: variant === 'split',
-      isCentered: variant === 'centered',
-      stats: [
-        { value: '8+',  label: 'Years experience' },
-        { value: '18%', label: 'Conversion lift at Guros' },
-        { value: '35%', label: 'Handoff reduction at Fitune' },
-      ],
-      projects: [
-        { name: 'Fitune', href: 'Fitune-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/fitune.svg) center/cover no-repeat', coverFallback: '#645AFF', category: 'Design Systems', period: '2025 – Present',
-          title: 'Fitune — Design System & AI Pipeline',
-          desc: 'Built a full design system from scratch and a Claude Code pipeline that delivers dev ready components to engineering, cutting handoff cycles by 35%.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Guros', href: './Guros-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/guros.jpg) center/cover no-repeat', coverFallback: '#2E2A52', category: 'Insurtech', period: '2020 – 2024',
-          title: 'Guros — Conversion led redesign',
-          desc: 'Led the redesign of the quote to purchase flow, lifting conversion by 18% across the insurance marketplace.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-        { name: 'Axcess · Syscap', href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat', coverFallback: '#3A4A63', category: 'Fintech · B2B SaaS', period: '2024 – 2025',
-          title: 'Axcess — Platform & component library',
-          desc: 'Designed Syscap\'s credit platform for SMEs and built its design ops from scratch, cutting time to market by 20% and design rework by 30%.',
-          comingSoon: false, disabled: false, pointerStyle: '' },
-      ],
-      stack: ['Figma', 'Design Tokens', 'Claude Code', 'Vue', 'Storybook', 'Framer', 'Prototyping'],
-      emailCopied: this.state.emailCopied || false,
-      handleEmailCopy: () => {
-        navigator.clipboard.writeText('bernardo.reyes.design@gmail.com');
-        this.setState({ emailCopied: true });
-        setTimeout(() => this.setState({ emailCopied: false }), 2000);
-      },
-      contacts: [
-        { label: 'Email', value: 'bernardo.reyes.design@gmail.com', href: '#', copyEmail: true },
-        { label: 'LinkedIn', value: 'in/bernardo-reyes-design', href: 'https://www.linkedin.com/in/bernardo-reyes-design/' },
-        { label: 'Availability', value: 'Let\'s talk · Schedule a call →', href: 'https://calendly.com/bernardo-reyes-design/15min' },
-      ],
-    };
-  }
+  state = { filter: 'all', emailCopied: false, theme: 'light', now: Date.now() };
+
+  // Size and look follow the content type: work is biggest and full colour, about is medium
+  // and neutral, data is small and lime, personal is the smallest (half a row).
+  // [columns, rows]; rows can be 0.5. To give one card a different size, add `size: [w, h]`
+  // to it in CARDS (it wins over its type). Sizes before this rule, for rollback:
+  //   about [2, 2] · location [1, 1] · everything else unchanged.
+  //   Removed cards: stack ([2, 1], Stack & tools chips) and stat-years ([1, 1], 8+ years experience).
+  //   Email, LinkedIn and resume were their own cards (email [1, 1], linkedin [1, 1], resume [2, 1]);
+  //   they now live as buttons inside the contact card (type 'call').
+  static SIZES = {
+    project: [2, 2],  // work
+    intro: [2, 1],    // about
+    about: [2, 2],    // was [2, 1]
+    quote: [2, 1],    // about
+    call: [2, 1],     // contact: the one dark card (availability + email, LinkedIn, resume)
+    stat: [1, 1],     // data
+    location: [1, 0.5], // personal
+    personal: [1, 0.5],
+  };
+
+  // The first card (intro) stays first; the rest are shuffled per page load.
+  static CARDS = [
+    { id: 'intro', type: 'intro', cat: 'about' },
+    { id: 'fitune', type: 'project', cat: 'work',
+      href: 'Fitune-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/fitune.svg) center/cover no-repeat',
+      title: 'Fitune — Design System & AI Pipeline' },
+    { id: 'stat-guros', type: 'stat', cat: 'work', value: '+18%', label: 'Conversion on a core purchase flow' },
+    { id: 'guros', type: 'project', cat: 'work',
+      href: './Guros-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/guros.jpg) center/cover no-repeat',
+      title: 'Guros — Conversion led redesign' },
+    { id: 'axcess', type: 'project', cat: 'work',
+      href: './Axcess-Case-Study.html', coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/axcess.jpg) center/cover no-repeat',
+      title: 'Axcess — Platform & component library' },
+    { id: 'about', type: 'about', cat: 'about' },
+    // Principle: "lazy" shown struck through and corrected to "easy path" (lime marker);
+    // "the right one." set big and extrabold, poster style. Large quote mark on top in the tint colour.
+    { id: 'quote', type: 'quote', cat: 'about',
+      lead: 'Find the ', struck: 'lazy', inserted: 'easy path', middle: '.', second: 'Then make it', emphasis: 'the right one.' },
+    { id: 'stat-fitune', type: 'stat', cat: 'work', value: '−35%', label: 'Design-to-dev handoff cycles' },
+    { id: 'stat-guros-renewals', type: 'stat', cat: 'work', value: '+15%', label: 'Customer renewals' },
+    { id: 'stat-axcess', type: 'stat', cat: 'work', value: '−20%', label: 'Time to market' },
+    // MOCK placeholders — hidden for launch (hidden: true). Replace with real case studies, then drop `hidden`.
+    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, hidden: true, title: 'Case study 04 goes here' },
+    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, hidden: true, title: 'Case study 05 goes here' },
+    { id: 'location', type: 'location', cat: 'personal' },
+    { id: 'personal-dad', type: 'personal', cat: 'personal', title: 'Family tour guide', detail: 'My family, my favorite (and only) clients.' },
+    { id: 'personal-puzzles', type: 'personal', cat: 'personal', title: 'Puzzles & two cats', detail: 'Both require a lot of patience.' },
+    { id: 'personal-superpower', type: 'personal', cat: 'personal', title: 'Superpower', detail: 'All the grocery bags, one trip.' },
+    { id: 'call', type: 'call', cat: 'about' },
+  ];
+
+  static FILTERS = [
+    { id: 'all', label: 'All' },
+    { id: 'about', label: 'About' },
+    { id: 'work', label: 'Work' },
+    { id: 'personal', label: 'Personal' },
+    { id: 'recruiter', label: 'Recruiter' },
+  ];
+
+  // Recruiter view: one fixed grid built for a fast screen, nothing dimmed.
+  // It answers a recruiter's questions in order: who → how to reach me → impact in numbers →
+  // how I think → proof (case studies, real ones first) → logistics and personal.
+  // Fills 9 rows exactly on desktop (no holes):
+  //   row 1      intro                 | contact
+  //   row 2      −35% | +18% | +15% | −20%   (metrics strip, same order as the case studies)
+  //   rows 3–4   about                 | fitune
+  //   rows 5–6   guros                 | axcess
+  //   rows 7–8   case 04               | case 05   (hidden for now: the grid closes up to 7 rows)
+  //   row 9      quote                 | location, family tour guide / puzzles & cats, superpower (½ rows)
+  // Cards not listed here fall in after these.
+  static RECRUITER_ORDER = [
+    'intro', 'call',
+    'stat-fitune', 'stat-guros', 'stat-guros-renewals', 'stat-axcess',
+    'about', 'fitune',
+    'guros', 'axcess',
+    'mock-case-4', 'mock-case-5',
+    'quote', 'location', 'personal-dad', 'personal-puzzles', 'personal-superpower',
+  ];
+  // Size overrides for the recruiter view only (none needed with this grid).
+  static RECRUITER_SIZES = {};
 
   componentDidMount() {
-    if (this.props.revealMotion === false) return;
-    requestAnimationFrame(() => {
-      const els = document.querySelectorAll('[data-reveal]');
-      const show = (el) => { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; };
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
-      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-      els.forEach((el) => {
-        const r = el.getBoundingClientRect();
-        if (r.top < (window.innerHeight || 800) * 1.1) return; // above the fold: leave visible
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(16px)';
-        el.style.transition = 'opacity .6s ease, transform .6s ease';
-        io.observe(el);
-        setTimeout(() => show(el), 1600);
+    // Hover push only for real pointers that hover, and not with reduced motion.
+    const canPush = window.matchMedia('(hover: hover) and (pointer: fine)').matches
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._onHover = (e) => {
+      if (!canPush) return;
+      let cell = e.target.closest ? e.target.closest('[data-card]') : null;
+      const clickable = cell
+        && !cell.classList.contains('br-bento-cell--dim')
+        && cell.querySelector('a.br-card, [data-clickable]');
+      if (!clickable) cell = null;
+      if (cell !== this._hoverCell) this._push(cell);
+    };
+    this._onHoverOut = () => this._push(null);
+    document.addEventListener('mouseover', this._onHover);
+    document.documentElement.addEventListener('mouseleave', this._onHoverOut);
+
+    // Theme: light by default; a choice made with the toggle is remembered per browser.
+    let saved = null;
+    try { saved = localStorage.getItem('br-theme'); } catch (e) {}
+    if (saved === 'dark') this._applyTheme('dark');
+
+    // Header hides while scrolling down and comes back on any scroll up.
+    this._lastY = window.scrollY;
+    this._onScroll = () => {
+      const header = document.querySelector('.home-header');
+      if (!header) return;
+      const y = window.scrollY;
+      if (y <= 0) header.classList.remove('home-header--raised'); // back at the top: no bar
+      const delta = y - this._lastY;
+      if (Math.abs(delta) < 4) return; // ignore jitter
+      // Bar (mobile/tablet) only while scrolling up with content under the header, never on the way down.
+      header.classList.toggle('home-header--raised', delta < 0 && y > 0);
+      const hide = delta > 0 && y > header.offsetHeight;
+      header.classList.toggle('home-header--hidden', hide);
+      header.style.top = hide ? -header.offsetHeight + 'px' : '0px';
+      // Mobile: the filter bar sits at the bottom and slides down with the same rule.
+      const filters = document.querySelector('.home-filters');
+      if (filters) filters.classList.toggle('home-filters--hidden', hide);
+      this._lastY = y;
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    // Page loaded already scrolled: the header is showing over content, so show its bar.
+    document.querySelector('.home-header')?.classList.toggle('home-header--raised', window.scrollY > 0);
+
+    // Local time on the personal card, refreshed every 30s.
+    this._clock = setInterval(() => this.setState({ now: Date.now() }), 30000);
+
+    // Old anchors (#work, #about, #contact) open the matching filter.
+    const hash = (window.location.hash || '').slice(1);
+    const fromHash = { work: 'work', about: 'about', contact: 'about', personal: 'personal', recruiter: 'recruiter' }[hash];
+    if (fromHash) this.setState({ filter: fromHash });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this._onScroll);
+    clearInterval(this._clock);
+    document.removeEventListener('mouseover', this._onHover);
+    document.documentElement.removeEventListener('mouseleave', this._onHoverOut);
+  }
+
+  // Hover push: a clickable card grows a little and its neighbours move away
+  // radially, more the closer they are. They may move past the grid edges.
+  _push(cell) {
+    const cells = [...document.querySelectorAll('[data-card]')];
+    const bento = document.querySelector('.br-bento');
+    if (bento) bento.classList.toggle('br-bento--floating', !!cell);
+    if (!cell) {
+      cells.forEach((el) => {
+        el.firstElementChild.style.translate = '';
+        el.firstElementChild.style.scale = '';
       });
+      this._hoverCell = null;
+      return;
+    }
+    const SCALE = 1.08;  // hovered card grows 8%
+    const PUSH = 44;     // px for a direct neighbour
+    const FALLOFF = 420; // px of edge distance per e-fold
+    const box = (el) => ({ x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight });
+    const h = box(cell);
+    const hx = h.x + h.w / 2;
+    const hy = h.y + h.h / 2;
+    cells.forEach((el) => {
+      const card = el.firstElementChild;
+      el.classList.toggle('br-bento-cell--hover', el === cell);
+      if (el === cell) {
+        card.style.translate = '';
+        card.style.scale = String(SCALE);
+        return;
+      }
+      const b = box(el);
+      const dx = b.x + b.w / 2 - hx;
+      const dy = b.y + b.h / 2 - hy;
+      const len = Math.hypot(dx, dy) || 1;
+      const gapX = Math.max(0, Math.abs(dx) - (b.w + h.w) / 2);
+      const gapY = Math.max(0, Math.abs(dy) - (b.h + h.h) / 2);
+      const amount = PUSH * Math.exp(-Math.hypot(gapX, gapY) / FALLOFF);
+      card.style.scale = '';
+      card.style.translate = `${(dx / len) * amount}px ${(dy / len) * amount}px`;
     });
+    this._hoverCell = cell;
+  }
+
+  // FLIP: cards slide from their old grid position to the new one.
+  componentDidUpdate() {
+    const before = this._rects;
+    if (!before) return;
+    this._rects = null;
+    document.querySelectorAll('[data-card]').forEach((el) => {
+      const prev = before[el.getAttribute('data-card')];
+      if (!prev) return;
+      const next = el.getBoundingClientRect();
+      const dx = prev.left - next.left;
+      const dy = prev.top - next.top;
+      if (!dx && !dy) return;
+      el.style.transition = 'none';
+      el.style.transform = `translate(${dx}px, ${dy}px)`;
+      el.getBoundingClientRect(); // commit the inverted position
+      el.style.transition = 'transform var(--br-transition-card-reorder)';
+      el.style.transform = '';
+    });
+  }
+
+  _applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'dark') root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    try { localStorage.setItem('br-theme', theme); } catch (e) {}
+    this.setState({ theme });
+  }
+
+  // Remember where every card is, so componentDidUpdate can slide them to their new place.
+  _snapshot() {
+    this._push(null);
+    const rects = {};
+    document.querySelectorAll('[data-card]').forEach((el) => {
+      rects[el.getAttribute('data-card')] = el.getBoundingClientRect();
+    });
+    this._rects = rects;
+  }
+
+  _setFilter(filter) {
+    if (filter === this.state.filter) return;
+    this._snapshot();
+    this.setState({ filter });
+  }
+
+  // Copy the email; only confirm when it worked, otherwise open the mail app.
+  _copyEmail() {
+    if (this.state.emailCopied) return; // the "Copied" pill is not clickable
+    const email = 'bernardo.reyes.design@gmail.com';
+    const write = navigator.clipboard && navigator.clipboard.writeText
+      ? navigator.clipboard.writeText(email)
+      : Promise.reject();
+    write.then(() => {
+      this.setState({ emailCopied: true });
+      clearTimeout(this._copiedTimer);
+      this._copiedTimer = setTimeout(() => this.setState({ emailCopied: false }), 2000);
+    }, () => { window.location.href = 'mailto:' + email; });
+  }
+
+  _order = (() => {
+    const [first, ...others] = Component.CARDS.filter((c) => !c.hidden);
+    const contact = others.find((c) => c.id === 'call');
+    const rest = others.filter((c) => c !== contact);
+    for (let i = rest.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [rest[i], rest[j]] = [rest[j], rest[i]];
+    }
+    // Contact always lands in the first two rows, in one of three spots:
+    // 0 = right of intro, 1 = row 2 left, 2 = row 2 right. Spots 1 and 2 are reached by
+    // putting cards that fill row 1 (and row 2 left) ahead of it.
+    const sizeOf = (c) => c.size || Component.SIZES[c.type];
+    const isWide = (c) => sizeOf(c)[0] === 2 && sizeOf(c)[1] === 1;
+    const isBig = (c) => sizeOf(c)[0] === 2 && sizeOf(c)[1] === 2;
+    const take = (pred) => {
+      const i = rest.findIndex(pred);
+      return i === -1 ? null : rest.splice(i, 1)[0];
+    };
+    const spot = Math.floor(Math.random() * 3);
+    let ahead = [];
+    if (spot === 1) {
+      const x = take((c) => isWide(c) || isBig(c));
+      if (x) ahead = [x];
+    } else if (spot === 2) {
+      const x = take(isWide);
+      const y = x && take((c) => isWide(c) || isBig(c));
+      if (x && y) ahead = [x, y];
+      else rest.unshift(...[x, y].filter(Boolean));
+    }
+    return [first, ...ahead, contact, ...rest];
+  })();
+
+  _cards(filter) {
+    const all = this._order;
+    const rank = (c) => {
+      const i = Component.RECRUITER_ORDER.indexOf(c.id);
+      return i === -1 ? Infinity : i; // cards added later go last
+    };
+    const ordered = filter === 'all'
+      ? all
+      : filter === 'recruiter'
+        ? Component.CARDS.filter((c) => !c.hidden).sort((a, b) => rank(a) - rank(b))
+        : [...all.filter((c) => c.cat === filter), ...all.filter((c) => c.cat !== filter)];
+    return ordered.map((c) => {
+      const match = filter === 'all' || filter === 'recruiter' || c.cat === filter;
+      const [w, h] = (filter === 'recruiter' && Component.RECRUITER_SIZES[c.id])
+        || (filter !== 'all' && match && c.grow ? c.grow : (c.size || Component.SIZES[c.type]));
+      return {
+        ...c,
+        cellClass: 'br-bento-cell'
+          + (w === 2 ? ' br-bento-cell--w2' : '')
+          + (h === 2 ? ' br-bento-cell--h2' : '')
+          + (h === 0.5 ? ' br-bento-cell--half' : '')
+          + (match ? '' : ' br-bento-cell--dim'),
+        cardClass: 'br-card' + (c.type === 'stat' ? ' br-card--highlight' : ''), // every stat card is solid lime
+        isIntro: c.type === 'intro',
+        isProject: c.type === 'project' && !c.mock,
+        isProjectMock: c.type === 'project' && !!c.mock,
+        mock: !!c.mock,
+        isStat: c.type === 'stat',
+        isAbout: c.type === 'about',
+        isQuote: c.type === 'quote',
+        isCall: c.type === 'call',
+        isLocation: c.type === 'location',
+        isPersonal: c.type === 'personal',
+      };
+    });
+  }
+
+  renderVals() {
+    const filter = this.state.filter;
+    return {
+      filters: Component.FILTERS.map((f) => ({
+        ...f,
+        active: f.id === filter,
+        cls: 'br-nav-item br-text-chip-label home-tab--' + f.id + (f.id === filter ? ' br-nav-item--active' : ''),
+        onSelect: () => this._setFilter(f.id),
+      })),
+      cards: this._cards(filter),
+      isLight: this.state.theme === 'light',
+      isDark: this.state.theme === 'dark',
+      themeLabel: this.state.theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode',
+      toggleTheme: () => this._applyTheme(this.state.theme === 'light' ? 'dark' : 'light'),
+      localTime: new Date(this.state.now).toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' }),
+      emailCopied: this.state.emailCopied,
+      emailBtnClass: 'br-icon-btn br-icon-btn--plain br-icon-btn--morph' + (this.state.emailCopied ? ' is-copied' : ''),
+      emailBtnLabel: this.state.emailCopied ? 'Email copied' : 'Copy email',
+      emailStatus: this.state.emailCopied ? 'Email copied to clipboard' : '',
+      copyEmail: () => this._copyEmail(),
+    };
   }
 }
 </script>
