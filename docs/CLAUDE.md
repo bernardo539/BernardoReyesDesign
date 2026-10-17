@@ -35,6 +35,8 @@ Built with Design Composer (DC) — `.html` files containing an `<x-dc>` compone
 │   ├── design-system.md        ← human-readable DS reference
 │   └── br-design-tokens.md     ← br. token spec (primitives, modes, rationale)
 ├── assets/
+│   ├── js/
+│   │   └── clarity.js          ← Microsoft Clarity loader + custom events (all pages)
 │   ├── css/
 │   │   ├── tokens.css          ← Mode + Semantic tokens, .br-text-* styles
 │   │   └── components.css      ← .br-btn, .br-chip, .br-card, .br-row, .br-input, .br-nav-item
@@ -53,6 +55,23 @@ Built with Design Composer (DC) — `.html` files containing an `<x-dc>` compone
 - Every page links `assets/css/tokens.css` and `assets/css/components.css` in `<head>`
 - Never add npm, webpack, vite, or any build tooling
 - No external JS libraries beyond what support.js already loads (React 18 from unpkg)
+
+---
+
+## Analytics — Microsoft Clarity
+
+Every page loads `./assets/js/clarity.js` in `<head>` (never paste the raw Clarity snippet).
+
+- **Not loaded** on localhost / local previews.
+- **Owner opt-out:** open any page once with `?notrack` and that browser is never tracked again
+  (`?track` re-enables). Use it on the owner's devices and on Claude's browser.
+- **Who:** share links with `?ref=<company>` (e.g. `/?ref=acme#recruiter`). The value is stored for
+  the session and sent as the Clarity tag `ref`, so all pages of that visit can be filtered by it.
+  Arriving on `#recruiter` sets the tag `entry=recruiter` and the event `recruiter_view`.
+- **What:** `window.brTrack('event_name')` sends a Clarity custom event. On the home it's called via
+  the component's `_track()`; current events: `filter_<id>`, `case_open_<id>`, `resume_download`,
+  `email_copied`, `linkedin_click`, `calendly_click_card`, `calendly_click_header`, `theme_<mode>`.
+- **Debug:** on localhost add `?trackdebug` to log tags and events to the console instead of sending.
 
 ---
 

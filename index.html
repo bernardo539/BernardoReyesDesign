@@ -78,13 +78,7 @@
 </noscript>
 
 <script src="./support.js"></script>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "xbuj2ux4g9");
-</script>
+<script src="./assets/js/clarity.js?v=1"></script>
 </head>
 <body>
 <x-dc>
@@ -132,7 +126,7 @@
       </sc-for>
     </nav>
     <div class="home-cta" style="display:flex;align-items:center;gap:var(--br-space-gap-sm);">
-      <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-btn--reveal-arrow br-text-button-label" aria-label="Let's talk (opens Calendly in a new tab)">Let's talk<svg class="br-btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+      <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-btn br-btn--primary br-btn--reveal-arrow br-text-button-label" aria-label="Let's talk (opens Calendly in a new tab)" onClick="{{ trackCalendlyHeader }}">Let's talk<svg class="br-btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
       <button type="button" class="br-icon-btn br-icon-btn--inverse home-theme-toggle" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" onClick="{{ toggleTheme }}">
         <sc-if value="{{ isLight }}" hint-placeholder-val="{{ true }}">
           <svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.25M8 13.25v1.25M1.5 8h1.25M13.25 8h1.25M3.4 3.4l.9.9M11.7 11.7l.9.9M3.4 12.6l.9-.9M11.7 4.3l.9-.9"></path></svg>
@@ -167,7 +161,7 @@
 
         <!-- PROJECT (cover image only) -->
         <sc-if value="{{ c.isProject }}" hint-placeholder-val="{{ false }}">
-          <a class="br-card" href="{{ c.href }}" aria-label="{{ c.title }}" style="background-color:var(--br-color-bg-inverse);background:{{ c.coverBg }};"></a>
+          <a class="br-card" href="{{ c.href }}" aria-label="{{ c.title }}" onClick="{{ c.onOpen }}" style="background-color:var(--br-color-bg-inverse);background:{{ c.coverBg }};"></a>
         </sc-if>
 
         <!-- PROJECT (MOCK placeholder: no link, no cover) -->
@@ -217,11 +211,11 @@
         <sc-if value="{{ c.isCall }}" hint-placeholder-val="{{ false }}">
           <div class="br-card br-card--feature" data-clickable="" style="padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:space-between;gap:var(--br-space-gap-lg);">
             <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--br-space-gap-sm);">
-              <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" class="br-btn br-btn--ghost br-text-button-label">Resume ↓</a>
+              <a href="./assets/docs/BernardoReyes_CV_ATS.pdf" download="BernardoReyes_CV_ATS.pdf" class="br-btn br-btn--ghost br-text-button-label" onClick="{{ trackResume }}">Resume ↓</a>
               <div style="display:flex;align-items:center;gap:var(--br-space-gap-xs);">
                 <button type="button" class="{{ emailBtnClass }}" onClick="{{ copyEmail }}" aria-label="{{ emailBtnLabel }}" title="{{ emailBtnLabel }}"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><rect x="1.75" y="3.25" width="12.5" height="9.5" rx="1.5"></rect><path d="M2.5 4.5 8 8.75l5.5-4.25"></path></svg><span class="br-icon-btn__label br-text-chip-label" aria-hidden="true">Copied</span></button>
-                <a href="https://www.linkedin.com/in/bernardo-reyes-design/" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn profile"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM2.25 6.25h2.5V14h-2.5V6.25ZM6.5 6.25h2.4v1.06c.36-.62 1.2-1.26 2.47-1.26 2.6 0 3.08 1.66 3.08 3.82V14h-2.5v-3.6c0-.86-.02-1.96-1.2-1.96-1.2 0-1.38.93-1.38 1.9V14H6.5V6.25Z"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
-                <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" aria-label="Book a call on Calendly (opens in a new tab)" title="Book a call on Calendly"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"></rect><path d="M2 6.5h12M5.5 1.75v2.5M10.5 1.75v2.5"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+                <a href="https://www.linkedin.com/in/bernardo-reyes-design/" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" onClick="{{ trackLinkedIn }}" aria-label="LinkedIn profile (opens in a new tab)" title="LinkedIn profile"><svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M3.5 2a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM2.25 6.25h2.5V14h-2.5V6.25ZM6.5 6.25h2.4v1.06c.36-.62 1.2-1.26 2.47-1.26 2.6 0 3.08 1.66 3.08 3.82V14h-2.5v-3.6c0-.86-.02-1.96-1.2-1.96-1.2 0-1.38.93-1.38 1.9V14H6.5V6.25Z"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
+                <a href="https://calendly.com/bernardo-reyes-design/15min" target="_blank" rel="noopener noreferrer" class="br-icon-btn br-icon-btn--plain br-icon-btn--external" onClick="{{ trackCalendlyCard }}" aria-label="Book a call on Calendly (opens in a new tab)" title="Book a call on Calendly"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5"></rect><path d="M2 6.5h12M5.5 1.75v2.5M10.5 1.75v2.5"></path></svg><svg class="br-icon-btn__external" width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5"></path></svg></a>
               </div>
             </div>
             <div>
@@ -494,6 +488,11 @@ class Component extends DCLogic {
     this.setState({ filter });
   }
 
+  // Clarity custom event (see assets/js/clarity.js; no-op when tracking is off).
+  _track(name) {
+    if (typeof window.brTrack === 'function') window.brTrack(name);
+  }
+
   // Copy the email; only confirm when it worked, otherwise open the mail app.
   _copyEmail() {
     if (this.state.emailCopied) return; // the "Copied" pill is not clickable
@@ -502,6 +501,7 @@ class Component extends DCLogic {
       ? navigator.clipboard.writeText(email)
       : Promise.reject();
     write.then(() => {
+      this._track('email_copied');
       this.setState({ emailCopied: true });
       clearTimeout(this._copiedTimer);
       this._copiedTimer = setTimeout(() => this.setState({ emailCopied: false }), 2000);
@@ -565,6 +565,7 @@ class Component extends DCLogic {
         cardClass: 'br-card' + (c.type === 'stat' ? ' br-card--highlight' : ''), // every stat card is solid lime
         isIntro: c.type === 'intro',
         isProject: c.type === 'project' && !c.mock,
+        onOpen: () => this._track('case_open_' + c.id),
         isProjectMock: c.type === 'project' && !!c.mock,
         mock: !!c.mock,
         isStat: c.type === 'stat',
@@ -584,19 +585,27 @@ class Component extends DCLogic {
         ...f,
         active: f.id === filter,
         cls: 'br-nav-item br-text-chip-label home-tab--' + f.id + (f.id === filter ? ' br-nav-item--active' : ''),
-        onSelect: () => this._setFilter(f.id),
+        onSelect: () => { this._track('filter_' + f.id); this._setFilter(f.id); },
       })),
       cards: this._cards(filter),
       isLight: this.state.theme === 'light',
       isDark: this.state.theme === 'dark',
       themeLabel: this.state.theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode',
-      toggleTheme: () => this._applyTheme(this.state.theme === 'light' ? 'dark' : 'light'),
+      toggleTheme: () => {
+        const next = this.state.theme === 'light' ? 'dark' : 'light';
+        this._track('theme_' + next);
+        this._applyTheme(next);
+      },
       localTime: new Date(this.state.now).toLocaleTimeString('en-US', { timeZone: 'America/Mexico_City', hour: 'numeric', minute: '2-digit' }),
       emailCopied: this.state.emailCopied,
       emailBtnClass: 'br-icon-btn br-icon-btn--plain br-icon-btn--morph' + (this.state.emailCopied ? ' is-copied' : ''),
       emailBtnLabel: this.state.emailCopied ? 'Email copied' : 'Copy email',
       emailStatus: this.state.emailCopied ? 'Email copied to clipboard' : '',
       copyEmail: () => this._copyEmail(),
+      trackResume: () => this._track('resume_download'),
+      trackLinkedIn: () => this._track('linkedin_click'),
+      trackCalendlyCard: () => this._track('calendly_click_card'),
+      trackCalendlyHeader: () => this._track('calendly_click_header'),
     };
   }
 }
