@@ -410,6 +410,12 @@
   line-height: var(--br-font-label-sm-line-height);
   font-weight: var(--br-font-weight-medium);
 }
+.br-text-card-note {
+  font-family: var(--br-font-family-body);
+  font-size: var(--br-font-body-sm-size);
+  line-height: var(--br-font-body-sm-line-height);
+  font-weight: var(--br-font-weight-regular);
+}
 .br-text-meta-label {
   font-family: var(--br-font-family-mono);
   font-size: var(--br-font-caption-md-size);

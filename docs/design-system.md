@@ -165,6 +165,7 @@ font-family/size/weight by hand.
 | `.br-text-card-body` | body | body-md | 400 | — | Card descriptions |
 | `.br-text-button-label` / `.br-text-nav-label` | accent | label-md | 500 | — | Buttons, nav items |
 | `.br-text-chip-label` | accent | label-sm | 500 | — | Chips, diagram labels |
+| `.br-text-card-note` | body | body-sm (14/20) | 400 | — | Secondary line in small cards (personal, location) |
 | `.br-text-meta-label` | mono | caption-md | 400 | — | Dates, details under a title, footer (never as an eyebrow) |
 | `.br-text-quote-emphasis` | accent | 0.75 × display-md (54 / 33) | 800 | tighter | Big closing words of a poster-style quote |
 | `.br-text-input-helper` | accent | caption-md | 500 | wide | Input helper text |
@@ -361,6 +362,11 @@ for its label. Full markup examples: `CLAUDE.md → Component Patterns`.
 | `.br-avatar` (`--md`) | Round avatar, 150px (96 mobile), `--md` 112px (72 mobile): initials on lime, or an `<img>` child for a photo | `--br-size-avatar-lg` / `-md`, `--br-color-card-highlight-*` |
 | `.br-strike` / `.br-insert` | A word shown struck through (`<del>`, secondary colour, 2px line) next to its replacement (`<ins>`, no underline) | `--br-color-text-secondary`, `--br-border-width-strong` |
 | `.br-highlight` | Marker-style emphasis in running text: lime surface, on-accent text | `--br-color-card-highlight-*`, `--br-radius-sm` |
+| `.br-tile` | Small illustrated square for personal cards: tint ground, surface-coloured line art; 64px (48 mobile) | `--br-color-bg-tint`, `--br-size-icon-tile`, `--br-radius-md` |
+| `.br-tile.br-map-tile` | Mini map: full-bleed roads + a `.br-status-dot` pin with a soft halo | `--br-color-status-success-text` |
+| `.br-tile.br-tile--cycle` | Up to 4 stacked icons taking turns (2.5s each, slide + fade); reduced motion shows the first | `--br-motion-distance`, `--br-easing-standard` |
+| `.br-tile--bare` | No ground; larger art in the success green (matches the location pin) | `--br-color-status-success-text` |
+| `.br-tile--signal` | An emblem (`.br-tile__emblem`) that blinks like a failing light every few seconds; static with reduced motion | `--br-color-status-success-text` |
 | `.br-status-dot` | 12px success-colour dot with a slow pulse ring (off with reduced motion) | `--br-color-status-success-text` |
 | `.br-icon-btn--plain` | Borderless icon action for dark feature cards; outline + brighter on hover | `--br-color-card-feature-fg` / `-fg-muted` |
 | `.br-icon-btn--external` | On hover/focus the icon fades to `--br-opacity-dim` and a 16px ↗ (`.br-icon-btn__external`) appears centered over it: the link leaves the site | `--br-icon-sm` (16px), `--br-opacity-dim`, `--br-transition-hover` |
