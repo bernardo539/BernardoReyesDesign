@@ -25,8 +25,8 @@
 
 <!-- br. design tokens -->
 <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700;800&amp;family=Fira+Mono&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./assets/css/tokens.css?v=30">
-<link rel="stylesheet" href="./assets/css/components.css?v=30">
+<link rel="stylesheet" href="./assets/css/tokens.css?v=39">
+<link rel="stylesheet" href="./assets/css/components.css?v=39">
 
 <!-- Structured Data -->
 <script type="application/ld+json">
@@ -178,7 +178,7 @@
           </div>
         </sc-if>
 
-        <!-- STAT -->
+        <!-- STAT: the label always reserves 3 lines so every number sits at the same height -->
         <sc-if value="{{ c.isStat }}" hint-placeholder-val="{{ false }}">
           <div class="{{ c.cardClass }}" style="position:relative;padding:var(--br-space-card-padding);display:flex;flex-direction:column;justify-content:flex-end;">
             <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
@@ -186,7 +186,7 @@
             </sc-if>
             <div>
               <div class="br-text-stat-value">{{ c.value }}</div>
-              <div class="br-text-card-body" style="margin-top:var(--br-space-gap-xs);">{{ c.label }}</div>
+              <div class="br-text-card-body" style="margin-top:var(--br-space-gap-xs);min-height:calc(var(--br-font-body-md-line-height) * 3);">{{ c.label }}</div>
             </div>
           </div>
         </sc-if>
@@ -232,26 +232,27 @@
           </div>
         </sc-if>
 
-        <!-- PERSONAL (MOCK placeholder) -->
+        <!-- PERSONAL: pulsing dot + title + detail (illustrated tiles parked; .br-tile styles stay in components.css) -->
         <sc-if value="{{ c.isPersonal }}" hint-placeholder-val="{{ false }}">
-          <div class="br-card" style="padding:var(--br-space-inset-md) var(--br-space-inset-lg);display:flex;align-items:center;justify-content:space-between;gap:var(--br-space-gap-sm);">
-            <div style="min-width:0;">
+          <div class="br-card" style="padding:var(--br-space-inset-sm) var(--br-space-gap-md);display:flex;align-items:center;gap:var(--br-space-gap-md);">
+            <span class="br-status-dot" aria-hidden="true"></span>
+            <div style="min-width:0;flex:1;">
               <div class="br-text-nav-label">{{ c.title }}</div>
-              <div class="br-text-meta-label" style="color:var(--br-color-text-secondary);">{{ c.detail }}</div>
+              <div class="br-text-card-note" style="color:var(--br-color-text-secondary);">{{ c.detail }}</div>
             </div>
             <sc-if value="{{ c.mock }}" hint-placeholder-val="{{ false }}">
-              <span class="br-chip br-text-chip-label" style="flex:none;">Mock</span>
+              <span class="br-chip br-text-chip-label" style="flex:none;margin-left:auto;">Mock</span>
             </sc-if>
           </div>
         </sc-if>
 
         <!-- LOCATION (personal) -->
         <sc-if value="{{ c.isLocation }}" hint-placeholder-val="{{ false }}">
-          <div class="br-card" style="padding:var(--br-space-inset-md) var(--br-space-inset-lg);display:flex;align-items:center;gap:var(--br-space-gap-md);">
+          <div class="br-card" style="padding:var(--br-space-inset-sm) var(--br-space-gap-md);display:flex;align-items:center;gap:var(--br-space-gap-md);">
             <span class="br-status-dot" aria-hidden="true"></span>
             <div style="min-width:0;">
               <div class="br-text-nav-label">Guadalajara, MX</div>
-              <div class="br-text-meta-label" style="color:var(--br-color-text-secondary);">{{ localTime }} · UTC-6</div>
+              <div class="br-text-card-note" style="color:var(--br-color-text-secondary);">{{ localTime }} · UTC-6</div>
             </div>
           </div>
         </sc-if>
@@ -306,14 +307,13 @@ class Component extends DCLogic {
     { id: 'stat-fitune', type: 'stat', cat: 'work', value: '−35%', label: 'Design-to-dev handoff cycles' },
     { id: 'stat-guros-renewals', type: 'stat', cat: 'work', value: '+15%', label: 'Customer renewals' },
     { id: 'stat-axcess', type: 'stat', cat: 'work', value: '−20%', label: 'Time to market' },
-    // MOCK placeholders — replace with real case studies (or delete).
-    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, title: 'Case study 04 goes here' },
-    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, title: 'Case study 05 goes here' },
+    // MOCK placeholders — hidden for launch (hidden: true). Replace with real case studies, then drop `hidden`.
+    { id: 'mock-case-4', type: 'project', cat: 'work', mock: true, hidden: true, title: 'Case study 04 goes here' },
+    { id: 'mock-case-5', type: 'project', cat: 'work', mock: true, hidden: true, title: 'Case study 05 goes here' },
     { id: 'location', type: 'location', cat: 'personal' },
-    // MOCK personal placeholders — replace with real hobbies, side projects, etc.
-    { id: 'mock-personal-1', type: 'personal', cat: 'personal', mock: true, title: 'Side project', detail: 'One line about it' },
-    { id: 'mock-personal-2', type: 'personal', cat: 'personal', mock: true, title: 'Hobby', detail: 'A number or a streak' },
-    { id: 'mock-personal-3', type: 'personal', cat: 'personal', mock: true, title: 'Currently learning', detail: 'Topic or course' },
+    { id: 'personal-dad', type: 'personal', cat: 'personal', title: 'Family tour guide', detail: 'My family, my favorite (and only) clients.' },
+    { id: 'personal-puzzles', type: 'personal', cat: 'personal', title: 'Puzzles & two cats', detail: 'Both require a lot of patience.' },
+    { id: 'personal-superpower', type: 'personal', cat: 'personal', title: 'Superpower', detail: 'All the grocery bags, one trip.' },
     { id: 'call', type: 'call', cat: 'about' },
   ];
 
@@ -333,8 +333,8 @@ class Component extends DCLogic {
   //   row 2      −35% | +18% | +15% | −20%   (metrics strip, same order as the case studies)
   //   rows 3–4   about                 | fitune
   //   rows 5–6   guros                 | axcess
-  //   rows 7–8   case 04               | case 05
-  //   row 9      quote                 | location, side project / hobby, learning (½ rows)
+  //   rows 7–8   case 04               | case 05   (hidden for now: the grid closes up to 7 rows)
+  //   row 9      quote                 | location, family tour guide / puzzles & cats, superpower (½ rows)
   // Cards not listed here fall in after these.
   static RECRUITER_ORDER = [
     'intro', 'call',
@@ -342,7 +342,7 @@ class Component extends DCLogic {
     'about', 'fitune',
     'guros', 'axcess',
     'mock-case-4', 'mock-case-5',
-    'quote', 'location', 'mock-personal-1', 'mock-personal-2', 'mock-personal-3',
+    'quote', 'location', 'personal-dad', 'personal-puzzles', 'personal-superpower',
   ];
   // Size overrides for the recruiter view only (none needed with this grid).
   static RECRUITER_SIZES = {};
@@ -509,7 +509,7 @@ class Component extends DCLogic {
   }
 
   _order = (() => {
-    const [first, ...others] = Component.CARDS;
+    const [first, ...others] = Component.CARDS.filter((c) => !c.hidden);
     const contact = others.find((c) => c.id === 'call');
     const rest = others.filter((c) => c !== contact);
     for (let i = rest.length - 1; i > 0; i--) {
@@ -549,7 +549,7 @@ class Component extends DCLogic {
     const ordered = filter === 'all'
       ? all
       : filter === 'recruiter'
-        ? [...Component.CARDS].sort((a, b) => rank(a) - rank(b))
+        ? Component.CARDS.filter((c) => !c.hidden).sort((a, b) => rank(a) - rank(b))
         : [...all.filter((c) => c.cat === filter), ...all.filter((c) => c.cat !== filter)];
     return ordered.map((c) => {
       const match = filter === 'all' || filter === 'recruiter' || c.cat === filter;
