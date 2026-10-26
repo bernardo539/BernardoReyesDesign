@@ -3,7 +3,7 @@
 Senior Product Designer portfolio. Design systems, fintech, insurtech, B2B SaaS.
 Live at [bernardoreyesdesign.com](https://bernardoreyesdesign.com)
 
-Built with Design Composer: `.dc.html` files rendered by a compiled React 18 runtime (`support.js`). No build step, no npm, no framework.
+Built with Design Composer: each page is a plain `.html` file holding an `<x-dc>` component, rendered by a compiled React 18 runtime (`support.js`). No build step, no npm, no framework.
 
 ---
 
@@ -11,7 +11,7 @@ Built with Design Composer: `.dc.html` files rendered by a compiled React 18 run
 
 This portfolio runs on the same design to code approach I use in product work:
 
-- **`docs/design-system.md`** is the source of truth for color, type, spacing and components. Nothing outside the palette, no hardcoded values.
+- **`docs/design-system.md`** is the source of truth for color, type, spacing and components, backed by the token spec in `docs/br-design-tokens.md` and implemented in `assets/css/tokens.css` and `assets/css/components.css`. Nothing outside the palette, no hardcoded values.
 - **`docs/CLAUDE.md`** gives an AI agent the runtime patterns and design system rules, so new pages and case studies are authored on system from the start.
 - Every case study follows the same 8 section structure, so the content scales without redesigning each page.
 
@@ -21,15 +21,28 @@ This portfolio runs on the same design to code approach I use in product work:
 
 ```
 /
-├── index.html                        ← portfolio homepage
-├── Fitune_Case_Study_Light_dc.html   ← Fitune case study
-├── support.js                        ← DC runtime, never modify
+├── index.html                  ← portfolio homepage
+├── Fitune-Case-Study.html      ← Fitune case study
+├── Guros-Case-Study.html       ← Guros case study
+├── Axcess-Case-Study.html      ← Axcess case study
+├── support.js                  ← DC runtime, never modify
+├── CNAME                       ← custom domain (bernardoreyesdesign.com)
+├── README.md
 ├── docs/
-│   ├── CLAUDE.md                     ← DC runtime and design system reference for AI authoring
-│   └── design-system.md              ← design system reference for people
+│   ├── CLAUDE.md               ← DC runtime and design system reference for AI authoring
+│   ├── design-system.md        ← design system reference for people
+│   └── br-design-tokens.md     ← token spec: primitives, modes and rationale
 ├── assets/
+│   ├── css/
+│   │   ├── tokens.css          ← mode and semantic tokens, .br-text-* styles
+│   │   └── components.css      ← .br-btn, .br-chip, .br-card, .br-input and other components
+│   ├── js/
+│   │   └── clarity.js          ← Microsoft Clarity loader and custom events (all pages)
+│   ├── docs/                   ← CV PDFs (Resume button on the homepage)
 │   └── images/
-│       └── covers/                   ← project card cover images (16:9)
+│       ├── covers/             ← project card covers and the Open Graph image
+│       ├── axcess/             ← Axcess case study screenshots
+│       └── guros/              ← Guros case study screenshots
 └── .gitignore
 ```
 
@@ -37,7 +50,7 @@ This portfolio runs on the same design to code approach I use in product work:
 
 ## Running locally
 
-No build step required. The DC runtime fetches sibling `.dc.html` files with `fetch()`, so it needs a local server. Opening `index.html` as a `file://` URL will not work.
+No build step required. The DC runtime loads content with `fetch()`, so it needs a local server. Opening `index.html` as a `file://` URL will not work.
 
 **VS Code Live Server:** install the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), right click `index.html`, select "Open with Live Server."
 
@@ -57,17 +70,17 @@ npx serve .
 ## Deployment
 
 Hosted on GitHub Pages from the `main` branch, root folder, with a custom domain.
-All files must stay at root level: the DC runtime resolves sibling components relative to the page URL.
+The custom domain is set in `CNAME`. Every page must stay at root level: the DC runtime resolves files relative to the page URL.
 
 ---
 
 ## Adding a new case study
 
 ### 1. Name the file
-Pattern: `[ProjectName]_Case_Study_dc.html`, at root level.
+Pattern: `[ProjectName]-Case-Study.html` (PascalCase name, hyphens, no spaces), at root level.
 
 ### 2. Copy the shell
-`Fitune_Case_Study_Light_dc.html` is the canonical template. Copy it and replace the content in `renderVals()` (metrics, section data, outcomes), plus section text and eyebrows.
+`Fitune-Case-Study.html` is the canonical template. Copy it and replace the content in `renderVals()` (metrics, section data, outcomes), the section text, and the title, description, Open Graph and canonical tags in `<head>`. Set the password in the `data-props` default and in the fallback inside the logic class. Keep the `tokens.css`, `components.css` and `clarity.js` links as they are on the other pages.
 
 ### 3. Structure (sections 01 to 08)
 
@@ -83,22 +96,17 @@ Pattern: `[ProjectName]_Case_Study_dc.html`, at root level.
 | 08 | What's Next | Forward looking. Shows system thinking. |
 
 ### 4. Add the project card to index.html
-In the `projects` array inside `renderVals()` in `index.html`:
+In the `CARDS` array of the component class in `index.html`, next to the other `project` cards:
 
 ```javascript
-{
-  name: 'ProjectName',
-  href: './ProjectName_Case_Study_dc.html',
-  cover: '#2E2A52',        // background color for the card cover
-  category: 'Category',
-  period: 'YYYY – YYYY',
-  title: 'ProjectName · Short title',
-  desc: 'One line summary of the outcome.'
-}
+{ id: 'projectname', type: 'project', cat: 'work',
+  href: './ProjectName-Case-Study.html',
+  coverBg: 'url(https://bernardoreyesdesign.com/assets/images/covers/projectname.jpg) center/cover no-repeat',
+  title: 'ProjectName — Short title' },
 ```
 
 ### 5. Design system
-All styling uses values from `docs/design-system.md`. No hardcoded colors outside the palette. No box shadows.
+All styling uses the tokens and classes documented in `docs/design-system.md`. No hardcoded colors outside the palette. No box shadows.
 For runtime patterns and component HTML, see `docs/CLAUDE.md`.
 
 ---
