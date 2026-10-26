@@ -1,8 +1,19 @@
-# Bernardo Reyes — Portfolio
+# Bernardo Reyes · Portfolio
 
 Senior Product Designer portfolio. Design systems, fintech, insurtech, B2B SaaS.
+Live at [bernardoreyesdesign.com](https://bernardoreyesdesign.com)
 
-Built with Design Composer — `.dc.html` files rendered by a compiled React 18 runtime (`support.js`). No build step, no npm, no framework.
+Built with Design Composer: `.dc.html` files rendered by a compiled React 18 runtime (`support.js`). No build step, no npm, no framework.
+
+---
+
+## How this site is built with AI
+
+This portfolio runs on the same design to code approach I use in product work:
+
+- **`docs/design-system.md`** is the source of truth for color, type, spacing and components. Nothing outside the palette, no hardcoded values.
+- **`docs/CLAUDE.md`** gives an AI agent the runtime patterns and design system rules, so new pages and case studies are authored on system from the start.
+- Every case study follows the same 8 section structure, so the content scales without redesigning each page.
 
 ---
 
@@ -11,14 +22,14 @@ Built with Design Composer — `.dc.html` files rendered by a compiled React 18 
 ```
 /
 ├── index.html                        ← portfolio homepage
-├── Fitune_Case_Study_Light_dc.html   ← Fitune case study (password protected)
-├── support.js                        ← DC runtime — never modify
+├── Fitune_Case_Study_Light_dc.html   ← Fitune case study
+├── support.js                        ← DC runtime, never modify
 ├── docs/
-│   ├── CLAUDE.md                     ← DC runtime + design system reference for AI authoring
-│   └── design-system.md              ← human-readable design system reference
+│   ├── CLAUDE.md                     ← DC runtime and design system reference for AI authoring
+│   └── design-system.md              ← design system reference for people
 ├── assets/
-│   ├── images/
-│   │   └── covers/                   ← project card cover images (16:9)
+│   └── images/
+│       └── covers/                   ← project card cover images (16:9)
 └── .gitignore
 ```
 
@@ -26,100 +37,72 @@ Built with Design Composer — `.dc.html` files rendered by a compiled React 18 
 
 ## Running locally
 
-No build step required.
+No build step required. The DC runtime fetches sibling `.dc.html` files with `fetch()`, so it needs a local server. Opening `index.html` as a `file://` URL will not work.
 
-**Option 1 — VS Code Live Server**
-Install the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), right-click `index.html`, select "Open with Live Server."
+**VS Code Live Server:** install the [Live Server extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer), right click `index.html`, select "Open with Live Server."
 
-**Option 2 — Python**
+**Python:**
 ```bash
 python3 -m http.server 8080
 # open http://localhost:8080
 ```
 
-**Option 3 — npx serve** (one-off, no install)
+**npx serve** (no install):
 ```bash
 npx serve .
 ```
 
-The DC runtime fetches sibling `.dc.html` files via `fetch()` — this requires a local server. Opening `index.html` directly as a `file://` URL will not work.
-
 ---
 
-## Deploying to GitHub Pages
+## Deployment
 
-1. Push all files to the `main` branch of your GitHub repo
-2. Go to **Settings → Pages**
-3. Source: **Deploy from a branch** → `main` → `/ (root)`
-4. Save. Site available at `https://[username].github.io/[repo]/`
-
-All files must stay at root level — the DC runtime resolves sibling components relative to the page URL.
-
----
-
-## Case study passwords
-
-| File | Password |
-|---|---|
-| `Fitune_Case_Study_Light_dc.html` | `fitune2026` |
-
-Passwords are stored in the `data-props` attribute of each file's `<script data-dc-script>` block and can be changed there directly.
+Hosted on GitHub Pages from the `main` branch, root folder, with a custom domain.
+All files must stay at root level: the DC runtime resolves sibling components relative to the page URL.
 
 ---
 
 ## Adding a new case study
 
 ### 1. Name the file
+Pattern: `[ProjectName]_Case_Study_dc.html`, at root level.
 
-Use the pattern: `[ProjectName]_Case_Study_dc.html`
-Examples: `Guros_Case_Study_dc.html`, `Syscap_Case_Study_dc.html`
+### 2. Copy the shell
+`Fitune_Case_Study_Light_dc.html` is the canonical template. Copy it and replace the content in `renderVals()` (metrics, section data, outcomes), plus section text and eyebrows.
 
-File must be at root level.
-
-### 2. Copy the shell from an existing case study
-
-`Fitune_Case_Study_Light_dc.html` is the canonical template. Copy it, then replace:
-- All content in `renderVals()` (metrics, section data, outcomes)
-- Section text and eyebrows
-- Password in `data-props`
-
-### 3. Structure (sections 01–08)
+### 3. Structure (sections 01 to 08)
 
 | # | Section | What goes here |
 |---|---|---|
-| 01 | The Problem | What was broken. Specific, measurable. Before/after diagram if applicable. |
-| 02 | Architecture / Research | The strategic foundation. Diagrams if needed. |
+| 01 | The Problem | What was broken. Specific and measurable. Before and after diagram if useful. |
+| 02 | Architecture / Research | The strategic foundation. |
 | 03 | Component System / Decisions | How the solution was structured. |
 | 04 | Feature Delivery / Process | How it shipped. Velocity and pipeline. |
 | 05 | Governance / Validation | What keeps it coherent over time. |
-| 06 | AI-Assisted Delivery / Implementation | Tooling and technical work. |
+| 06 | AI Assisted Delivery / Implementation | Tooling and technical work. |
 | 07 | Outcomes | 4 metric cards (2×2 grid). Values first, context second. |
-| 08 | What's Next | Forward-looking. Shows system thinking. |
+| 08 | What's Next | Forward looking. Shows system thinking. |
 
 ### 4. Add the project card to index.html
-
 In the `projects` array inside `renderVals()` in `index.html`:
 
 ```javascript
 {
-  name: 'Guros',
-  href: './Guros_Case_Study_dc.html',
-  cover: '#2E2A52',         // background color for the card cover area
-  category: 'Insurtech',
-  period: '2022 – 2024',
-  title: 'Guros — Conversion-led redesign',
-  desc: 'Led the redesign of the quote-to-purchase flow, lifting conversion by 18% across the insurance marketplace.'
+  name: 'ProjectName',
+  href: './ProjectName_Case_Study_dc.html',
+  cover: '#2E2A52',        // background color for the card cover
+  category: 'Category',
+  period: 'YYYY – YYYY',
+  title: 'ProjectName · Short title',
+  desc: 'One line summary of the outcome.'
 }
 ```
 
 ### 5. Design system
-
-All styling must use values from `docs/design-system.md`. No hardcoded colors outside the palette. No box-shadows.
-
-For full DC runtime patterns and component HTML, see `docs/CLAUDE.md`.
+All styling uses values from `docs/design-system.md`. No hardcoded colors outside the palette. No box shadows.
+For runtime patterns and component HTML, see `docs/CLAUDE.md`.
 
 ---
 
 ## Contact
 
-Bernardo Reyes · bernardo.reyes.design@gmail.com · Guadalajara MX · UTC-6
+Bernardo Reyes · bernardo.reyes.design@gmail.com · Guadalajara, MX · UTC−6
