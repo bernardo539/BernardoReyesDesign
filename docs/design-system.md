@@ -86,7 +86,7 @@ surface (1.2:1 contrast). It is a surface only. Use `--br-color-text-link` for l
 | danger | red | 100 / 700 / 300 | 900 / 300 / 700 |
 | info | blue | 100 / 700 / 300 | 900 / 300 / 700 |
 
-Used on the site for: password error (`danger-text`), "Copied ✓" email state (`success-text`),
+Used on the site for: the broken handoff mark in case study diagrams (`danger-text`), "Copied ✓" email state (`success-text`),
 registry status in case studies (`success-text`, `warning-text`).
 
 ### Semantic color

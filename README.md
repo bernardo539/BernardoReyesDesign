@@ -80,7 +80,7 @@ The custom domain is set in `CNAME`. Every page must stay at root level: the DC 
 Pattern: `[ProjectName]-Case-Study.html` (PascalCase name, hyphens, no spaces), at root level.
 
 ### 2. Copy the shell
-`Fitune-Case-Study.html` is the canonical template. Copy it and replace the content in `renderVals()` (metrics, section data, outcomes), the section text, and the title, description, Open Graph and canonical tags in `<head>`. Set the password in the `data-props` default and in the fallback inside the logic class. Keep the `tokens.css`, `components.css` and `clarity.js` links as they are on the other pages.
+`Fitune-Case-Study.html` is the canonical template. Copy it and replace the content in `renderVals()` (metrics, section data, outcomes), the section text, and the title, description, Open Graph and canonical tags in `<head>`. Keep the `tokens.css`, `components.css` and `clarity.js` links as they are on the other pages.
 
 ### 3. Structure (sections 01 to 08)
 
