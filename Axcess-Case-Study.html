@@ -45,24 +45,7 @@
   </div>
 </nav>
 
-<!-- GATE -->
-<sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}">
-<div style="max-width:440px;margin:128px auto;text-align:center;padding:var(--br-space-inset-lg);">
-  <p class="br-text-meta-label" style="text-transform:uppercase;color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-sm);letter-spacing:var(--br-font-tracking-wide);">Protected content</p>
-  <h2 class="br-text-card-title" style="margin-bottom:var(--br-space-gap-sm);">This case study is password protected</h2>
-  <p class="br-text-page-body" style="color:var(--br-color-text-secondary);margin-bottom:var(--br-space-gap-lg);">Request access via <a href="mailto:bernardo.reyes.design@gmail.com" style="color:var(--br-color-text-link);">email</a> or enter the password below.</p>
-  <div style="display:flex;gap:var(--br-space-gap-sm);">
-    <input class="br-input" id="pw-input" type="password" placeholder="Enter password" onKeyDown="{{ onKey }}" style="flex:1;">
-    <button class="br-btn br-btn--primary br-text-button-label" onClick="{{ tryUnlock }}">Unlock →</button>
-  </div>
-  <sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
-    <p style="font-size:var(--br-font-body-sm-size);color:var(--br-color-status-danger-text);margin-top:var(--br-space-gap-sm);text-align:left;">Incorrect password. Try again.</p>
-  </sc-if>
-</div>
-</sc-if>
-
 <!-- CONTENT -->
-<sc-if value="{{ unlocked }}" hint-placeholder-val="{{ true }}">
 <main>
   <img src="https://bernardoreyesdesign.com/assets/images/covers/axcess.svg" alt="" style="width:100%;max-height:480px;object-fit:cover;object-position:center;display:block;border-bottom:var(--br-border-width-default) solid var(--br-color-border-default);">
 
@@ -297,16 +280,12 @@
     </div>
   </footer>
 </main>
-</sc-if>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;password&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;BernaRocks102&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { unlocked: true, error: false };
-
   componentDidMount() {
     this._observe();
   }
-  componentDidUpdate() { this._observe(); }
 
   _observe() {
     if (this.props.revealMotion === false) return;
@@ -330,26 +309,10 @@ class Component extends DCLogic {
     });
   }
 
-  _check = () => {
-    const correct = this.props.password ?? 'BernaRocks102';
-    const val = (document.getElementById('pw-input') || {}).value || '';
-    if (val === correct) {
-      sessionStorage.setItem('axcess-unlocked', 'true');
-      this.setState({ unlocked: true, error: false });
-    } else {
-      this.setState({ error: true });
-    }
-  };
-
   renderVals() {
     const A = 'var(--br-color-card-highlight-bg)';
     const V_ON = 'var(--br-color-on-accent)';
     return {
-      locked: !this.state.unlocked,
-      unlocked: this.state.unlocked,
-      error: this.state.error,
-      tryUnlock: this._check,
-      onKey: (e) => { if (e.key === 'Enter') this._check(); },
       heroMetrics: [
         { value: '−20%', label: 'Time to market after process rollout' },
         { value: '−30%', label: 'Design rework' },

@@ -176,7 +176,7 @@ Every DC page has a logic class that extends `DCLogic`.
 ```javascript
 class Component extends DCLogic {
   // Optional: initial state
-  state = { unlocked: false, error: false };
+  state = { show: false };
 
   // Required: return all template variables
   renderVals() {
@@ -246,7 +246,7 @@ renderVals() {
 Copy exactly — do not invent variations. Motion values come from tokens, so reduced motion
 (`--br-motion-distance: 0px`, short durations) is handled for free.
 
-`index.html` (no gated content, runs once):
+`index.html` (runs once):
 
 ```javascript
 componentDidMount() {
@@ -270,8 +270,7 @@ componentDidMount() {
 }
 ```
 
-Case studies use the same body inside `_observe()`, called from both `componentDidMount()` and
-`componentDidUpdate()` so content revealed after unlocking the password gate is observed too.
+Case studies use the same body inside `_observe()`, called from `componentDidMount()`.
 It selects `[data-reveal]:not([data-seen])`, marks each element with `data-seen="1"`, and uses
 `threshold: 0.1, rootMargin: '0px 0px -6% 0px'`. Copy it from `Fitune-Case-Study.html`.
 
@@ -439,17 +438,6 @@ On `index.html` the right side is a flex group (`gap:var(--br-space-nav-item-gap
 </a>
 ```
 
-### Password gate input
-```html
-<div style="display:flex;gap:var(--br-space-gap-sm);">
-  <input class="br-input" id="pw-input" type="password" placeholder="Enter password" onKeyDown="{{ onKey }}" style="flex:1;">
-  <button class="br-btn br-btn--primary br-text-button-label" onClick="{{ tryUnlock }}">Unlock →</button>
-</div>
-<sc-if value="{{ error }}" hint-placeholder-val="{{ false }}">
-  <p style="font-size:var(--br-font-body-sm-size);color:var(--br-color-status-danger-text);margin-top:var(--br-space-gap-sm);">Incorrect password. Try again.</p>
-</sc-if>
-```
-
 ### Highlighted diagram step
 Data-driven diagrams set their colors in `renderVals()`; the highlighted step uses the lime surface:
 ```javascript
@@ -501,7 +489,7 @@ Data-driven diagrams set their colors in `renderVals()`; the highlighted step us
 
 ## Case Study — File Template
 
-New case studies follow this exact shell. Replace `[PROJECT]`, `[PASSWORD]`.
+New case studies follow this exact shell. Replace `[PROJECT]`.
 Save as `[ProjectName]-Case-Study.html` at the repo root.
 
 ```html
@@ -533,14 +521,13 @@ Save as `[ProjectName]-Case-Study.html` at the repo root.
 </style>
 </helmet>
 
-<!-- Nav, Gate (sc-if locked), Main content (sc-if unlocked), Footer -->
+<!-- Nav, Main content, Footer -->
 <!-- See Fitune-Case-Study.html for the full pattern -->
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;password&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;[PASSWORD]&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:960,&quot;height&quot;:1100},&quot;revealMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
-  state = { unlocked: false, error: false };
-  // ... (copy _observe, _check and renderVals structure from the Fitune case study)
+  // ... (copy componentDidMount, _observe and renderVals structure from the Fitune case study)
 }
 </script>
 </body>
