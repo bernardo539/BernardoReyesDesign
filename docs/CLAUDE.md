@@ -71,6 +71,13 @@ Every page loads `./assets/js/clarity.js` in `<head>` (never paste the raw Clari
 - **What:** `window.brTrack('event_name')` sends a Clarity custom event. On the home it's called via
   the component's `_track()`; current events: `filter_<id>`, `case_open_<id>`, `resume_download`,
   `email_copied`, `linkedin_click`, `calendly_click_card`, `calendly_click_header`, `theme_<mode>`.
+- **Automatic (clarity.js, all pages):** tag `page=<home|fitune|guros|axcess>`, `engaged_30s` (30s
+  with the tab visible), `email_click` (any `mailto:` link), and any element with
+  `data-track="event_name"`. On case studies also `case_read_50`, `case_read_90`, `case_back_home`.
+  To track a new control, add `data-track` instead of writing JS.
+- **Conversions** (resume, email, LinkedIn, Calendly) also set the tag `converted=<event>` and call
+  Clarity `upgrade`, so those sessions are always recorded even when traffic is sampled.
+  `#recruiter` arrivals are upgraded too.
 - **Debug:** on localhost add `?trackdebug` to log tags and events to the console instead of sending.
 
 ---
